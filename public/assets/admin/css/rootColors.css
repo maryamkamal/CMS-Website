@@ -1,0 +1,200 @@
+:root {
+    --boodBackground: #68564c;
+
+    /* Stat scrolBar color */
+    --scrollbarBg:red;
+    --scrollbarSd: Black;
+    /* End scrolBar color */
+
+    --inputsBg:  #68554bd0;
+    --inputsFont: #f0dacd;
+
+    --sideBarElement1Bg: #68554b;
+    --sideBarElement1Font: #efefef;
+    --sideBarElement1Shadow: #68554bd0;
+
+    --sideBarElement2Bg: #a65d3a;
+    --sideBarElement2Font:#071f29;
+
+    --boxBackground: #071f29;
+    --boxelemendfont: #f0dacd;
+    --boxelemendInput: #d6d6d6;
+
+    --btnOffer: #f5d358;
+    --btnSend: #56f5e7;
+    --btnDelete: #f65758;
+
+    /* Start six dashbord colors */
+    --dashbordBox1: #937d72;
+    --dashbordBox2: #937d72;
+    --dashbordBox3: #937d72;
+    --dashbordBox4: #937d72;
+    --dashbordBox5: #937d72;
+    --dashbordBox6: #937d72;
+    --dashbordBoxFont: #ffffff;
+    /* End six dashbord colors */
+}
+
+
+body {
+    background-color: var(--boodBackground) !important;
+}
+
+.btn-top {
+    background-color: #937d72;
+    color: var(--dashbordBoxFont);
+}
+
+.btn-top:hover {
+    color: #fff;
+}
+
+body[data-background-color="dark"] .form-control, 
+body[data-background-color="dark"] .form-group-default, 
+body[data-background-color="dark"] .select2-container--bootstrap .select2-selection {
+    background-color: var(--inputsBg);
+    color: var(--inputsFont);
+    display: -webkit-box;
+
+}
+
+body[data-background-color="dark"] .card, 
+body[data-background-color="dark"] .row-card-no-pd, 
+body[data-background-color="dark"] .list-group-item, 
+body[data-background-color="dark"] .timeline > li > .timeline-panel,
+.navbar-header[data-background-color="dark"],
+.sidebar[data-background-color="dark2"],
+.logo-header[data-background-color="dark2"],
+body[data-background-color="dark"] .footer {
+    background: var(--boxBackground) !important;
+}
+
+.sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a, 
+.sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:hover,
+ .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:focus,
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a[data-toggle=collapse][aria-expanded=true] {
+    background: var(--sideBarElement1Bg) !important;
+    color: var(--sideBarElement1Font) !important;
+    box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1), 4px 4px 15px -5px var(--sideBarElement1Shadow) !important;
+}
+
+.sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a p,
+ .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a i,
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a .caret, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:hover p, .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:hover i, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:hover .caret, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:focus p, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:focus i, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a:focus .caret, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a[data-toggle=collapse][aria-expanded=true] p, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a[data-toggle=collapse][aria-expanded=true] i, 
+  .sidebar[data-background-color="dark2"].sidebar-style-2 .nav .nav-item.active > a[data-toggle=collapse][aria-expanded=true] .caret {
+      color: var(--sideBarElement1Font) !important;
+  }
+
+  .sidebar.sidebar-style-2 .nav .nav-item .active a {
+      background: var(--sideBarElement2Bg) !important;
+  }
+
+.btn-danger,
+.btn-danger:hover, 
+.btn-danger:focus, 
+.btn-danger:disabled {
+    background: var(--btnDelete) !important;
+    border-color: var(--btnDelete) !important;
+    color: var(--boxBackground);
+} 
+
+
+.btn-primary,
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:disabled {
+    background: var(--btnSend) !important;
+    border-color: var(--btnSend) !important;
+    color: var(--boxBackground) ;
+}
+
+.btn-secondary,
+.btn-secondary:hover, 
+.btn-secondary:focus, 
+.btn-secondary:disabled {
+    background: var(--btnOffer) !important;
+    border-color: var(--btnOffer) !important;
+    color: var(--boxBackground);
+}
+
+.btn-success,
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:disabled,
+body[data-background-color="dark"] .page-title,
+body[data-background-color="dark"] .breadcrumbs li a,
+body[data-background-color="dark"] .breadcrumbs li a,
+.breadcrumbs li.separator {
+    color: var(--boxBackground);
+}
+
+
+
+/* Start six dashbord Box */
+
+body[data-background-color="dark"] .card[card-color="team"],
+body[data-background-color="dark"] .card[card-color="partners"],
+body[data-background-color="dark"] .card[card-color="orders"],
+body[data-background-color="dark"] .card[card-color="project"],
+body[data-background-color="dark"] .card[card-color="blog"],
+body[data-background-color="dark"] .card[card-color="servic"],
+.card-category {
+    color: var(--dashbordBoxFont) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="team"] {
+    background: var(--dashbordBox1) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="partners"] {
+    background: var(--dashbordBox2) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="orders"] {
+    background: var(--dashbordBox3) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="project"] {
+    background: var(--dashbordBox4) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="blog"] {
+    background: var(--dashbordBox5) !important;
+}
+
+body[data-background-color="dark"] .card[card-color="servic"] {
+    background: var(--dashbordBox6) !important;
+}
+
+
+/* End six dashbord Box */
+
+.bootstrap-tagsinput {
+    background-color: var(--inputsBg) !important;
+    border-color: var(--boxBackground) !important;
+}
+
+.bootstrap-tagsinput {
+    background: var(--sideBarElement2Bg) !important;
+    border-color: var(--boxBackground) !important;
+}
+
+.modal-content {
+    background: var(--boxBackground) !important;
+}
+
+.sidebar .nav.nav-primary > .nav-item a i,
+ .sidebar[data-background-color="white"] .nav.nav-primary > .nav-item a i {
+    color: var(--sideBarElement2Bg) !important; 
+}
+
+.sidebar .nav.nav-primary > .nav-item.active a i {
+    color: white !important;
+}
