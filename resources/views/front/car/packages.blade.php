@@ -1,139 +1,96 @@
 @extends('front.car.layout')
 
 @section('pagename')
-- {{__('Packages')}}
+ - {{__('Packages')}}
 @endsection
 
 @section('meta-keywords', "$be->packages_meta_keywords")
 @section('meta-description', "$be->packages_meta_description")
 
-@section('breadcrumb-title', convertUtf8($be->pricing_title))
-@section('breadcrumb-subtitle', $be->pricing_subtitle)
-@section('breadcrumb-link', __('Packages'))
-
 @section('content')
+<!--   breadcrumb area start   -->
+<div class="breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+   <div class="container align-self-center">
+      <div class="breadcrumb-txt">
+         <div class="row">
+            <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+               <span>{{convertUtf8($be->pricing_title)}}</span>
+               <h1>{{convertUtf8($be->pricing_subtitle)}}</h1>
+               <ul class="breadcumb">
+                  <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                  <li>{{__('Packages')}}</li>
+               </ul>
+            </div>
+			 @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+         </div>
+      </div>
+   </div>
+   <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+</div>
+<!--   breadcrumb area end    -->
 
 
 <!-- Start finlance_pricing section -->
-<section class="finlance_pricing pricing_v1 pt-115 pb-80" id="masonry-package">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        @if (count($categories) > 0 && $bex->package_category_status == 1)
-          <div class="filter-nav text-center mb-15">
-            <ul class="filter-btn">
-              <li data-filter="*" class="active">{{__('All')}}</li>
-              @foreach ($categories as $category)
-                @php
-                    $filterValue = "." . Str::slug($category->name);
-                @endphp
-
-                <li data-filter="{{ $filterValue }}">{{ convertUtf8($category->name) }}</li>
-              @endforeach
-            </ul>
-          </div>
-        @endif
-      </div>
-    </div>
-
-    <div class="masonry-row">
-      <div class="pricing_slide">
-        <div class="row">
-          @if (count($packages) == 0)
-            <div class="col">
-              <h3 class="text-center">{{ __('No Package Found!') }}</h3>
+<section class="finlance_pricing pricing_v1 pt-115 pb-80">
+    <div class="container">
+        <div class="pricing_slide">
+            <div class="row">
+                @foreach ($packages as $key => $package)
+                    <div class="col-lg-4 mb-5">
+                        <div class="pricing_box text-center">
+                            <div class="pricing_title">
+                                <h3>{{convertUtf8($package->title)}}</h3>
+                            </div>
+                            <div class="pricing_price">
+                                <h2 style="margin-bottom: 0px;">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$package->price}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</h2>
+                            </div>
+                            <div class="pricing_body">
+                                {!! replaceBaseUrl(convertUtf8($package->description)) !!}
+                            </div>
+                            <div class="pricing_button">
+                                @if ($package->order_status == 1)
+                                    <a href="{{route('front.packageorder.index', $package->id)}}" class="finlance_btn">{{__('Place Order')}}</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-          @else
-            @foreach ($packages as $key => $package)
-                @php
-                $packageCategory = $package->packageCategory()->first();
-                if (!empty($packageCategory)) {
-                    $categoryName = Str::slug($packageCategory->name);
-                } else {
-                    $categoryName = "";
-                }
-                @endphp
-
-              <div class="col-lg-4 mb-5 package-column {{ $categoryName }}">
-                <div class="pricing_box text-center">
-                  <div class="pricing_title">
-                    <h3>{{convertUtf8($package->title)}}</h3>
-                  </div>
-                  <div class="pricing_price">
-                    <h2>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-                      {{$package->price}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                    </h2>
-                    @if ($bex->recurring_billing == 1)
-                      <p class="text-capitalize">{{$package->duration == 'monthly' ? __('Monthly') : __('Yearly')}}</p>
-                    @endif
-                  </div>
-                  <div class="pricing_body">
-                    {!! replaceBaseUrl(convertUtf8($package->description)) !!}
-                  </div>
-                  @if ($bex->recurring_billing == 1)
-                    @auth
-                      @if ($activeSub->count() > 0 && empty($activeSub->first()->next_package_id))
-                        @if ($activeSub->first()->current_package_id == $package->id)
-                          <a href="{{route('front.packageorder.index',$package->id)}}" class="finlance_btn">{{__('Extend')}}</a>
-                        @else
-                          <a href="{{route('front.packageorder.index',$package->id)}}" class="finlance_btn">{{__('Change')}}</a>
-                        @endif
-                      @elseif ($activeSub->count() == 0)
-                        <a href="{{route('front.packageorder.index',$package->id)}}" class="finlance_btn">{{__('Purchase')}}</a>
-                      @endif
-                    @endauth
-                    @guest
-                      <a href="{{route('front.packageorder.index',$package->id)}}" class="finlance_btn">{{__('Purchase')}}</a>
-                    @endguest
-                  @else
-                    @if ($package->order_status != 0)
-                      @php
-                        if($package->order_status == 1) {
-                          $link = route('front.packageorder.index', $package->id);
-                        } elseif ($package->order_status == 2) {
-                          $link = $package->link;
-                        }
-                      @endphp
-                      <div class="pricing_button">
-                        <a href="{{ $link }}" @if($package->order_status == 2) target="_blank" @endif class="finlance_btn">{{__('Place Order')}}</a>
-                      </div>
-                    @endif
-                  @endif
-                </div>
-              </div>
-            @endforeach
-          @endif
         </div>
-      </div>
     </div>
-  </div>
 </section>
-<!-- End finlance_pricing section -->
-@endsection
+     <!-- Start finlance_cta section -->
+     @if ($bs->call_to_action_section == 1)
+     <section class="finlance_cta cta_v1 pt-70 pb-70" style="background-image: url({{asset('assets/front/img/pattern_bg_2.jpg')}});">
+        <div class="container">
+           <div class="row align-items-center">
+              <div class="col-lg-8">
+                 <div class="section_title">
+                    <h2>{{convertUtf8($bs->cta_section_text)}}</h2>
+                 </div>
+              </div>
+              <div class="col-lg-4">
+                 <div class="button_box">
+                    <a href="{{$bs->cta_section_button_url}}" class="finlance_btn">{{convertUtf8($bs->cta_section_button_text)}}</a>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+       @endif
+       <!-- End finlance_cta section -->
 
-@section('scripts')
-<script>
-  $('#masonry-package').imagesLoaded( function() {
-    // items on button click
-    $('.filter-btn').on('click', 'li', function () {
-      var filterValue = $(this).attr('data-filter');
-      $grid.isotope({
-        filter: filterValue
-      });
-    });
-    // menu active class
-    $('.filter-btn li').on('click', function (e) {
-      $(this).siblings('.active').removeClass('active');
-      $(this).addClass('active');
-      e.preventDefault();
-    });
-    var $grid = $('.masonry-row').isotope({
-      itemSelector: '.package-column',
-      percentPosition: true,
-      masonry: {
-        columnWidth: 0
-      }
-    });
-  });
-</script>
-@endsection
+
+       @endsection

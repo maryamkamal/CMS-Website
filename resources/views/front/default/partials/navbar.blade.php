@@ -2,11 +2,12 @@
     $links = json_decode($menus, true);
     //  dd($links);
 @endphp
+
 <div class="header-navbar">
     <div class="row">
        <div class="col-lg-2 col-6">
           <div class="logo-wrapper">
-             <a href="{{route('front.index')}}"><img class="lazy" data-src="{{asset('assets/front/img/'.$bs->logo)}}" alt=""></a>
+             <a href="{{route('front.index')}}"><img src="{{asset('assets/front/img/'.$bs->logo)}}" alt=""></a>
           </div>
        </div>
        <div class="col-lg-10 col-6 {{$rtl == 1 ? 'text-left' : 'text-right'}} position-static">
@@ -17,8 +18,47 @@
                  @endphp
 
 
-                 @if (strpos($link["type"], '-megamenu') !==  false)
-                    @includeIf('front.default.partials.mega-menu')
+                 @if ($link["type"] == 'services' && hasCategory($be->theme_version))
+
+
+                     <li class="dropdown mega @if(request()->is('service/*')) active @endif">
+                         <a class="dropdown-btn" href="{{$href}}">{{$link["text"]}}</a>
+                         <ul class="dropdown-lists">
+                             @if (count($scats) > 0)
+                                 @foreach ($scats as $key => $scat)
+                                     <h5 class="service-title">{{$scat->name}}</h5>
+                                     @foreach ($scat->services()->orderBy('serial_number', 'ASC')->get() as $key => $service)
+
+                                         <li><a href="{{route('front.servicedetails', [$service->slug, $service->id])}}">{{$service->title}}</a></li>
+                                     @endforeach
+                                 @endforeach
+                             @endif
+                             
+                         </ul>
+                     </li>
+                     <li class="mega-dropdown">
+                         <a class="dropbtn @if(request()->is('service/*') || request()->path() == 'services') active @endif" href="{{$href}}">{{$link["text"]}} <i class="fas fa-angle-down"></i></a>
+                         <div class="mega-dropdown-content">
+                             <div class="row">
+                                 @if (count($scats) > 0)
+                                     @foreach ($scats as $key => $scat)
+                                         <div class="col-lg-3">
+                                             <div class="service-category">
+                                                 <h3>{{$scat->name}}</h3>
+                                                 @foreach ($scat->services()->orderBy('serial_number', 'ASC')->get() as $key => $service)
+
+                                                     <a class="@if(Request::route('slug') == $service->slug) active @endif" href="{{route('front.servicedetails', [$service->slug, $service->id])}}">{{$service->title}}</a>
+
+                                                 @endforeach
+                                             </div>
+                                         </div>
+                                     @endforeach
+                                 @endif
+                             </div>
+                         </div>
+                     </li>
+
+
 
                  {{-- if the link is not services OR theme version doesn't have service category --}}
                  @else

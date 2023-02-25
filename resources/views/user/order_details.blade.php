@@ -34,30 +34,28 @@
                         <div class="col-lg-12">
                             <div class="user-profile-details">
                                 <div class="order-details">
-                                    @if (!onlyDigitalItems($data))
-                                        <div class="progress-area-step">
-                                            <ul class="progress-steps">
-                                                <li class="{{$data->order_status == 'pending' ? 'active' : ''}}">
-                                                    <div class="icon"></div>
-                                                    <div class="progress-title">{{__('Pending')}}</div>
-                                                </li>
-                                                <li class="{{$data->order_status == 'processing' ? 'active' : ''}}">
-                                                    <div class="icon"></div>
-                                                    <div class="progress-title">{{__('Processing')}}</div>
-                                                </li>
-                                                <li class="{{$data->order_status == 'completed' ? 'active' : ''}}">
-                                                    <div class="icon"></div>
-                                                    <div class="progress-title">{{__('Completed')}}</div>
-                                                </li>
-                                                <li class="{{$data->order_status == 'reject' ? 'active' : ''}}">
-                                                    <div class="icon"></div>
-                                                    <div class="progress-title">{{__('Rejected')}}</div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endif
+                                    <div class="progress-area-step">
+                                        <ul class="progress-steps">
+                                            <li class="{{$data->order_status == 'pending' ? 'active' : ''}}">
+                                                <div class="icon"></div>
+                                                <div class="progress-title">{{__('Pending')}}</div>
+                                            </li>
+                                            <li class="{{$data->order_status == 'processing' ? 'active' : ''}}">
+                                                <div class="icon"></div>
+                                                <div class="progress-title">{{__('Processing')}}</div>
+                                            </li>
+                                            <li class="{{$data->order_status == 'completed' ? 'active' : ''}}">
+                                                <div class="icon"></div>
+                                                <div class="progress-title">{{__('Completed')}}</div>
+                                            </li>
+                                            <li class="{{$data->order_status == 'reject' ? 'active' : ''}}">
+                                                <div class="icon"></div>
+                                                <div class="progress-title">{{__('Rejected')}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div class="title">
-                                        <h4>{{__('Product Order Details')}}</h4>
+                                        <h4>{{__('Order Details')}}</h4>
                                     </div>
                                     <div id="print">
                                     <div class="view-order-page">
@@ -79,58 +77,6 @@
                                     </div>
                                     <div class="billing-add-area">
                                         <div class="row">
-
-                                            <div class="col-md-4 ">
-                                                <div class="payment-information">
-                                                    <h5>{{__('Order Details')}} : </h5>
-                                                    <p>{{__('Payment Status')}} :
-                                                        @if($data->payment_status =='Pending' || $data->payment_status == 'pending')
-                                                        <span class="badge badge-danger">{{$data->payment_status}}  </span>
-                                                        @else
-                                                        <span class="badge badge-success">{{$data->payment_status}}  </span>
-                                                        @endif
-                                                    </p>
-                                                    <p>{{__('Shipping Method')}} : {{$data->shipping_method}}</p>
-                                                    <p>{{__('Cart Total')}} : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                        {{$data->cart_total}}
-
-                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                                    </p>
-                                                    <p class="text-success">{{__('Discount')}} <span style="font-size: 12px;">(<i class="fas fa-minus"></i>)</span> : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                        {{$data->discount}}
-
-                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                                    </p>
-                                                    <p>{{__('Subtotal')}} : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                        {{$data->cart_total - $data->discount}}
-
-                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                                    </p>
-                                                    <p class="text-danger">{{__('Shipping Charge')}} <span style="font-size: 12px;">(<i class="fas fa-plus"></i>)</span> : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                        {{$data->shipping_charge}}
-
-                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                                    </p>
-                                                    <p class="text-danger">{{__('Tax')}} ({{$bex->tax}}%) <span style="font-size: 12px;">(<i class="fas fa-plus"></i>)</span> : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                        {{$data->tax}}
-
-                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                                    </p>
-                                                    <p>{{__('Paid Amount')}} : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-
-                                                    {{$data->total}}
-
-                                                    {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span></p>
-
-                                                    <p>{{__('Payment Method')}} : {{$data->method}}</p>
-
-                                                </div>
-                                            </div>
                                             <div class="col-md-4">
                                                 <div class="main-info">
                                                     <h5>{{__('Shipping Details')}}</h5>
@@ -155,6 +101,36 @@
                                                     </ul>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-4 ">
+                                                <div class="payment-information">
+                                                    <h5>{{__('Payment Information')}} : </h5>
+                                                    <p>{{__('Payment Status')}} :
+                                                        @if($data->payment_status =='Pending' || $data->payment_status == 'pending')
+                                                        <span class="badge badge-danger">{{$data->payment_status}}  </span>
+                                                        @else
+                                                        <span class="badge badge-success">{{$data->payment_status}}  </span>
+                                                        @endif
+                                                    </p>
+                                                    <p>{{__('Paid Amount')}} : <span class="amount">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
+
+                                                    {{$data->total}}
+
+                                                    {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span></p>
+
+                                                    <p>
+                                                        {{__('Shipping Charge')}} :
+                                                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
+
+                                                        {{$data->shipping_charge}}
+
+                                                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                                                    </p>
+
+                                                    <p>{{__('Payment Method')}} : {{$data->method}}</p>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="table-responsive product-list">
@@ -162,6 +138,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>{{__('Image')}}</th>
                                                     <th>{{__('Name')}}</th>
                                                     <th>{{__('Details')}}</th>
@@ -173,54 +150,17 @@
                                                 @foreach ($data->orderitems as $key => $order)
                                                 @php
                                                     $product = App\Product::findOrFail($order->product_id);
-                                                    $ser = 0;
                                                 @endphp
-                                                @if ($product->type == 'digital')
-                                                    @for ($i = 0; $i < $order->qty; $i++)
-                                                        <tr>
-                                                            <td><img src="{{asset('assets/front/img/product/featured/'.$order->product->feature_image)}}" alt="product" width="100"></td>
-                                                            <td>
-                                                                <a class="d-block" href="{{route('front.product.details',$product->slug)}}">{{$order->title}}</a>
-                                                                @if ($product->type == 'digital' && $data->payment_status == 'Completed')
-                                                                    @if (!empty($product->download_file))
-                                                                        <form action="{{route('user-digital-download')}}" method="POST">
-                                                                            @csrf
-                                                                            <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                                            <button type="submit" class="digital-donwload-btn btn btn-primary btn-sm border-0">{{__('Download')}}</button>
-                                                                        </form>
-                                                                    @elseif (!empty($product->download_link))
-                                                                        <a style="font-size: 12px;" href="{{$product->download_link}}" target="_blank" class="digital-donwload-btn btn btn-primary btn-sm border-0 base-bg text-uppercase">{{__('Download')}}</a>
-                                                                    @endif
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                <b>{{__('Quantity')}}:</b> <span>1</span><br>
-                                                            </td>
-                                                            <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                                            <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                                        </tr>
-                                                    @endfor
-                                                @else
-                                                    <tr>
-                                                        <td><img src="{{asset('assets/front/img/product/featured/'.$order->product->feature_image)}}" alt="product" width="100"></td>
-                                                        <td>
-                                                            <a class="d-block" href="{{route('front.product.details',$product->slug)}}">{{$order->title}}</a>
-                                                            <form action="{{route('user-digital-download')}}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                                @if ($product->type == 'digital')
-                                                                <button type="submit" class="digital-donwload-btn btn btn-primary btn-sm border-0">Download</button>
-                                                                @endif
-                                                            </form>
-                                                        </td>
-                                                        <td>
-                                                            <b>{{__('Quantity')}}:</b> <span>{{$order->qty}}</span><br>
-                                                        </td>
-                                                        <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                                        <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price * $order->qty}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                                    </tr>
-                                                @endif
-
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td><img src="{{asset('assets/front/img/product/featured/'.$order->product->feature_image)}}" alt="product" width="100"></td>
+                                                    <td><a href="{{route('front.product.details',$product->slug)}}">{{$order->title}}</a></td>
+                                                    <td>
+                                                        <b>{{__('Quantity')}}:</b> <span>{{$order->qty}}</span><br>
+                                                    </td>
+                                                    <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                                    <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$order->price * $order->qty}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                                </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>

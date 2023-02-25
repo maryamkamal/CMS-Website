@@ -8,11 +8,38 @@
 @section('meta-description', "$package->meta_description")
 
 @section('content')
-    @section('breadcrumb-title', __('Package Order'))
-    @section('breadcrumb-subtitle')
-    {{__('Place Order for')}} <p class="d-inline-block" style="color:#{{$bs->base_color}};">{{convertUtf8($package->title)}}</p>
-    @endsection
-    @section('breadcrumb-link', __('Package Order'))
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                 <span>{{__('Package Order')}}</span>
+                 <h1>{{__('Place Order for')}} <p class="d-inline-block" style="color:#{{$bs->base_color}};">{{convertUtf8($package->title)}}</p></h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Package Order')}}</li>
+                 </ul>
+              </div>
+			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
 
 
   <!--   quote area start   -->
@@ -31,18 +58,8 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-element mb-4">
-                        @php
-                            $name = '';
-                            if(empty(old())) {
-                                if (Auth::check()) {
-                                    $name = Auth::user()->fname;
-                                }
-                            } else {
-                                $name = old('name');
-                            }
-                        @endphp
                         <label>{{__('Name')}} <span>**</span></label>
-                        <input name="name" type="text" value="{{$name}}" placeholder="{{__('Enter Name')}}">
+                        <input name="name" type="text" value="{{old("name")}}" placeholder="{{__('Enter Name')}}">
 
                         @if ($errors->has("name"))
                         <p class="text-danger mb-0">{{$errors->first("name")}}</p>
@@ -51,18 +68,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-element mb-4">
-                        @php
-                            $email = '';
-                            if(empty(old())) {
-                                if (Auth::check()) {
-                                    $email = Auth::user()->email;
-                                }
-                            } else {
-                                $email = old('email');
-                            }
-                        @endphp
                         <label>{{__('Email')}} <span>**</span></label>
-                        <input name="email" type="text" value="{{$email}}" placeholder="{{__('Enter Email Address')}}">
+                        <input name="email" type="text" value="{{old("email")}}" placeholder="{{__('Enter Email Address')}}">
 
                         @if ($errors->has("email"))
                         <p class="text-danger mb-0">{{$errors->first("email")}}</p>
@@ -104,28 +111,6 @@
                                 <textarea name="{{$input->name}}" id="" cols="30" rows="10" placeholder="{{convertUtf8($input->placeholder)}}">{{old("$input->name")}}</textarea>
                             @endif
 
-                            @if ($input->type == 6)
-                                <label>{{convertUtf8($input->label)}} @if($input->required == 1) <span>**</span> @endif</label>
-                                <input class="datepicker" name="{{$input->name}}" type="text" value="{{old("$input->name")}}" placeholder="{{convertUtf8($input->placeholder)}}" autocomplete="off">
-                            @endif
-
-                            @if ($input->type == 7)
-                                <label>{{convertUtf8($input->label)}} @if($input->required == 1) <span>**</span> @endif</label>
-                                <input class="timepicker" name="{{$input->name}}" type="text" value="{{old("$input->name")}}" placeholder="{{convertUtf8($input->placeholder)}}" autocomplete="off">
-                            @endif
-
-                            @if ($input->type == 5)
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="form-element mb-2">
-                                  <label>{{$input->label}} @if($input->required == 1) <span>**</span> @endif</label>
-                                  <input type="file" name="{{$input->name}}" value="">
-                                </div>
-                                <p class="text-warning mb-0">** {{__('Only zip file is allowed')}}</p>
-                              </div>
-                            </div>
-                            @endif
-
                             @if ($errors->has("$input->name"))
                             <p class="text-danger mb-0">{{$errors->first("$input->name")}}</p>
                             @endif
@@ -133,6 +118,21 @@
                     </div>
                 @endforeach
             </div>
+
+            @if ($ndaIn->active == 1)
+            <div class="row mb-4">
+              <div class="col-lg-12">
+                <div class="form-element mb-2">
+                  <label>{{__('NDA File')}} @if($ndaIn->required == 1) <span>**</span> @endif</label>
+                  <input type="file" name="nda" value="">
+                </div>
+                <p class="text-warning mb-0">** {{__('Only doc, docx, pdf, rtf, txt, zip, rar files are allowed')}}</p>
+                @if ($errors->has('nda'))
+                  <p class="text-danger mb-0">{{$errors->first('nda')}}</p>
+                @endif
+              </div>
+            </div>
+            @endif
 
 
             @if (count($gateways) + count($ogateways) > 0)
@@ -142,7 +142,7 @@
                         <label>{{__('Pay Via')}}  <span>**</span></label>
                         <select name="method" id="method" class="option input-field" required="">
                             @foreach($gateways as $paydata)
-                                <option value="{{ $paydata->name }}" data-form="{{ $paydata->showCheckoutLink() }}" data-show="{{ $paydata->showForm() }}" data-href="{{ route('front.load.payment',['slug1' => $paydata->showKeyword(),'slug2' => $paydata->id]) }}" data-val="{{ $paydata->keyword }}">
+                                <option value="{{ $paydata->name }}" data-form="{{ $paydata->showCheckoutLink() }}" data-show="{{ $paydata->showForm() }}" data-href="{{ route('front.load.payment',['slug' => $paydata->showKeyword(),'id' => $paydata->id]) }}" data-val="{{ $paydata->keyword }}">
 
                                     {{$paydata->name}}
 
@@ -151,7 +151,7 @@
 
                              @if (!empty($ogateways))
                                 @foreach($ogateways as $ogateway)
-                                    <option value="{{ $ogateway->id }}" data-form="{{ route('front.offline.submit', $ogateway->id) }}" data-show="yes" data-href="{{ route('front.load.payment',['slug1' => "offline",'slug2' => $ogateway->id]) }}" data-val="offline">
+                                    <option value="{{ $ogateway->name }}" data-form="{{ route('front.offline.submit', $ogateway->id) }}" data-show="yes" data-href="{{ route('front.load.payment',['slug' => "offline",'id' => $ogateway->id]) }}" data-val="offline">
 
                                         {{ $ogateway->name }}
 
@@ -190,63 +190,12 @@
           </form>
         </div>
         <div class="col-lg-4 mt-4 mt-lg-0">
-            @if ($bex->recurring_billing == 1)
-                <div class="bg-light package-order-summary py-5 px-5">
-                    <h4>{{__('Order Summay')}}</h4>
-                    <ul>
-                        <li>
-                            <strong>{{__('Package')}}:</strong>
-                            <span>{{$package->title}}</span>
-                        </li>
-                        <li>
-                            <strong>{{__('Duration')}}:</strong>
-                            <span class="text-capitalize">{{$package->duration == 'monthly' ? __('Monthly') : __('Yearly')}}</span>
-                        </li>
-                        <li>
-                            <strong>{{__('Price')}}:</strong>
-                            <span>
-                                {{$bex->base_currency_text_position == 'left' ? $bex->base_currency_text : ''}}
-                                {{$package->price}}
-                                {{$bex->base_currency_text_position == 'right' ? $bex->base_currency_text : ''}}
-                            </span>
-                        </li>
-
-                        @php
-                            // if there is a current active subscription for this user
-                            $activeSub = App\Subscription::where('user_id', Auth::user()->id)->where('status', 1);
-                            if($package->duration == 'monthly') {
-                                $days = 30;
-                            } elseif ($package->duration == 'yearly') {
-                                $days = 365;
-                            }
-                            if ($activeSub->count() > 0) {
-                                $activationDay = \Carbon\Carbon::parse($activeSub->first()->expire_date);
-                                $expireDay = \Carbon\Carbon::parse($activeSub->first()->expire_date)->addDays($days);
-                            } else {
-                                $activationDay = \Carbon\Carbon::now();
-                                $expireDay = \Carbon\Carbon::now()->addDays($days);
-                            }
-
-                        @endphp
-                        <li>
-                            <strong>{{__('Activation Date')}}:</strong>
-                            <span id="onlineActivationDate" style="display: none;">{{$activationDay->toFormattedDateString()}}</span>
-                            <span class="text-right" id="offlineActivationDate" style="display: none;">{{__('Will be notified by mail after Admin accepts the subscription request')}}</span>
-                        </li>
-                        <li>
-                            <strong>{{__('Expire Date')}}:</strong>
-                            <span id="onlineExpiryDate" style="display: none;">{{$expireDay->toFormattedDateString()}}</span>
-                            <span class="text-right" id="offlineExpiryDate" style="display: none;">{{__('Will be notified by mail after Admin accepts the subscription request')}}</span>
-                        </li>
-                    </ul>
-                </div>
-            @else
-                @includeIf("front.$version.package-order")
-            @endif
+            @includeIf("front.$version.package-order")
         </div>
       </div>
     </div>
   </div>
+
   <!--   quote area end   -->
 @endsection
 
@@ -259,32 +208,12 @@
 <script>
 $(document).ready(function() {
     changeGateway();
-    toggleActivationExpiry();
 })
 </script>
 @endif
 
 
 <script>
-
-function toggleActivationExpiry() {
-    let type = $("#method").find('option:selected').data('val');
-    console.log(type);
-
-    if(type == 'offline') {
-        $("#onlineActivationDate").hide();
-        $("#onlineExpiryDate").hide();
-
-        $("#offlineActivationDate").show();
-        $("#offlineExpiryDate").show();
-    } else {
-        $("#offlineActivationDate").hide();
-        $("#offlineExpiryDate").hide();
-
-        $("#onlineActivationDate").show();
-        $("#onlineExpiryDate").show();
-    }
-}
 
 function changeGateway() {
     var val  = $('#method').find(':selected').attr('data-val');
@@ -309,7 +238,6 @@ function changeGateway() {
 
 $('#method').on('change',function() {
     changeGateway();
-    toggleActivationExpiry();
 });
 
 $(document).on('submit','#paystack',function(){

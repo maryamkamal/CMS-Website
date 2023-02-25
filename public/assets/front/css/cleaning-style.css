@@ -512,7 +512,7 @@ End Preloader css
   margin-bottom: 30px;
 }
 .section-title-one span {
-  font-size: 50px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 30px;
 }
@@ -546,7 +546,7 @@ End Preloader css
   transform: translateX(-50%);
 }
 .section-title-two span {
-  font-size: 40px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 30px;
 }
@@ -783,7 +783,7 @@ End submenus css
   display: block;
   font-size: 18px;
   font-weight: 700;
-  padding: 40px 8px;
+  padding: 40px 15px;
   transition: .5s ease-in-out;
   color: #13287e;
 }
@@ -1296,7 +1296,7 @@ p.bg-3 {
   position: relative;
   z-index: 1;
   font-size: 40px;
-  padding-left: 6px;
+  padding-left: 30px;
   color: #ffc600;
 }
 span.count {

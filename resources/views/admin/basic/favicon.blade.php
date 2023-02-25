@@ -1,8 +1,15 @@
 @extends('admin.layout')
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Favicon</h4>
+    <h4 class="page-title">{{ __('trans.siteIcon') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,13 +20,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Basic Settings</a>
+        <a href="#">{{ __('trans.manSetting') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Favicon</a>
+        <a href="#">{{ __('trans.siteIcon') }}</a>
       </li>
     </ul>
   </div>
@@ -29,12 +36,12 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-10">
-                    <div class="card-title">Update Favicon</div>
+                    <div class="card-title">{{ __('trans.updateSiteIcon') }}</div>
                 </div>
                 <div class="col-lg-2">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -57,7 +64,7 @@
                   </div>
                   <div class="col-sm-12">
                     <div class="from-group mb-2">
-                      <input type="text" class="form-control progressbar" aria-describedby="fileHelp" placeholder="No image uploaded..." readonly="readonly" />
+                      <input type="text" class="form-control progressbar" aria-describedby="fileHelp" placeholder="{{ __('trans.choiceImg') }}" readonly="readonly" />
 
                       <div class="progress mb-2 d-none">
                         <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
@@ -72,12 +79,12 @@
 
                     <div class="mt-4">
                       <div role="button" class="btn btn-primary mr-2">
-                        <i class="fa fa-folder-o fa-fw"></i> Browse Files
-                        <input type="file" title='Click to add Files' name="favicon" />
+                        <i class="fa fa-folder-o fa-fw"></i> {{ __('trans.dowenlodeLogo') }}
+                        <input type="file" title='اضغط هنا لتحميل الايقونة' name="الايقونة" />
                       </div>
-                      <small class="status text-muted">Select a file or drag it over this area..</small>
-                      <p class="text-warning mb-0 mt-2">Upload 40X40 image or squre size image for best quality.</p>
-                      <p class="text-warning mb-0">Only jpg, jpeg, png image is allowed.</p>
+                      <small class="status text-muted">{{ __('trans.clickHereImg') }}</small>
+                      <p class="text-warning mb-0 mt-2"> {{ __('trans.iconSize') }}</p>
+                      <p class="text-warning mb-0">{{ __('trans.mssImgStruc') }}</p>
                       <p class="text-danger mb-0 em" id="errfavicon"></p>
                     </div>
                   </div>

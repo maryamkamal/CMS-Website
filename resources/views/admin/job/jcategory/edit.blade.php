@@ -1,8 +1,13 @@
 @extends('admin.layout')
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Edit Category</h4>
+    <h4 class="page-title">{{ __('trans.Edit Category') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,13 +18,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Service Page</a>
+        <a href="#">{{ __('trans.Service Page') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Edit Category</a>
+        <a href="#">{{ __('trans.Edit Category') }}</a>
       </li>
     </ul>
   </div>
@@ -27,12 +32,12 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Edit Category</div>
+          <div class="card-title d-inline-block">{{ __('trans.Edit Category') }}</div>
           <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.scategory.index')}}">
             <span class="btn-label">
               <i class="fas fa-backward" style="font-size: 12px;"></i>
             </span>
-            Back
+            {{ __('trans.Back') }}
           </a>
         </div>
         <div class="card-body pt-5 pb-5">
@@ -42,7 +47,7 @@
                 @csrf
                 <div class="form-row px-2">
                   <div class="col-12 mb-2">
-                    <label for=""><strong>Image **</strong></label>
+                    <label for=""><strong>{{ __('trans.Image') }} **</strong></label>
                   </div>
                   <div class="col-md-12 d-md-block d-sm-none mb-3">
                     <img src="{{asset('assets/front/img/service_category_icons/'.$scategory->image)}}" alt="..." class="img-thumbnail">
@@ -64,10 +69,10 @@
 
                     <div class="mt-4">
                       <div role="button" class="btn btn-primary mr-2">
-                        <i class="fa fa-folder-o fa-fw"></i> Browse Files
+                        <i class="fa fa-folder-o fa-fw"></i> {{ __('trans.browseFiles') }}
                         <input type="file" title='Click to add Files'  />
                       </div>
-                      <small class="status text-muted">Select a file or drag it over this area..</small>
+                      <small class="status text-muted">{{ __('trans.selectFile') }}</small>
                     </div>
                   </div>
                 </div>
@@ -77,21 +82,21 @@
                 @csrf
                 <input type="hidden" name="scategory_id" value="{{$scategory->id}}">
                 <div class="form-group">
-                  <label for="">Name **</label>
+                  <label for="">{{ __('trans.Name') }} **</label>
                   <input type="text" class="form-control" name="name" value="{{$scategory->name}}" placeholder="Enter name">
                   <p id="errname" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Sort Text **</label>
+                  <label for="">{{ __('trans.Sort Text') }} **</label>
                   <input type="text" class="form-control" name="short_text" value="{{$scategory->short_text}}" placeholder="Enter short text">
                   <p id="errshort_text" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Status **</label>
+                  <label for="">{{ __('trans.Status') }} **</label>
                   <select class="form-control" name="status">
-                    <option value="" selected disabled>Select a status</option>
-                    <option value="1" {{$scategory->status == 1 ? 'selected' : ''}}>Active</option>
-                    <option value="0" {{$scategory->status == 0 ? 'selected' : ''}}>Deactive</option>
+                    <option value="" selected disabled>{{ __('trans.Select a status') }}</option>
+                    <option value="1" {{$scategory->status == 1 ? 'selected' : ''}}>{{ __('trans.activ') }}</option>
+                    <option value="0" {{$scategory->status == 0 ? 'selected' : ''}}>{{ __('trans.disable') }}</option>
                   </select>
                   <p id="errstatus" class="mb-0 text-danger em"></p>
                 </div>
@@ -103,7 +108,7 @@
           <div class="form">
             <div class="form-group from-show-notify row">
               <div class="col-12 text-center">
-                <button type="submit" id="submitBtn" class="btn btn-success">Update</button>
+                <button type="submit" id="submitBtn" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
               </div>
             </div>
           </div>

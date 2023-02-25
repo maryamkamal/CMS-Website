@@ -13,66 +13,123 @@
 @section('meta-keywords', "$be->services_meta_keywords")
 @section('meta-description', "$be->services_meta_description")
 
-@section('breadcrumb-title', convertUtf8($bs->service_title))
-@section('breadcrumb-subtitle', $bs->service_subtitle)
-@section('breadcrumb-link', __('Services'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5">
+                 <span>{{convertUtf8($bs->service_title)}}</span>
+                 <h1>{{convertUtf8($bs->service_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Services')}}</li>
+                 </ul>
+              </div>
+			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+				    <iframe width="420" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
   <!--    services section start   -->
   <div class="service-section">
      <div class="container">
         <div class="row">
            <div class="col-lg-8">
-              <section class="pt-120 pb-120">
-                <div class="service-carousel-active">
+                <section class="lawyer_service service_v1 pt-115 pb-80">
+                    <div class="container">
+                        <div class="service_slide">
+                            <div class="row">
+                                @foreach ($services as $key => $service)
+                                    <div class="col-md-6 mb-5">
+                                        <div class="grid_item mx-0">
+                                            <div class="grid_inner_item">
+                                                <div class="lawyer_img">
+                                                    @if (!empty($service->main_image))
+                                                        <div class="logistics_icon">
+                                                            <img src="{{asset('assets/front/img/services/' . $service->main_image)}}" class="img-fluid" alt="">
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="lawyer_content">
+                                                    <h4>{{convertUtf8($service->title)}}</h4>
+                                                    <p>
+                                                        @if (strlen(convertUtf8($service->summary)) > 100)
+                                                           {{substr(convertUtf8($service->summary), 0, 100)}}<span style="display: none;">{{substr(convertUtf8($service->summary), 100)}}</span>
+                                                           <a href="#" class="see-more">see more...</a>
+                                                        @else
+                                                           {{convertUtf8($service->summary)}}
+                                                        @endif
+                                                    </p>
+                                                    @if($service->details_page_status == 1)
+                                                        <a href="{{route('front.servicedetails', [$service->slug, $service->id])}}" class="lawyer_btn">{{__('Read More')}}</a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                            <nav class="pagination-nav">
+                                {{$services->appends(['category' => request()->input('category'), 'term' => request()->input('term')])->links()}}
+                            </nav>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+              {{-- <section class="finlance_service service_v1 pt-115 pb-120">
+                <div class="service_slide">
                     <div class="row">
                         @if (count($services) == 0)
-                            <div class="col-12 bg-light py-5">
-                                <h3 class="text-center">{{__('NO SERVICE FOUND')}}</h3>
-                            </div>
+                        <div class="col-12 bg-light py-5">
+                            <h3 class="text-center">{{__('NO SERVICE FOUND')}}</h3>
+                        </div>
                         @else
                         @foreach ($services as $key => $service)
-                            <div class="col-lg-6 mb-5">
-                                <div class="single-service-item mx-0">
-                                    @if (!empty($service->main_image))
-                                        <div class="single-service-bg">
-                                            <img class="lazy" data-src="{{asset('assets/front/img/services/' . $service->main_image)}}" alt="">
-                                            <span><i class="fas fa-quidditch"></i></span>
-                                            @if($service->details_page_status == 1)
-                                                <div class="single-service-link">
-                                                    <a href="{{route('front.servicedetails', [$service->slug])}}" class="main-btn service-btn">{{__('View More')}}</a>
+                            <div class="col-lg-6 mb-4">
+                                <div class="grid_item">
+                                    <div class="grid_inner_item">
+                                        <div class="finlance_img">
+                                            <img src="{{asset('assets/front/img/services/'.$service->main_image)}}" class="img-fluid" alt="">
+                                            <div class="service_overlay">
+                                                <div class="button_box">
+                                                    <a href="{{route('front.servicedetails', [$service->slug, $service->id])}}" class="more_icon"><i class="fas fa-angle-double-right"></i></a>
                                                 </div>
-                                            @endif
+                                            </div>
                                         </div>
-                                        <div class="single-service-content">
-                                            <h4>{{convertUtf8($service->title)}}</h4>
-                                            <p>
-                                                @if (strlen(convertUtf8($service->summary)) > 100)
-                                                   {{mb_substr($service->summary, 0, 100, 'utf-8')}}<span style="display: none;">{{mb_substr($service->summary, 100, null, 'utf-8')}}</span>
-                                                   <a href="#" class="see-more">{{__('see more')}}...</a>
-                                                @else
-                                                   {{convertUtf8($service->summary)}}
-                                                @endif
-                                            </p>
+                                        <div class="finlance_content">
+                                            <h4><a class="text-white" href="{{route('front.servicedetails', [$service->slug, $service->id])}}">{{convertUtf8(strlen($service->title)) > 20 ? convertUtf8(substr($service->title, 0, 20)) . '...' : convertUtf8($service->title)}}</a></h4>
                                         </div>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
                         @endif
                     </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-12">
-                    <nav class="pagination-nav">
-                        {{$services->appends(['category' => request()->input('category'), 'term' => request()->input('term')])->links()}}
-                    </nav>
-                    </div>
-                </div>
-              </section>
+                </div> --}}
            </div>
            <!--    service sidebar start   -->
            <div class="col-lg-4 pt-115 pb-120">
@@ -87,7 +144,7 @@
                    </form>
                 </div>
              </div>
-             @if (serviceCategory())
+             @if (hasCategory($be->theme_version))
              <div class="blog-sidebar-widgets category-widget">
                 <div class="category-lists job">
                    <h4>{{__('Categories')}}</h4>

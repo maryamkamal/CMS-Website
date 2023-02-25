@@ -110,7 +110,7 @@ body{
 }
 .section_title span{
 	color: #ff5e14;
-	font-size: 50px;
+	font-size: 20px;
 	display: block;
 	text-transform: capitalize;
 	font-weight: 600;
@@ -825,7 +825,7 @@ div#particles-js canvas {
 	    margin-right: 5px;
 	}
 	.main-menu ul > li > a {
-	    padding: 30px 0px;
+	    padding: 38px 8px;
 	    font-size: 14px;
 	}
 }

@@ -17,8 +17,18 @@
 @endif
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php
+ App::setLocale("en");
+ ?>
+@endif
   <div class="page-header">
-    <h4 class="page-title">Edit Blog</h4>
+    <h4 class="page-title">{{ __('trans.Edit Blog') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -29,13 +39,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Blog Page</a>
+        <a href="#">{{ __('trans.Blog Page') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Edit Blog</a>
+        <a href="#">{{ __('trans.Edit Blog') }}</a>
       </li>
     </ul>
   </div>
@@ -43,61 +53,64 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Edit Blog</div>
+          <div class="card-title d-inline-block">{{ __('trans.Edit Blog') }}</div>
           <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.blog.index') . '?language=' . request()->input('language')}}">
             <span class="btn-label">
               <i class="fas fa-backward" style="font-size: 12px;"></i>
             </span>
-            Back
+            {{ __('trans.Back') }}
           </a>
         </div>
         <div class="card-body pt-5 pb-5">
           <div class="row">
             <div class="col-lg-6 offset-lg-3">
+              <form class="mb-3 dm-uploader drag-and-drop-zone" enctype="multipart/form-data" action="{{route('admin.blog.uploadUpdate', $blog->id)}}" method="POST">
+                @csrf
+                <div class="form-row px-2">
+                  <div class="col-12 mb-2">
+                    <label for=""><strong>{{ __('trans.Image') }}</strong></label>
+                  </div>
+                  <div class="col-md-12 d-md-block d-sm-none mb-3">
+                    <img src="{{asset('assets/front/img/blogs/'.$blog->main_image)}}" alt="..." class="img-thumbnail">
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="from-group mb-2">
+                      <input type="text" class="form-control progressbar" aria-describedby="fileHelp" placeholder="No image uploaded..." readonly="readonly" />
+
+                      <div class="progress mb-2 d-none">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                          role="progressbar"
+                          style="width: 0%;"
+                          aria-valuenow="0" aria-valuemin="0" aria-valuemax="0">
+                          0%
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="mt-4">
+                      <div role="button" class="btn btn-primary mr-2">
+                        <i class="fa fa-folder-o fa-fw"></i> {{ __('trans.Browse Files') }}
+                        <input type="file" title='Click to add Files'  />
+                      </div>
+                      <small class="status text-muted">{{ __('trans.selectFile') }}</small>
+                    </div>
+                  </div>
+                </div>
+              </form>
 
               <form id="ajaxForm" class="" action="{{route('admin.blog.update')}}" method="post">
                 @csrf
                 <input type="hidden" name="blog_id" value="{{$blog->id}}">
-
-                {{-- Image Part --}}
                 <div class="form-group">
-                    <label for="">Image ** </label>
-                    <br>
-                    <div class="thumb-preview" id="thumbPreview1">
-                        <img src="{{asset('assets/front/img/blogs/'.$blog->main_image)}}" alt="User Image">
-                    </div>
-                    <br>
-                    <br>
-
-
-                    <input id="fileInput1" type="hidden" name="image">
-                    <button id="chooseImage1" class="choose-image btn btn-primary" type="button" data-multiple="false" data-toggle="modal" data-target="#lfmModal1">Choose Image</button>
-
-
-                    <p class="text-warning mb-0">JPG, PNG, JPEG, SVG images are allowed</p>
-                    <p class="em text-danger mb-0" id="errimage"></p>
-
-                    <!-- Image LFM Modal -->
-                    <div class="modal fade lfm-modal" id="lfmModal1" tabindex="-1" role="dialog" aria-labelledby="lfmModalTitle" aria-hidden="true">
-                        <i class="fas fa-times-circle"></i>
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body p-0">
-                                    <iframe src="{{url('laravel-filemanager')}}?serial=1" style="width: 100%; height: 500px; overflow: hidden; border: none;"></iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                  <label for="">Title **</label>
-                  <input type="text" class="form-control" name="title" value="{{$blog->title}}" placeholder="Enter title">
+                  <label for="">{{ __('trans.Title') }}</label>
+                  <input type="text" class="form-control" name="title" value="{{$blog->title}}" placeholder="{{__('trans.Enter title')}}">
                   <p id="errtitle" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Category **</label>
+                  <label for="">{{ __('trans.Category') }}</label>
                   <select class="form-control" name="category">
-                    <option value="" selected disabled>Select a category</option>
+                    <option value="" selected disabled>{{ __('trans.Select a category') }}</option>
                     @foreach ($bcats as $key => $bcat)
                       <option value="{{$bcat->id}}" {{$bcat->id == $blog->bcategory->id ? 'selected' : ''}}>{{$bcat->name}}</option>
                     @endforeach
@@ -105,23 +118,23 @@
                   <p id="errcategory" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Content **</label>
-                  <textarea id="blogContent" class="form-control summernote" name="content" data-height="300" placeholder="Enter content">{{replaceBaseUrl($blog->content)}}</textarea>
+                  <label for="">{{ __('trans.Content') }}</label>
+                  <textarea class="form-control summernote" name="content" data-height="300" placeholder="Enter content">{{replaceBaseUrl($blog->content)}}</textarea>
                   <p id="errcontent" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Serial Number **</label>
-                  <input type="number" class="form-control ltr" name="serial_number" value="{{$blog->serial_number}}" placeholder="Enter Serial Number">
+                  <label for="">{{ __('trans.serialNumber') }}</label>
+                  <input type="number" class="form-control ltr" name="serial_number" value="{{$blog->serial_number}}" placeholder="{{__('trans.Enter Serial Number')}}">
                   <p id="errserial_number" class="mb-0 text-danger em"></p>
-                  <p class="text-warning"><small>The higher the serial number is, the later the blog will be shown.</small></p>
+                  <p class="text-warning"><small>{{ __('trans.serialNumberAlert') }}</small></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Meta Keywords</label>
+                  <label for="">{{ __('trans.Meta Keywords') }}</label>
                   <input type="text" class="form-control" name="meta_keywords" value="{{$blog->meta_keywords}}" data-role="tagsinput">
                   <p id="errmeta_keywords" class="mb-0 text-danger em"></p>
                 </div>
                 <div class="form-group">
-                  <label for="">Meta Description</label>
+                  <label for="">{{ __('trans.Meta Description') }}</label>
                   <textarea type="text" class="form-control" name="meta_description" rows="5">{{$blog->meta_description}}</textarea>
                   <p id="errmeta_description" class="mb-0 text-danger em"></p>
                 </div>
@@ -133,7 +146,7 @@
           <div class="form">
             <div class="form-group from-show-notify row">
               <div class="col-12 text-center">
-                <button type="submit" id="submitBtn" class="btn btn-success">Update</button>
+                <button type="submit" id="submitBtn" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
               </div>
             </div>
           </div>

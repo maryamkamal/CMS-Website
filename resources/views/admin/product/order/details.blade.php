@@ -1,18 +1,23 @@
 @extends('admin.layout')
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
 <div class="page-header">
-   <h4 class="page-title">Order Details</h4>
+   <h4 class="page-title">{{ __('trans.Order Details') }}</h4>
    <ul class="breadcrumbs">
       <li class="nav-home">
-         <a href="{{route('admin.dashboard')}}">
-         <i class="flaticon-home"></i>
-         </a>
+        <a href="{{route('admin.dashboard')}}">
+        <i class="flaticon-home"></i>
+        </a>
       </li>
       <li class="separator">
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="{{url()->previous()}}">Order</a>
+         <a href="{{url()->previous()}}">{{ __('trans.Order') }}</a>
       </li>
       <li class="separator">
          <i class="flaticon-right-arrow"></i>
@@ -26,14 +31,14 @@
     <div class="col-md-4">
        <div class="card">
           <div class="card-header">
-             <div class="card-title d-inline-block">Order  [ {{ $order->order_number}} ]</div>
+             <div class="card-title d-inline-block">{{ __('trans.Order') }}  [ {{ $order->order_number}} ]</div>
 
           </div>
           <div class="card-body pt-5 pb-5">
              <div class="payment-information">
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Payment Status')}} :</strong>
+                         <strong>{{__('trans.Payment Status')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                          @if($order->payment_status =='Pending' || $order->payment_status == 'pending')
@@ -46,7 +51,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Order Status')}} :</strong>
+                         <strong>{{__('trans.Order Status')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                          @if ($order->order_status == 'pending')
@@ -63,64 +68,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Shipping Method')}} :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$order->shipping_method}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong>{{__('Cart Total')}} :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->cart_total}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong class="text-success">{{__('Discount')}}
-                            <span style="font-size: 10px;">(<i class="fas fa-minus"></i>)</span> :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->discount}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong>{{__('Subtotal')}} :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{round($order->cart_total - $order->discount, 2)}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong class="text-danger">{{__('Shipping Charge')}}
-                            <span style="font-size: 10px;">(<i class="fas fa-plus"></i>)</span>  :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->shipping_charge}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong class="text-danger">{{__('Tax')}} ({{$bex->tax}}%)
-                            <span style="font-size: 10px;">(<i class="fas fa-plus"></i>)</span> :</strong>
-                     </div>
-                     <div class="col-lg-6">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->tax}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                     </div>
-                 </div>
-
-                 <div class="row mb-2">
-                     <div class="col-lg-6">
-                         <strong>{{__('Total')}} :</strong>
+                         <strong>{{__('trans.Paid amount')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->total}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
@@ -129,7 +77,16 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Payment Method')}} :</strong>
+                         <strong>{{__('trans.Shipping Charge')}} :</strong>
+                     </div>
+                     <div class="col-lg-6">
+                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->shipping_charge}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                     </div>
+                 </div>
+
+                 <div class="row mb-2">
+                     <div class="col-lg-6">
+                         <strong>{{__('trans.Payment Method')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                          {{convertUtf8($order->method)}}
@@ -139,7 +96,7 @@
 
                  <div class="row mb-0">
                      <div class="col-lg-6">
-                         <strong>{{__('Order Date')}} :</strong>
+                         <strong>{{__('trans.Order Date')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->created_at->format('d-m-Y'))}}
@@ -155,14 +112,14 @@
     <div class="col-md-4">
        <div class="card">
           <div class="card-header">
-             <div class="card-title d-inline-block">Shipping Details</div>
+             <div class="card-title d-inline-block">{{ __('trans.Shipping Details') }}</div>
 
           </div>
           <div class="card-body pt-5 pb-5">
              <div class="payment-information">
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Email')}} :</strong>
+                         <strong>{{__('trans.Email')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->shpping_email)}}
@@ -171,7 +128,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Phone')}} :</strong>
+                         <strong>{{__('trans.Phone')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{$order->shpping_number}}
@@ -180,7 +137,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('City')}} :</strong>
+                         <strong>{{__('trans.City')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->shpping_city)}}
@@ -189,7 +146,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Address')}} :</strong>
+                         <strong>{{__('trans.Address')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->shpping_address)}}
@@ -215,14 +172,14 @@
     <div class="col-md-4">
        <div class="card">
           <div class="card-header">
-             <div class="card-title d-inline-block">Billing Details</div>
+             <div class="card-title d-inline-block">{{ __('trans.Billing Details') }}</div>
 
           </div>
           <div class="card-body pt-5 pb-5">
              <div class="payment-information">
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Email')}} :</strong>
+                         <strong>{{__('trans.Email')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->billing_email)}}
@@ -231,7 +188,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Phone')}} :</strong>
+                         <strong>{{__('trans.Phone')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{$order->billing_number}}
@@ -240,7 +197,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('City')}} :</strong>
+                         <strong>{{__('trans.City')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->billing_city)}}
@@ -249,7 +206,7 @@
 
                  <div class="row mb-2">
                      <div class="col-lg-6">
-                         <strong>{{__('Address')}} :</strong>
+                         <strong>{{__('trans.Address')}} :</strong>
                      </div>
                      <div class="col-lg-6">
                         {{convertUtf8($order->billing_address)}}
@@ -275,7 +232,7 @@
    <div class="col-lg-12">
     <div class="card">
        <div class="card-header">
-          <h4 class="card-title">Order Product</h4>
+          <h4 class="card-title">{{ __('trans.Order Product') }}</h4>
        </div>
        <div class="card-body">
           <div class="table-responsive product-list">

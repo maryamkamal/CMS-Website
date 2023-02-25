@@ -1,7 +1,7 @@
     <!-- HERO PART START -->
     <section class="hero-area">
         <div class="hero-carousel-active">
-            <div class="single-carousel-active lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" id="particles-js" style="background-size: cover;">
+            <div class="single-carousel-active" id="particles-js" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}'); background-size: cover;">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-6 col-lg-8">

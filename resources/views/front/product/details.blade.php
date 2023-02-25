@@ -18,11 +18,26 @@
 
 @endphp
 
-@section('breadcrumb-title', $be->product_details_title)
-@section('breadcrumb-subtitle', strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title)
-@section('breadcrumb-link', strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title)
-
 @section('content')
+ <!--   hero area start   -->
+ <div class="breadcrumb-area services service-bg d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-sm-10 align-self-center">
+                    <span>{{$be->product_details_title}}</span>
+                    <h1>{{strlen(convertUtf8($product->title)) > 40 ? substr(convertUtf8($product->title), 0, 40) . '...' : convertUtf8($product->title)}}</h1>
+                    <ul class="breadcumb">
+                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                        <li>{{convertUtf8($product->title)}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-area-overlay"></div>
+</div>
+<!--   hero area end    -->
 
 
 <!--====== PRODUCT DETAILS PART START ======-->
@@ -49,40 +64,29 @@
             <div class="col-lg-6">
                 <div class="product-details-content ml-60 mt-30">
                     <div class="product-details-content-item">
-                        <h4 class="title {{$bex->product_rating_system == 0 ? 'pb-0' : ''}}">{{convertUtf8($product->title)}}</h4>
+                        <h4 class="title">{{convertUtf8($product->title)}}</h4>
                         <div class="d-flex justify-content-between">
-                            @if ($bex->product_rating_system == 1)
                             <div class="rate">
                                 <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                             </div>
-                            @endif
-                            @if ($product->type != 'digital')
-                                @if ($product->stock > 0)
-                                    <h4 class="badge badge-success">
-                                        <i class="far fa-check-circle"></i> {{__('In Stock')}}
-                                    </h4>
-                                @else
-                                    <h4 class="badge badge-danger">
-                                        <i class="far fa-times-circle"></i> {{__('Out of Stock')}}
-                                    </h4>
-                                @endif
+                            @if ($product->stock > 0)
+                                <h4 class="badge badge-success">
+                                    <i class="far fa-check-circle"></i> {{__('In Stock')}}
+                                </h4>
+                            @else
+                                <h4 class="badge badge-danger">
+                                    <i class="far fa-times-circle"></i> {{__('Out of Stock')}}
+                                </h4>
                             @endif
                         </div>
-
-                        @if ($bex->catalog_mode == 0)
-                            <span>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                            @if (!empty($product->previous_price))
-                                <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
-                            @endif
-                            </span>
+                        <span>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                        @if (!empty($product->previous_price))
+                            <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
                         @endif
+                        </span>
 
-                        @if (!empty($product->summary))
-                        <p>{{convertUtf8($product->summary)}}</p>
-                        @endif
+                    <p>{{convertUtf8($product->summary)}}</p>
                     </div>
-
-                    @if ($product->type != 'digital' && $bex->catalog_mode == 0)
                     <div class="product-btns d-block d-sm-flex align-items-center mt-40">
                         <div class="product-quantity  d-flex" id="quantity">
                             <button type="button" id="sub" class="sub subclick">-</button>
@@ -90,17 +94,14 @@
                             <button type="button" id="add" class="add addclick">+</button>
                         </div>
                     </div>
-                    @endif
 
-                    @if ($bex->catalog_mode == 0)
-                        <div class="actions">
-                            <a class="main-btn cart-btn cart-link d-inline-block" data-href="{{route('add.cart',$product->id)}}">{{__('Add To Cart')}}</a>
-                            <form class="d-inline-block ml-2" method="GET" action="{{route('front.product.checkout',$product->slug)}}">
-                                <input type="hidden" value="" name="qty" id="order_click_with_qty">
-                                <button type="submit" class="main-btn checkout-btn" >{{__('Order Now')}}</button>
-                            </form>
-                        </div>
-                    @endif
+                    <div class="actions">
+                        <a class="main-btn cart-btn cart-link d-inline-block" data-href="{{route('add.cart',$product->id)}}">{{__('Add To Cart')}}</a>
+                        <form class="d-inline-block ml-2" method="GET" action="{{route('front.product.checkout',$product->slug)}}">
+                            <input type="hidden" value="" name="qty" id="order_click_with_qty">
+                            <button type="submit" class="main-btn checkout-btn" >{{__('Order Now')}}</button>
+                        </form>
+                    </div>
 
                     <div class="product-social-icon social-link a2a_kit a2a_kit_size_32">
                         <ul class="social-share">
@@ -135,9 +136,7 @@
                     <script async src="https://static.addtoany.com/menu/page.js"></script>
                     <div class="product-details-tags">
                         <ul>
-                            @if(!empty($product->sku))
                             <li><span>{{__('SKU')}}:</span> {{$product->sku}} </li>
-                            @endif
                             @if(!empty($product->category))
                             <li><span>{{__('Category')}}:</span> <a href="{{route('front.product').'?category_id='.$product->category_id}}">{{$product->category ? convertUtf8($product->category->name) : ''}}</a> </li>
                             @endif
@@ -162,31 +161,23 @@
                         <li class="nav-item">
                         <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">{{__('Description')}}</a>
                         </li>
-                        @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
                         <li class="nav-item">
                             <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">{{__('Reviews')}} ({{count($reviews)}})</a>
                         </li>
-                        @endif
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                 {!! replaceBaseUrl(convertUtf8($product->description)) !!}
 
                         </div>
-                        @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="shop-review-area">
                                 <div class="shop-review-title">
                                     <h3 class="title">{{convertUtf8($product->title)}}</h3>
                                 </div>
-                                @if (count($reviews) > 0)
                                     @foreach ($reviews as $review)
                                     <div class="shop-review-user">
-                                        @if (strpos($review->user->photo, 'facebook') !== false || strpos($review->user->photo, 'google'))
-                                            <img class="lazy" data-src="{{$review->user->photo ? $review->user->photo : asset('assets/front/img/user/profile.jpg')}}" alt="user image" width="60">
-                                        @else
-                                            <img class="lazy" data-src="{{$review->user->photo ? asset('assets/front/img/user/'.$review->user->photo) : ''}}" alt="user image" width="60">
-                                        @endif
+                                        <img  src="{{ $review->user->photo ? asset('assets/front/img/user/'.$review->user->photo) : asset('assets/user/img/profile.jpg') }}" width="60">
                                         <ul>
                                             <div class="rate">
                                                 <div class="rating" style="width:{{$review->review * 20}}%"></div>
@@ -196,11 +187,6 @@
                                         <p>{{convertUtf8($review->comment)}}</p>
                                     </div>
                                     @endforeach
-                                @else
-                                    <div class="bg-light mt-4 text-center py-5">
-                                        {{__('NOT RATED YET')}}
-                                    </div>
-                                @endif
                                     @if(Auth::user())
                                         @if(App\OrderItem::where('user_id',Auth::user()->id)->where('product_id',$product->id)->exists())
                                     <div class="shop-review-form">
@@ -257,7 +243,6 @@
                                     @endif
                             </div>
                         </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -284,35 +269,24 @@
              @foreach ($related_product as $product)
                  <div class="shop-item">
                     <div class="shop-thumb">
-                        <img class="lazy" data-src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" alt="">
+                        <img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" alt="">
                         <ul>
-
-                            @if ($bex->catalog_mode == 0)
-                                <li><a href="{{route('front.product.checkout',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('Order Now')}}"><i class="far fa-credit-card"></i></a></li>
-
-                                <li><a class="cart-link" data-href="{{route('add.cart',$product->id)}}" data-toggle="tooltip" data-placement="top" title="{{__('Add to Cart')}}"><i class="fas fa-shopping-cart"></i></a></li>
-                            @endif
-
+                            <li><a href="{{route('front.product.checkout',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('Order Now')}}"><i class="far fa-credit-card"></i></a></li>
+                            <li><a class="cart-link" data-href="{{route('add.cart',$product->id)}}" data-toggle="tooltip" data-placement="top" title="{{__('Add to Cart')}}"><i class="fas fa-shopping-cart"></i></a></li>
                             <li><a href="{{route('front.product.details',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('View Details')}}"><i class="fas fa-eye"></i></a></li>
                         </ul>
                     </div>
-                    <div class="shop-content text-center {{$bex->catalog_mode == 1 ? 'pt-3' : ''}}">
-                        @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
+                    <div class="shop-content text-center">
                         <div class="rate">
                             <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                         </div>
-                        @endif
-                        <a class="{{$bex->product_rating_system == 0 ? 'mt-3' : ''}}" href="{{route('front.product.details',$product->slug)}}">{{convertUtf8($product->title)}}</a> <br>
-
-                        @if ($bex->catalog_mode == 0)
-
-                            <span>
-                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                                @if (!empty($product->previous_price))
-                                    <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
-                                @endif
-                            </span>
-                        @endif
+                        <a href="{{route('front.product.details',$product->slug)}}">{{convertUtf8($product->title)}}</a> <br>
+                        <span>
+                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                            @if (!empty($product->previous_price))
+                                <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
+                            @endif
+                        </span>
                     </div>
                 </div>
              @endforeach

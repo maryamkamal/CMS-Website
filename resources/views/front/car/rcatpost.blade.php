@@ -7,11 +7,11 @@
 
 @section('content')
   <!--   hero area start   -->
-  <div class="breadcrumb-area blogs" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
-     <div class="container">
+  <div class="breadcrumb-area blogs d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
         <div class="breadcrumb-txt">
            <div class="row">
-              <div class="col-xl-6 col-lg-6 col-sm-5">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
                 <span>{{__('RSS')}}</span>
                  <h1>{{__('RSS Feeds')}}</h1>
                  <ul class="breadcumb">
@@ -20,14 +20,14 @@
                  </ul>
               </div>
 			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
 				 </div>
 			@endif
 			
 			   @if($bs->video_link!= null)
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-				    <iframe width="420" height="315"
+			   <div class="col">
+				    <iframe width="100%" height="315"
                    src="{{$bs->video_link}}">
                    </iframe> 
               </div>

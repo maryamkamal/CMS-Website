@@ -3,12 +3,12 @@
         <div class="container-full">
             <div class="hainer_main_content">
                 <div class="logo">
-                    <a href="{{route('front.index')}}"><img data-src="{{asset('assets/front/img/'.$bs->logo)}}" class="lazy img-fluid" alt=""></a>
+                    <a href="{{route('front.index')}}"><img src="{{asset('assets/front/img/'.$bs->logo)}}" class="img-fluid" alt=""></a>
                 </div>
                 <div class="header_navigation">
                     <div class="top_header">
                         <div class="row align-items-center">
-                            <div class="col-lg-6 d-none d-lg-block">
+                            <div class="col-lg-6">
                                 <div class="top_left">
                                     <span><i class="fas fa-headphones"></i><a href="tel:{{$bs->support_phone}}">{{$bs->support_phone}}</a></span>
                                     <span><i class="far fa-envelope"></i><a href="mailto:{{$bs->support_email}}">{{$bs->support_email}}</a></span>
@@ -21,7 +21,7 @@
                                             <li><a href="{{$social->url}}"><i class="{{$social->icon}}"></i></a></li>
                                         @endforeach
                                     </ul>
-                                    @if (!empty($currentLang) && count($langs) > 1)
+                                    @if (!empty($currentLang))
                                         <div class="dropdown">
                                             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fas fa-globe"></i>{{convertUtf8($currentLang->name)}}
                                             </button>
@@ -34,52 +34,15 @@
                                     @endif
 
                                     @guest
-                                        @if ($bex->is_user_panel == 1)
-                                            <ul class="login">
-                                                <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
-                                            </ul>
-                                        @endif
+
+                                    <ul class="login">
+                                        <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
+                                    </ul>
                                     @endguest
-
                                     @auth
-                                    <div class="dropdown">
-                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="far fa-user mr-1"></i> {{Auth::user()->username}}
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a>
-                                            @if ($bex->recurring_billing == 1)
-                                                <a class="dropdown-item" href="{{route('user-packages')}}">{{__('Packages')}}</a>
-                                            @endif
-                                            @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                                <a class="dropdown-item" href="{{route('user-orders')}}">{{__('Product Orders')}} </a>
-                                            @endif
-                                            @if ($bex->recurring_billing == 0)
-                                                <a class="dropdown-item" href="{{route('user-package-orders')}}">{{__('Package Orders')}} </a>
-                                            @endif
-
-                                            @if ($bex->is_course == 1)
-                                            <a class="dropdown-item" href="{{route('user.course_orders')}}" >{{__('Courses')}}</a>
-                                            @endif
-
-                                            @if ($bex->is_event == 1)
-                                            <a class="dropdown-item" href="{{route('user-events')}}" >{{__('Event Bookings')}}</a>
-                                            @endif
-
-                                            @if ($bex->is_donation == 1)
-                                            <a class="dropdown-item" href="{{route('user-donations')}}" >{{__('Donations')}}</a>
-                                            @endif
-                                            @if ($bex->is_ticket == 1)
-                                                <a class="dropdown-item" href="{{route('user-tickets')}}">{{__('Support Tickets')}}</a>
-                                            @endif
-                                            <a class="dropdown-item" href="{{route('user-profile')}}">{{__('Edit Profile')}}</a>
-                                            @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                                <a class="dropdown-item" href="{{route('shpping-details')}}">{{__('Shipping Details')}}</a>
-                                                <a class="dropdown-item" href="{{route('billing-details')}}">{{__('Billing Details')}}</a>
-                                                <a class="dropdown-item" href="{{route('user-reset')}}">{{__('Change Password')}}</a>
-                                            @endif
-                                            <a class="dropdown-item" href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
-                                        </div>
-                                    </div>
+                                    <ul class="login">
+                                        <li><a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a></li>
+                                    </ul>
                                     @endauth
                                 </div>
                             </div>
@@ -101,8 +64,33 @@
                                                     $href = getHref($link);
                                                 @endphp
 
-                                                @if (strpos($link["type"], '-megamenu') !==  false)
-                                                    @includeIf('front.construction.partials.mega-menu')
+                                                {{-- if the theme version has service category, then show megamenu --}}
+                                                @if ($link["type"] == 'services' && hasCategory($be->theme_version))
+
+                                                    <li class="menu-item menu-item-has-children static"><a href="{{$href}}">{{$link["text"]}}</a>
+                                                        <ul class="mega-menu">
+                                                            <div class="row">
+                                                                @if (count($scats) > 0)
+                                                                    @foreach ($scats as $key => $scat)
+                                                                        <div class="col-lg-3">
+                                                                            <li class="mega-item">
+                                                                                <a>{{$scat->name}}</a>
+                                                                                <ul>
+                                                                                    @foreach ($scat->services()->orderBy('serial_number', 'ASC')->get() as $key => $service)
+
+                                                                                        <li><a href="{{route('front.servicedetails', [$service->slug, $service->id])}}">{{$service->title}}</a></li>
+
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            </li>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </ul>
+                                                    </li>
+
+
                                                 @else
 
                                                     @if (!array_key_exists("children",$link))
@@ -171,18 +159,6 @@
                                 </div>
                             @endif
                             <div class="col-sm-12">
-
-                                @if (!empty($currentLang) && count($langs) > 1)
-                                    <div class="dropdown mobile d-lg-none d-inline-block float-right">
-                                        <button type="button" class="btn dropdown-toggle text-white" data-toggle="dropdown"><i class="fas fa-globe"></i>{{convertUtf8($currentLang->name)}}
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            @foreach ($langs as $key => $lang)
-                                                <a class="dropdown-item" href='{{ route('changeLanguage', $lang->code) }}'>{{convertUtf8($lang->name)}}</a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
                                 <div class="mobile_menu"></div>
                             </div>
                         </div>

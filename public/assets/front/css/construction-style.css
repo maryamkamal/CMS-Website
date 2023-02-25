@@ -31,7 +31,7 @@ html{
 	overflow-x: hidden;
 }
 *{
-	margin: 0px;
+	margin: 0;
 	padding: 0;
 	outline: none;
 }
@@ -112,7 +112,7 @@ body{
 }
 .section_title span{
 	color: #ff5e14;
-	font-size: 50px;
+	font-size: 20px;
 	display: block;
 	text-transform: capitalize;
 	font-weight: 600;

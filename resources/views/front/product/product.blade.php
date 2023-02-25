@@ -18,11 +18,28 @@
 <link rel="stylesheet" href="{{asset('assets/front/css/jquery-ui.min.css')}}">
 @endsection
 
-@section('breadcrumb-title', convertUtf8($be->product_title))
-@section('breadcrumb-subtitle', convertUtf8($be->product_subtitle))
-@section('breadcrumb-link', __('Our Product'))
 
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area services service-bg d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-sm-10 align-self-center">
+                    <span>{{convertUtf8($be->product_title)}}</span>
+                    <h1>{{convertUtf8($be->product_subtitle)}}</h1>
+                    <ul class="breadcumb">
+                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                        <li>{{__('Our Product')}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-area-overlay"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
 <!--    product section start    -->
 <div class="product-area">
@@ -39,11 +56,8 @@
                     <select name="type" id="type_sort">
                         <option value="new" {{ request()->input('type') == 'new' ? 'selected' : '' }}>{{__('Newest Product')}}</option>
                         <option value="old" {{ request()->input('type') == 'old' ? 'selected' : '' }}>{{__('Oldest Product')}}</option>
-
-                        @if ($bex->catalog_mode == 0)
-                            <option value="hight-to-low" {{ request()->input('type') == 'high-to-low' ? 'selected' : '' }}>{{__('High To Low')}}</option>
-                            <option value="low-to-high" {{ request()->input('type') == 'low-to-high' ? 'selected' : '' }}>{{__('Low To High')}}</option>
-                        @endif
+                        <option value="hight-to-low" {{ request()->input('type') == 'high-to-low' ? 'selected' : '' }}>{{__('High To Low')}}</option>
+                        <option value="low-to-high" {{ request()->input('type') == 'low-to-high' ? 'selected' : '' }}>{{__('Low To High')}}</option>
                     </select>
                 </div>
             </div>
@@ -59,7 +73,7 @@
                             <ul>
                             <li class="{{ request()->input('category_id') == '' ? 'active-search' : '' }}" ><a data-href="0" class="category-id cursor-pointer">{{__('All')}}</a></li>
                                 @foreach ($categories as $category)
-                                <li class="{{ request()->input('category_id') == $category->id ? 'active-search' : '' }}"><a data-href="{{$category->id}}" class="category-id cursor-pointer">{{$category->name}}</a></li>
+                                <li class="{{ request()->input('category_id') == $category->id ? 'active-search' : '' }}"><a data-href="{{$category->id}}" class="category-id cursor-pointer">{{convertUtf8($category->name)}}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -79,8 +93,6 @@
                         </div>
                     </div>
                     @endif
-
-                    @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
                     <div class="shop-box shop-filter mt-30">
                         <div class="sidebar-title">
                             <h4 class="title">{{__('Filter Products')}}</h4>
@@ -120,25 +132,21 @@
                             </ul>
                         </div>
                     </div>
-                    @endif
-
-                    @if ($bex->catalog_mode == 0)
-                        <div class="shop-box shop-price mt-30">
-                            <div class="sidebar-title">
-                                <h4 class="title">{{__('Filter By Price')}}</h4>
-                            </div>
-                            <div class="price-item">
-                                <div class="price-range-box">
-                                <form action="#">
-                                    <div id="slider-range"></div>
-                                    <span>{{__('Price')}}: </span>
-                                    <input type="text" name="text" id="amount" />
-                                    <button class="btn filter-button" type="button">{{__('Filter')}}</button>
-                                </form>
-                            </div>
-                            </div>
+                    <div class="shop-box shop-price mt-30">
+                        <div class="sidebar-title">
+                            <h4 class="title">{{__('Filter By Price')}}</h4>
                         </div>
-                    @endif
+                        <div class="price-item">
+                            <div class="price-range-box ">
+                            <form action="#">
+                                <div id="slider-range"></div>
+                                <span>{{__('Price')}}: </span>
+                                <input type="text" name="text" id="amount" />
+                                <button class="btn filter-button" type="button">{{__('Filter')}}</button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-9 order-1 order-lg-2">
@@ -149,35 +157,26 @@
                   <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="shop-item">
                         <div class="shop-thumb">
-                            <img class="lazy" data-src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" alt="">
+                            <img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" alt="">
                             <ul>
-                                @if ($bex->catalog_mode == 0)
-                                    <li><a href="{{route('front.product.checkout',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('Order Now')}}"><i class="far fa-credit-card"></i></a></li>
+                                <li><a href="{{route('front.product.checkout',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('Order Now')}}"><i class="far fa-credit-card"></i></a></li>
 
-                                    <li><a class="cart-link" data-href="{{route('add.cart',$product->id)}}" data-toggle="tooltip" data-placement="top" title="{{__('Add to Cart')}}"><i class="fas fa-shopping-cart"></i></a></li>
-                                @endif
+                                <li><a class="cart-link" data-href="{{route('add.cart',$product->id)}}" data-toggle="tooltip" data-placement="top" title="{{__('Add to Cart')}}"><i class="fas fa-shopping-cart"></i></a></li>
 
                                 <li><a href="{{route('front.product.details',$product->slug)}}" data-toggle="tooltip" data-placement="top" title="{{__('View Details')}}"><i class="fas fa-eye"></i></a></li>
                             </ul>
                         </div>
                         <div class="shop-content text-center">
-                            @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
                             <div class="rate">
                                 <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                             </div>
-                            @endif
-                            <a class="{{$bex->product_rating_system == 0 || $bex->catalog_mode == 1 ? 'mt-3' : ''}}" href="{{route('front.product.details',$product->slug)}}">
-                                {{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}
-                            </a> <br>
-
-                            @if ($bex->catalog_mode == 0)
-                                <span>
-                                    {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                                    @if (!empty($product->previous_price))
-                                        <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
-                                    @endif
-                                </span>
-                            @endif
+                            <a href="{{route('front.product.details',$product->slug)}}">{{convertUtf8($product->title)}}</a> <br>
+                            <span>
+                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$product->current_price}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                                @if (!empty($product->previous_price))
+                                    <del>  <span class="prepice"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}{{$product->previous_price}}{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}</span></del>
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -207,20 +206,12 @@
 
 <form id="searchForm" class="d-none"  action="{{ route('front.product') }}" method="get">
     <input type="hidden" id="search" name="search" value="{{ !empty(request()->input('search')) ? request()->input('search') : '' }}">
-
-    @if ($bex->catalog_mode == 0)
-        <input type="hidden" id="minprice" name="minprice" value="{{ !empty(request()->input('minprice')) ? request()->input('minprice') : $minprice }}">
-        <input type="hidden" id="maxprice" name="maxprice" value="{{ !empty(request()->input('maxprice')) ? request()->input('maxprice') : $maxprice }}">
-    @endif
-
+    <input type="hidden" id="minprice" name="minprice" value="{{ !empty(request()->input('minprice')) ? request()->input('minprice') : $minprice }}">
+    <input type="hidden" id="maxprice" name="maxprice" value="{{ !empty(request()->input('maxprice')) ? request()->input('maxprice') : $maxprice }}">
     <input type="hidden" name="category_id" id="category_id" value="{{ !empty(request()->input('category_id')) ? request()->input('category_id') : null }}">
     <input type="hidden" name="type" id="type" value="{{ !empty(request()->input('type')) ? request()->input('type') : 'new' }}">
     <input type="hidden" name="tag" id="tag" value="{{ !empty(request()->input('tag')) ? request()->input('tag') : '' }}">
-
-    @if ($bex->product_rating_system == 1 && $bex->catalog_mode == 0)
-        <input type="hidden" name="review" id="review" value="{{ !empty(request()->input('review')) ? request()->input('review') : '' }}">
-    @endif
-
+    <input type="hidden" name="review" id="review" value="{{ !empty(request()->input('review')) ? request()->input('review') : '' }}">
     <button id="search-button" type="submit"></button>
 </form>
 
@@ -232,27 +223,24 @@
 
 @section('scripts')
 <script src="{{asset('assets/front/js/jquery.ui.js')}}"></script>
+<script src="{{asset('assets/front/js/cart.js')}}"></script>
+<script>
+    var position = "{{$bex->base_currency_symbol_position}}";
+    var symbol = "{{$bex->base_currency_symbol}}";
 
-@if ($bex->catalog_mode == 0)
-    <script src="{{asset('assets/front/js/cart.js')}}"></script>
-    <script>
-        var position = "{{$bex->base_currency_symbol_position}}";
-        var symbol = "{{$bex->base_currency_symbol}}";
+    console.log(position,symbol);
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: '{{$maxprice }}',
+        values: [ '{{ !empty(request()->input('minprice')) ? request()->input('minprice') : $minprice }}', {{ !empty(request()->input('maxprice')) ? request()->input('maxprice') : $maxprice }} ],
+        slide: function( event, ui ) {
+        $( "#amount" ).val( (position == 'left' ? symbol : '') + ui.values[ 0 ] + (position == 'right' ? symbol : '') + " - " + (position == 'left' ? symbol : '') + ui.values[ 1 ] + (position == 'right' ? symbol : '') );
+       }
+    });
+    $( "#amount" ).val( (position == 'left' ? symbol : '') + $( "#slider-range" ).slider( "values", 0 ) + (position == 'right' ? symbol : '') + " - " + (position == 'left' ? symbol : '') + $( "#slider-range" ).slider( "values", 1 ) + (position == 'right' ? symbol : '') );
 
-        // console.log(position,symbol);
-        $( "#slider-range" ).slider({
-            range: true,
-            min: 0,
-            max: '{{$maxprice }}',
-            values: [ '{{ !empty(request()->input('minprice')) ? request()->input('minprice') : $minprice }}', {{ !empty(request()->input('maxprice')) ? request()->input('maxprice') : $maxprice }} ],
-            slide: function( event, ui ) {
-            $( "#amount" ).val( (position == 'left' ? symbol : '') + ui.values[ 0 ] + (position == 'right' ? symbol : '') + " - " + (position == 'left' ? symbol : '') + ui.values[ 1 ] + (position == 'right' ? symbol : '') );
-        }
-        });
-        $( "#amount" ).val( (position == 'left' ? symbol : '') + $( "#slider-range" ).slider( "values", 0 ) + (position == 'right' ? symbol : '') + " - " + (position == 'left' ? symbol : '') + $( "#slider-range" ).slider( "values", 1 ) + (position == 'right' ? symbol : '') );
-
-    </script>
-@endif
+</script>
 
 
 <script>
@@ -288,8 +276,7 @@ $(document).ready(function(){
     $('#type').val(typeSort);
 })
 
-$(document).on('click','.category-id',function(e){
-    e.preventDefault();
+$(document).on('click','.category-id',function(){
     category = '';
     if($(this).attr('data-href') != 0){
         category = $(this).attr('data-href');
@@ -312,16 +299,10 @@ $(document).on('click','.review_val',function(){
     $('#search-button').click();
 })
 
-$(document).on('keypress','.input-search',function(e){
-    var key = e.which;
-    if(key == 13)  // the enter key code
-    {
-        search = $('.input-search').val();
-        $('#search').val(search);
-        $('#search-button').click();
-        return false;  
-    }
-
+$(document).on('click','.input-search-btn',function(){
+    search = $('.input-search').val();
+    $('#search').val(search);
+    $('#search-button').click();
 })
 
 </script>

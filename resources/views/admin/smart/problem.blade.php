@@ -9,22 +9,30 @@
 ?>
 @endif
 
+
 <div class="page-header">
-  <h4 class="page-title">{{__('trans.Contact With Egtaz')}}</h4>
-  <ul class="breadcrumbs">
-    <li class="nav-home">
-      <a href="http://online.egtaz.com/admin/dashboard">
-        <i class="flaticon-home"> {{__('trans.smart online')}}</i>
-      </a>
-    </li>
-    <li class="separator">
-      <i class="flaticon-right-arrow"></i>
-    </li>
-    <li class="nav-item">
-      <a href="#">{{__('trans.have a problem')}}</a>
-    </li>
-  </ul>
-</div>
+		<h4 class="page-title">{{__('trans.Contact With Egtaz')}}</h4>
+		<ul class="breadcrumbs">
+		  <li class="nav-home">
+			<a href="http://online.egtaz.com/admin/dashboard">
+			  <i class="flaticon-home"></i>
+			</a>
+		  </li>
+		  <li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		  </li>
+		  <li class="nav-item">
+			<a href="#">{{__('trans.smart online')}}</a>
+		  </li>
+		  <li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		  </li>
+		  <li class="nav-item">
+			<a href="#">{{__('trans.have a problem')}}</a>
+		  </li>
+		</ul>
+	  </div>
+
 
 <div class="row">
   <div class="col-md-12">

@@ -7,11 +7,40 @@
 @section('meta-keywords', "$job->meta_keywords")
 @section('meta-description', "$job->meta_description")
 
-@section('breadcrumb-title', __('Job Details'))
-@section('breadcrumb-subtitle', convertUtf8($job->title))
-@section('breadcrumb-link', __('Job Details'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area service-details d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="breadcrumb-txt service-details">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                 <span>{{__('Job Details')}}</span>
+                 <h1>{{convertUtf8($job->title)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Job Details')}}</li>
+                 </ul>
+              </div>
+			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" class="img-fluid" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
   <!--    job details section start   -->
   <div class="service-details-section pt-115 pb-115">

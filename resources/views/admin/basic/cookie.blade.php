@@ -17,8 +17,15 @@
 @endif
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Cookie Alert</h4>
+    <h4 class="page-title">{{ __('trans.cookieAlert') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -29,13 +36,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Basic Settings</a>
+        <a href="#">{{ __('trans.manSetting') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Cookie Alert</a>
+        <a href="#">{{ __('trans.cookieAlert') }}</a>
       </li>
     </ul>
   </div>
@@ -47,12 +54,12 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-10">
-                      <div class="card-title">Update Cookie Alert</div>
+                      <div class="card-title">{{ __('trans.updateCookieAlert') }}</div>
                   </div>
                   <div class="col-lg-2">
                       @if (!empty($langs))
                           <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                              <option value="" selected disabled>Select a Language</option>
+                              <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                               @foreach ($langs as $lang)
                                   <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                               @endforeach
@@ -66,15 +73,15 @@
               <div class="col-lg-6 offset-lg-3">
                 @csrf
                 <div class="form-group">
-                  <label>Cookie Alert Status **</label>
+                  <label>{{ __('trans.cookieAlertStatus') }}</label>
                   <div class="selectgroup w-100">
                     <label class="selectgroup-item">
                         <input type="radio" name="cookie_alert_status" value="1" class="selectgroup-input" {{$abe->cookie_alert_status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                     </label>
                     <label class="selectgroup-item">
                         <input type="radio" name="cookie_alert_status" value="0" class="selectgroup-input" {{$abe->cookie_alert_status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                     </label>
                   </div>
                   @if ($errors->has('cookie_alert_status'))
@@ -82,15 +89,15 @@
                   @endif
                 </div>
                 <div class="form-group">
-                  <label>Cookie Alert Button Text **</label>
+                  <label>{{ __('trans.cookieAlertBtnText') }}</label>
                   <input class="form-control" name="cookie_alert_button_text" value="{{$abe->cookie_alert_button_text}}">
                   @if ($errors->has('cookie_alert_button_text'))
                     <p class="mb-0 text-danger">{{$errors->first('cookie_alert_button_text')}}</p>
                   @endif
                 </div>
                 <div class="form-group">
-                  <label for="">Cookie Alert Text **</label>
-                  <textarea class="form-control summernote" name="cookie_alert_text" rows="3" placeholder="Enter Cookie Alert Text" data-height="100">{{convertHtml($abe->cookie_alert_text)}}</textarea>
+                  <label for="">{{ __('trans.cookieAlertText') }}</label>
+                  <textarea class="form-control summernote" name="cookie_alert_text" rows="3" placeholder="Enter Cookie Alert Text" data-height="100">{{replaceBaseUrl($abe->cookie_alert_text)}}</textarea>
                   <p id="errcontent" class="mb-0 text-danger em"></p>
                   @if ($errors->has('cookie_alert_text'))
                     <p class="mb-0 text-danger">{{$errors->first('cookie_alert_text')}}</p>
@@ -103,7 +110,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" id="displayNotif" class="btn btn-success">Update</button>
+                  <button type="submit" id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>

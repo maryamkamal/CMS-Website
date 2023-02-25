@@ -5,17 +5,8 @@
 <script src="{{asset('assets/admin/js/core/bootstrap.min.js')}}"></script>
 
 <!-- jQuery UI -->
-<script src="{{asset('assets/admin/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')}}"></script>
-{{-- <script src="{{asset('assets/admin/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')}}"></script> --}}
-
-<!-- Datatable -->
-<script src="{{asset('assets/admin/js/plugin/datatables/datatables.min.js')}}"></script>
-
-<!-- jQuery Timepicker -->
-<script src="{{asset('assets/front/js/jquery.timepicker.min.js')}}"></script>
-
-<!-- Select2 -->
-<script src="{{asset('assets/admin/js/plugin/select2/select2.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js')}}"></script> 
+<script src="{{asset('assets/admin/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')}}"></script>
 
 <!-- jQuery Scrollbar -->
 <script src="{{asset('assets/admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')}}"></script>
@@ -60,7 +51,6 @@
 
 <script>
     var imgupload = "{{route('admin.summernote.upload')}}";
-    var baseurl = "{{url('/')}}";
 </script>
 
 <!-- Custom JS -->
@@ -69,27 +59,6 @@
 @yield('scripts')
 
 @yield('vuescripts')
-
-@if (session()->has('error'))
-<script>
-  var content = {};
-
-  content.message = '{{session('error')}}';
-  content.title = 'Error';
-  content.icon = 'fa fa-bell';
-
-  $.notify(content,{
-    type: 'danger',
-    placement: {
-      from: 'top',
-      align: 'right'
-    },
-    showProgressbar: true,
-    time: 1000,
-    delay: 4000,
-  });
-</script>
-@endif
 
 @if (session()->has('success'))
 <script>

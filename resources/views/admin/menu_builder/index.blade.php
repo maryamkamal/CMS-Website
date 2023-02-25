@@ -25,250 +25,163 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
-<div class="page-header">
-    <h4 class="page-title">Drag & Drop Menu Builder</h4>
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
+  <div class="page-header">
+    <h4 class="page-title">{{ __('trans.Drag & Drop Menu Builder') }}</h4>
     <ul class="breadcrumbs">
-        <li class="nav-home">
-            <a href="{{route('admin.dashboard')}}">
-                <i class="flaticon-home"></i>
-            </a>
-        </li>
-        <li class="separator">
-            <i class="flaticon-right-arrow"></i>
-        </li>
-        <li class="nav-item">
-            <a href="#">Menu Builder</a>
-        </li>
+      <li class="nav-home">
+        <a href="{{route('admin.dashboard')}}">
+          <i class="flaticon-home"></i>
+        </a>
+      </li>
+      <li class="separator">
+        <i class="flaticon-right-arrow"></i>
+      </li>
+      <li class="nav-item">
+        <a href="#">{{ __('trans.Menu Builder') }}</a>
+      </li>
     </ul>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="card-title">Menu Builder</div>
-                    </div>
-                    <div class="col-lg-2">
-                        @if (!empty($langs))
+      <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="card-title">{{ __('trans.Menu Builder') }}</div>
+                </div>
+                <div class="col-lg-2">
+                    @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                             @foreach ($langs as $lang)
-                            <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
+                                <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
                         </select>
-                        @endif
-                    </div>
+                    @endif
                 </div>
             </div>
-            <div class="card-body pt-5 pb-5">
-                <div class="row no-gutters">
-                    <div class="col-lg-4">
-                        <div class="card border-primary mb-3">
-                            <div class="card-header bg-primary text-white">Pre-built Menus</div>
-                            <div class="card-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">{{__('Home')}} <a data-text="{{__('Home')}}" data-type="home" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Services')}}
-                                        <span class="badge badge-dark">Non Mega Menu</span>
-                                        <a data-text="{{__('Services')}}" data-type="services" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
+        </div>
+        <div class="card-body pt-5 pb-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card border-primary mb-3">
+                        <div class="card-header bg-primary text-white">{{ __('trans.Choose from Redymade Menus') }}</div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">{{ __('trans.Home') }} <a data-text="{{ __('trans.Home') }}" data-type="home" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{ __('trans.Services') }} <a data-text="{{ __('trans.Services') }}" data-type="services" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Packages')}} <a data-text="{{__('trans.Packages')}}" data-type="packages" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Portfolios')}} <a data-text="{{__('trans.Portfolios')}}" data-type="portfolios" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
 
-                                    <li class="list-group-item">
-                                        {{__('Services')}}
-                                        <span class="badge badge-danger">Mega Menu</span>
-                                        <a data-text="{{__('Services')}}" data-type="services-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
+                                @foreach ($pages as $page)
+                                    <li class="list-group-item">{{$page->name}} <a data-text="{{$page->name}}" data-type="{{$page->id}}" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                @endforeach
 
-                                    <li class="list-group-item">{{__('Packages')}} <a data-text="{{__('Packages')}}" data-type="packages" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">
-                                        {{__('Portfolios')}}
-                                        <span class="badge badge-dark">Non Mega Menu</span>
-                                        <a data-text="{{__('Portfolios')}}" data-type="portfolios" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        {{__('Portfolios')}}
-                                        <span class="badge badge-danger">Mega Menu</span>
-                                        <a data-text="{{__('Portfolios')}}" data-type="portfolios-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
-
-                                    @foreach ($pages as $page)
-                                    <li class="list-group-item">
-                                        {{$page->name}} <span class="badge badge-primary">Custom Page</span>
-                                        <a data-text="{{$page->name}}" data-type="{{$page->id}}" data-custom="yes" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
-                                    @endforeach
-
-                                    <li class="list-group-item">{{__('Team Members')}} <a data-text="{{__('Team Members')}}" data-type="team" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Career')}} <a data-text="{{__('Career')}}" data-type="career" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-
-                                    @if ($bex->is_donation == 1)
-                                        <li class="list-group-item">
-                                            {{__('Courses')}}
-                                            <span class="badge badge-dark">Non Mega Menu</span>
-                                            <a data-text="{{__('Courses')}}" data-type="courses" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            {{__('Courses')}}
-                                            <span class="badge badge-danger">Mega Menu</span>
-                                            <a data-text="{{__('Courses')}}" data-type="courses-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                    @endif
-
-                                    @if ($bex->is_donation == 1)
-                                        <li class="list-group-item">
-                                            {{__('Causes')}}
-                                            <span class="badge badge-dark">Non Mega Menu</span>
-                                            <a data-text="{{__('Causes')}}" data-type="causes" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            {{__('Causes')}}
-                                            <span class="badge badge-danger">Mega Menu</span>
-                                            <a data-text="{{__('Causes')}}" data-type="causes-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                    @endif
-
-                                    @if ($bex->is_event == 1)
-
-                                        <li class="list-group-item">
-                                            {{__('Events')}}
-                                            <span class="badge badge-dark">Non Mega Menu</span>
-                                            <a data-text="{{__('Events')}}" data-type="events" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            {{__('Events')}}
-                                            <span class="badge badge-danger">Mega Menu</span>
-                                            <a data-text="{{__('Events')}}" data-type="events-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                    @endif
-
-                                    <li class="list-group-item">{{__('Knowledgebase')}} <a data-text="{{__('Knowledgebase')}}" data-type="knowledgebase" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Event Calendar')}} <a data-text="{{__('Event Calendar')}}" data-type="calendar" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Gallery')}} <a data-text="{{__('Gallery')}}" data-type="gallery" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('FAQ')}} <a data-text="{{__('FAQ')}}" data-type="faq" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
+                                <li class="list-group-item">{{__('trans.Team Members')}} <a data-text="{{__('trans.Team Members')}}" data-type="team" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Career')}} <a data-text="{{__('trans.Career')}}" data-type="career" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Event Calendar')}} <a data-text="{{__('trans.Event Calendar')}}" data-type="calendar" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Gallery')}} <a data-text="{{__('trans.Gallery')}}" data-type="gallery" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.FAQ')}} <a data-text="{{__('trans.FAQ')}}" data-type="faq" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
 
 
-                                    @if ($bex->is_shop == 1)
-
-                                        <li class="list-group-item">
-                                            {{__('Products')}}
-                                            <span class="badge badge-danger">Mega Menu</span>
-                                            <a data-text="{{__('Products')}}" data-type="products-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            {{__('Products')}}
-                                            <span class="badge badge-dark">Non Mega Menu</span>
-                                            <a data-text="{{__('Products')}}" data-type="products" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
-                                    @endif
+                                <li class="list-group-item">{{__('trans.Products')}} <a data-text="{{__('trans.Products')}}" data-type="products" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Cart')}} <a data-text="{{__('trans.Cart')}}" data-type="cart" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Checkout')}} <a data-text="{{__('trans.Checkout')}}" data-type="checkout" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
 
 
-                                    @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                        <li class="list-group-item">{{__('Cart')}} <a data-text="{{__('Cart')}}" data-type="cart" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                        <li class="list-group-item">{{__('Checkout')}} <a data-text="{{__('Checkout')}}" data-type="checkout" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    @endif
-
-                                    <li class="list-group-item">
-                                        {{__('Blogs')}}
-                                        <span class="badge badge-dark">Non Mega Menu</span>
-                                        <a data-text="{{__('Blogs')}}" data-type="blogs" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        {{__('Blogs')}}
-                                        <span class="badge badge-danger">Mega Menu</span>
-                                        <a data-text="{{__('Blogs')}}" data-type="blogs-megamenu" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                    </li>
-
-
-                                    <li class="list-group-item">{{__('RSS News')}} <a data-text="{{__('RSS News')}}" data-type="rss" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Feedback')}} <a data-text="{{__('Feedback')}}" data-type="feedback" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                    <li class="list-group-item">{{__('Contact')}} <a data-text="{{__('Contact')}}" data-type="contact" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a></li>
-                                </ul>
-                            </div>
+                                <li class="list-group-item">{{__('trans.Our Blogs')}} <a data-text="{{__('trans.Our Blogs')}}" data-type="blogs" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.RSS News')}} <a data-text="{{__('trans.RSS News')}}" data-type="rss" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                                <li class="list-group-item">{{__('trans.Contact')}} <a data-text="{{__('trans.Contact')}}" data-type="contact" class="addToMenus btn btn-primary btn-sm float-right" href="">{{ __('trans.Add to Menus') }}</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="card border-primary mb-3">
-                            <div class="card-header bg-primary text-white">Add / Edit Menu</div>
-                            <div class="card-body">
-                                <form id="frmEdit" class="form-horizontal">
-                                    <input class="item-menu" type="hidden" name="type" value="">
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-primary mb-3">
+                        <div class="card-header bg-primary text-white">{{ __('trans.Add / Edit Menu') }}</div>
+                        <div class="card-body">
+                            <form id="frmEdit" class="form-horizontal">
+                                <input class="item-menu" type="hidden" name="type" value="">
 
-                                    <div id="withUrl">
-                                        <div class="form-group">
-                                            <label for="text">Text</label>
-                                            <input type="text" class="form-control item-menu" name="text" placeholder="Text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="href">URL</label>
-                                            <input type="text" class="form-control item-menu" name="href" placeholder="URL">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="target">Target</label>
-                                            <select name="target" id="target" class="form-control item-menu">
-                                                <option value="_self">Self</option>
-                                                <option value="_blank">Blank</option>
-                                                <option value="_top">Top</option>
-                                            </select>
-                                        </div>
+                                <div id="withUrl">
+                                    <div class="form-group">
+                                        <label for="text">{{ __('trans.Text') }}</label>
+                                        <input type="text" class="form-control item-menu" name="text" placeholder={{__('trans.Text')}}>
                                     </div>
-
-                                    <div id="withoutUrl" style="display: none;">
-                                        <div class="form-group">
-                                            <label for="text">Text</label>
-                                            <input type="text" class="form-control item-menu" name="text" placeholder="Text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="href">URL</label>
-                                            <input type="text" class="form-control item-menu" name="href" placeholder="URL">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="target">Target</label>
-                                            <select name="target" class="form-control item-menu">
-                                                <option value="_self">Self</option>
-                                                <option value="_blank">Blank</option>
-                                                <option value="_top">Top</option>
-                                            </select>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="href">{{ __('trans.URL') }}</label>
+                                        <input type="text" class="form-control item-menu" name="href" placeholder={{__('trans.URL')}}>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Update</button>
-                                <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Add</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card mb-3">
-                            <div class="card-header bg-primary text-white">Website Menus</div>
-                            <div class="card-body">
-                                <ul id="myEditor" class="sortableLists list-group">
-                                </ul>
-                            </div>
-                        </div>
-                        {{-- <div class="card">
-                            <div class="card-body">
-                                <div class="form-group"><textarea id="out" class="form-control" cols="50" rows="10"></textarea>
+                                    <div class="form-group">
+                                        <label for="target">{{ __('trans.Target') }}</label>
+                                        <select name="target" id="target" class="form-control item-menu">
+                                            <option value="_self">{{ __('trans.Self') }}</option>
+                                            <option value="_blank">{{ __('trans.Blank') }}</option>
+                                            <option value="_top">{{ __('trans.Top') }}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> --}}
+
+                                <div id="withoutUrl" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="text">{{ __('trans.Text') }}</label>
+                                        <input type="text" class="form-control item-menu" name="text" placeholder={{ __('trans.Text') }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="href">{{ __('trans.URL') }}</label>
+                                        <input type="text" class="form-control item-menu" name="href" placeholder={{ __('trans.URL') }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="target">{{ __('trans.Target') }}</label>
+                                        <select name="target" class="form-control item-menu">
+                                            <option value="_self">{{ __('trans.Self') }}</option>
+                                            <option value="_blank">{{ __('trans.Blank') }}</option>
+                                            <option value="_top">{{ __('trans.Top') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> {{ __('trans.confirmInfo') }}</button>
+                            <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> {{ __('trans.Add to Menus') }}</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer pt-3">
-                <div class="form">
-                    <div class="form-group from-show-notify row">
-                        <div class="col-12 text-center">
-                            <button id="btnOutput" class="btn btn-success">Update Menu</button>
+                <div class="col-lg-4">
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">{{ __('trans.Website Menus') }}</div>
+                        <div class="card-body">
+                            <ul id="myEditor" class="sortableLists list-group">
+                            </ul>
                         </div>
+                    </div>
+                    {{-- <div class="card">
+                        <div class="card-body">
+                            <div class="form-group"><textarea id="out" class="form-control" cols="50" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer pt-3">
+            <div class="form">
+                <div class="form-group from-show-notify row">
+                    <div class="col-12 text-center">
+                        <button id="btnOutput" class="btn btn-success">{{ __('trans.Update Menu') }}</button>
                     </div>
                 </div>
             </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
 @endsection
 
@@ -299,26 +212,6 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         $("#withoutUrl select").addClass('item-menu');
     }
 
-    function bootnotify(message, title, type) {
-        var content = {};
-
-        content.message = message;
-        content.title = title;
-        content.icon = 'fa fa-bell';
-
-        $.notify(content, {
-            type: type,
-            placement: {
-                from: 'top',
-                align: 'right'
-            },
-            showProgressbar: true,
-            time: 1000,
-            allow_dismiss: true,
-            delay: 4000,
-        });
-    }
-
     jQuery(document).ready(function () {
         /* =============== DEMO =============== */
         // menu items
@@ -337,63 +230,56 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         // $('#btnReload').on('click', function () {
 
             editor.setData({!! $prevMenu !!});
-            // });
+        // });
 
-            $('#btnOutput').on('click', function () {
-                var str = editor.getString();
-                let fd = new FormData();
-                // fd.append('language_id', );
-                fd.append('str', str);
-                fd.append('language_id', {{$lang_id}});
+        $('#btnOutput').on('click', function () {
+            var str = editor.getString();
+            let fd = new FormData();
+            // fd.append('language_id', );
+            fd.append('str', str);
+            fd.append('language_id', {{$lang_id}});
 
-                $.ajax({
-                    url: "{{route('admin.menu_builder.update')}}",
-                    type: 'POST',
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
-                        console.log(data);
-                        if(data.status == 'error') {
-                            bootnotify(data.message, 'Warning!', 'warning');
-                        } else {
-                            bootnotify(data.message, 'Success!', 'success');
-                        }
+            $.ajax({
+                url: "{{route('admin.menu_builder.update')}}",
+                type: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data == "success") {
+                        location.reload();
                     }
-                });
-            });
-
-            $("#btnUpdate").click(function(){
-                disableWithoutUrl();
-                editor.update();
-                enableWithoutUrl();
-            });
-
-            $('#btnAdd').click(function(){
-                disableWithoutUrl();
-                $("input[name='type']").val('custom');
-                editor.add();
-                enableWithoutUrl();
-            });
-            /* ====================================== */
-
-
-
-            // when menu is chosen from readymade menus list
-            $(".addToMenus").on('click', function(e) {
-                e.preventDefault();
-                disableWithUrl();
-                $("input[name='type']").val($(this).data('type'));
-                $("#withoutUrl input[name='text']").val($(this).data('text'));
-                $("#withoutUrl input[name='target']").val('_self');
-                editor.add();
-                enableWithUrl();
-
-                if ($(this).data('type').indexOf('megamenu') > -1) {
-                    $("#myEditor").find("span.txt").last().after(" <span class='ml-2 badge badge-danger'>Mega Menu</span>");
                 }
-
             });
         });
-    </script>
-    @endsection
+
+        $("#btnUpdate").click(function(){
+            disableWithoutUrl();
+            editor.update();
+            enableWithoutUrl();
+        });
+
+        $('#btnAdd').click(function(){
+            disableWithoutUrl();
+            $("input[name='type']").val('custom');
+            editor.add();
+            enableWithoutUrl();
+        });
+        /* ====================================== */
+
+
+
+        // when menu is chosen from readymade menus list
+        $(".addToMenus").on('click', function(e) {
+            e.preventDefault();
+            disableWithUrl();
+            $("input[name='type']").val($(this).data('type'));
+            $("#withoutUrl input[name='text']").val($(this).data('text'));
+            $("#withoutUrl input[name='target']").val('_self');
+            editor.add();
+            enableWithUrl();
+
+        });
+    });
+</script>
+@endsection

@@ -20,8 +20,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Import RSS feed</h4>
+    <h4 class="page-title">{{ __('trans.Import RSS feed') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -32,13 +37,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">RSS feeds</a>
+        <a href="#">{{ __('trans.RSS feeds') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Import RSS feed</a>
+        <a href="#">{{ __('trans.Import RSS feed') }}</a>
       </li>
     </ul>
   </div>
@@ -46,7 +51,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Import RSS feed</div>
+          <div class="card-title d-inline-block">{{ __('trans.Import RSS feed') }}</div>
         </div>
         <div class="card-body pt-5 pb-5">
           <div class="row">
@@ -55,9 +60,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 @csrf
 
                 <div class="form-group">
-                  <label for="">Language **</label>
+                  <label for="">{{ __('trans.Language') }} **</label>
                   <select id="language" name="language_id" class="form-control">
-                     <option value="" selected disabled>Select a language</option>
+                     <option value="" selected disabled>{{ __('trans.Select a language') }}</option>
                      @foreach ($langs as $lang)
                      <option value="{{$lang->id}}">{{$lang->name}}</option>
                      @endforeach
@@ -66,25 +71,25 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                </div>
 
                 <div class="form-group">
-                  <label for="">Feed Name **</label>
+                  <label for="">{{ __('trans.Feed Name') }} **</label>
                   <input type="text" class="form-control" name="feed_name" placeholder="Enter Feed Name">
                   <p id="errfeedname" class="mb-0 text-danger em"></p>
                 </div>
 
                 <div class="form-group">
-                  <label for="">Feed Url **</label>
+                  <label for="">{{ __('trans.Feed Url') }} **</label>
                   <input type="text" class="form-control ltr" name="feed_url" placeholder="Enter Feed Url">
                   <p id="errfeedurl" class="mb-0 text-danger em"></p>
                 </div>
 
                 <div class="form-group">
-                  <label for="">Number of Posts to Import **</label>
+                  <label for="">{{ __('trans.Number of Posts to Import') }}**</label>
                   <input type="number" class="form-control ltr" name="post_limit" placeholder="Enter Post Limit">
                   <p id="errpostlimit" class="mb-0 text-danger em"></p>
                 </div>
 
                 <div class="form-group">
-                  <label for="">Read More Button Text **</label>
+                  <label for="">{{ __('trans.Read More Button Text') }} **</label>
                   <input type="text" class="form-control" name="read_more_button" value="Read More">
                   <p id="errreadmore" class="mb-0 text-danger em"></p>
                 </div>
@@ -97,7 +102,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="form">
             <div class="form-group from-show-notify row">
               <div class="col-12 text-center">
-                <button type="submit" id="submitBtn" class="btn btn-success">Import RSS feed</button>
+                <button type="submit" id="submitBtn" class="btn btn-success">{{ __('trans.Import RSS feed') }}</button>
               </div>
             </div>
           </div>

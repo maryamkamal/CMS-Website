@@ -8,10 +8,25 @@
 @section('meta-keywords', "$be->register_meta_keywords")
 @section('meta-description', "$be->register_meta_description")
 
-@section('breadcrumb-subtitle', __('Sign Up'))
-@section('breadcrumb-link', __('Sign Up'))
-
 @section('content')
+    <!--   hero area start   -->
+    <div class="breadcrumb-area services service-bg d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+        <div class="container align-self-center">
+            <div class="breadcrumb-txt">
+                <div class="row">
+                    <div class="col-xl-7 col-lg-8 col-sm-10 align-self-center">
+                        <h1>{{__('Sign Up')}}</h1>
+                        <ul class="breadcumb">
+                            <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                            <li>{{__('Sign Up')}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-area-overlay"></div>
+    </div>
+    <!--   hero area end    -->
 
 
     <!--   hero area start    -->

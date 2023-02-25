@@ -14,11 +14,26 @@
 @endsection
 
 
-@section('breadcrumb-title', convertUtf8($be->cart_title))
-@section('breadcrumb-subtitle', convertUtf8($be->cart_subtitle))
-@section('breadcrumb-link', __('Cart'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area services service-bg d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-sm-10 align-self-center">
+                    <span>{{convertUtf8($be->cart_title)}}</span>
+                    <h1>{{convertUtf8($be->cart_subtitle)}}</h1>
+                    <ul class="breadcumb">
+                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Cart')}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-area-overlay"></div>
+  </div>
+  <!--   breadcrumb area end    -->
 
 <!--====== SHOPPING CART PART START ======-->
 
@@ -66,7 +81,10 @@
 
                                 <td colspan="2" class="prod-column">
                                     <div class="column-box">
-                                        <div class="title pl-0">
+                                        <div class="prod-thumb">
+                                        <a href="#"><img src="{{asset('assets/front/img/product/featured/'.$item['photo'])}}" alt=""></a>
+                                        </div>
+                                        <div class="title">
                                             <a target="_blank" href="{{route('front.product.details',$product->slug)}}"><h3 class="prod-title">{{convertUtf8($item['name'])}}</h3></a>
                                         </div>
                                     </div>
@@ -81,14 +99,11 @@
                                 <input type="hidden" value="{{$id}}" class="product_id">
                                 <td class="unit-price">
                                     <div class="available-info">
-                                        @if ($product->type == 'digital')
-                                            <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
+
+                                        @if($product->stock >= $item['qty'])
+                                        <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
                                         @else
-                                            @if($product->stock >= $item['qty'])
-                                                <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
-                                            @else
-                                                <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
-                                            @endif
+                                        <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
                                         @endif
                                     </div>
                                 </td>

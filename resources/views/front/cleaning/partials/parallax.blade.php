@@ -1,6 +1,6 @@
     <!-- HERO PART START -->
     <section class="hero-area">
-        <div class="hero-carousel-active lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" style="background-size: cover;background-attachment: fixed;">
+        <div class="hero-carousel-active" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}');background-size: cover;background-attachment: fixed;">
             <div class="single-carousel-active">
                 <div class="container">
                     <div class="row">

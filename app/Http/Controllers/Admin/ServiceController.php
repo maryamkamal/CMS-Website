@@ -338,6 +338,42 @@ public function updateBackground(Request $request, $id)
 
         return response()->json(['status' => "success", "image" => "Service image", 'service' => $service]);
     }
+	public function deleteMainImage($id)
+    {
+      
+            $service = Service::findOrFail($id);
+            @unlink('assets/front/img/services/' . $service->main_image);
+            $service->main_image = null;
+            $service->save();
+        
+        Session::flash('success', 'Main image deleted successfully!');
+        return back();
+       
+    }
+	public function deleteBackgroundImage($id)
+    {
+      
+            $service = Service::findOrFail($id);
+            @unlink('assets/front/img/services/' . $service->background_img);
+            $service->background_img = null;
+            $service->save();
+        
+        Session::flash('success', 'Background image deleted successfully!');
+        return back();
+       
+    }
+	public function deleteInnerImage($id)
+    {
+      
+            $service = Service::findOrFail($id);
+            @unlink('assets/front/img/services/' . $service->background_inner_img);
+            $service->background_inner_img = null;
+            $service->save();
+        
+        Session::flash('success', 'Inner image deleted successfully!');
+        return back();
+       
+    }
     public function delete(Request $request)
     {
         $service = Service::findOrFail($request->service_id);

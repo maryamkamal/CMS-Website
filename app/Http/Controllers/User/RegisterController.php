@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -88,14 +89,19 @@ class RegisterController extends Controller
 
         $request->validate($rules, $messages);
 
-            $user = new User;
-            $input = $request->all();
-            $input['status'] = 1;
-            $input['password'] = bcrypt($request['password']);
-            $token = md5(time().$request->name.$request->email);
-            $input['verification_link'] = $token;
-            $user->fill($input)->save();
-
+            $id =User::max('id');
+            $id = ++$id;
+            $password = Hash::make($request['password']);
+            $token = md5(time().$request->username.$request->email);
+          
+        DB::table('users')->insert([
+          'id' => $id,
+          'username' => $request['username'],
+          'email' =>$request['email'],
+          'password' => $password,
+          'verification_link' => $token,
+          'status' => 1
+            ]);
 
                 // Send Mail to Buyer
        $mail = new PHPMailer(true);
@@ -146,7 +152,7 @@ class RegisterController extends Controller
 
            return back()->with('sendmail','We need to verify your email address. We have sent an email to  '.$request->email. ' to verify your email address. Please click link in that email to continue.');
             }
-
+          
         }
 
 

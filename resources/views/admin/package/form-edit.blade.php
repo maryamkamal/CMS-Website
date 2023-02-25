@@ -20,8 +20,13 @@
 
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Form Builder</h4>
+    <h4 class="page-title">{{ __('trans.Form Builder') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -32,13 +37,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Package Management</a>
+        <a href="#">{{ __('trans.Package Management') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Form Builder</a>
+        <a href="#">{{ __('trans.Form Builder') }}</a>
       </li>
     </ul>
   </div>
@@ -49,10 +54,10 @@
           <div class="card-title">
               <div class="row">
                   <div class="col-lg-6">
-                    Edit Input
+                    {{ __('trans.Edit Input') }}
                   </div>
                   <div class="col-lg-6 text-right">
-                    <a class="btn btn-primary" href="{{route('admin.package.form') . '?language=' . request()->input('language')}}">Back</a>
+                    <a class="btn btn-primary" href="{{route('admin.package.form') . '?language=' . request()->input('language')}}">{{ __('trans.Back') }}</a>
                   </div>
               </div>
           </div>
@@ -68,33 +73,53 @@
                         <input type="hidden" name="type" value="{{$input->type}}">
 
                         <div class="form-group">
-                            <label>Required</label>
+                            <label>{{ __('trans.Required') }}</label>
                             <div class="selectgroup w-100">
                                 <label class="selectgroup-item">
                                     <input type="radio" name="required" value="1" class="selectgroup-input" {{$input->required == 1 ? 'checked' : ''}}>
-                                    <span class="selectgroup-button">Yes</span>
+                                    <span class="selectgroup-button">{{ __('trans.Yes') }}</span>
                                 </label>
                                 <label class="selectgroup-item">
                                     <input type="radio" name="required" value="0" class="selectgroup-input" {{$input->required == 0 ? 'checked' : ''}}>
-                                    <span class="selectgroup-button">No</span>
+                                    <span class="selectgroup-button">{{ __('trans.No') }}</span>
                                 </label>
                             </div>
                             <p id="errrequired" class="mb-0 text-danger em"></p>
                         </div>
 
 
+                        @if ($input->type == 5)
                         <div class="form-group">
-                            <label for=""><strong>Label Name</strong></label>
+                            <label>{{ __('trans.Active') }}</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="active" value="1" class="selectgroup-input" {{$input->active == 1 ? 'checked' : ''}}>
+                                    <span class="selectgroup-button">{{ __('trans.Yes') }}</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="active" value="0" class="selectgroup-input" {{$input->active == 0 ? 'checked' : ''}}>
+                                    <span class="selectgroup-button">{{ __('trans.No') }}</span>
+                                </label>
+                            </div>
+                            <p id="erractive" class="mb-0 text-danger em"></p>
+                        </div>
+                        @endif
+
+
+                        @if ($input->type != 5)
+                        <div class="form-group">
+                            <label for=""><strong>{{ __('trans.Label Name') }}</strong></label>
                             <div class="">
                             <input type="text" class="form-control" name="label" value="{{$input->label}}" placeholder="Enter Label Name">
                             </div>
                             <p id="errlabel" class="mb-0 text-danger em"></p>
                         </div>
+                        @endif
 
 
                         @if ($input->type != 3 && $input->type != 5)
                             <div class="form-group">
-                                <label for=""><strong>Placeholder</strong></label>
+                                <label for=""><strong>{{ __('trans.Placeholder') }}</strong></label>
                                 <div class="">
                                     <input type="text" class="form-control" name="placeholder" value="{{$input->placeholder}}" placeholder="Enter Placeholder">
                                 </div>
@@ -104,7 +129,7 @@
 
                         @if ($input->type == 2 || $input->type == 3)
                             <div class="form-group">
-                                <label for=""><strong>Options</strong></label>
+                                <label for=""><strong>{{ __('trans.Options') }}</strong></label>
                                 <div class="row mb-2 counterrow" v-for="n in counter" :id="'counterrow'+n">
                                 <div class="col-md-11">
                                     <input class="form-control optionin" type="text" name="options[]" :value="names[n-1]" placeholder="Option label">
@@ -114,14 +139,14 @@
                                     <button type="button" class="btn btn-danger text-white" @click="removeOption(n)"><i class="fa fa-times"></i></button>
                                 </div>
                                 </div>
-                                <button type="button" class="btn btn-success btn-sm text-white" @click="addOption()"><i class="fa fa-plus"></i> Add Option</button>
+                                <button type="button" class="btn btn-success btn-sm text-white" @click="addOption()"><i class="fa fa-plus"></i> {{ __('trans.Add Option') }}</button>
                                 <p id="erroptions" class="mb-2 text-danger em"></p>
                                 <p id="erroptions.3" class="mb-2 text-danger em"></p>
                             </div>
                         @endif
 
                         <div class="text-center form-group">
-                        <button id="submitBtn" type="submit" class="btn btn-primary">UPDATE FIELD</button>
+                        <button id="submitBtn" type="submit" class="btn btn-primary">{{ __('trans.UPDATE FIELD') }}</button>
                         </div>
                     </form>
                 </div>

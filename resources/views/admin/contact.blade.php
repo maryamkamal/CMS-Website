@@ -21,8 +21,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Contact Page</h4>
+    <h4 class="page-title">{{ __('trans.Contact Page') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -33,7 +38,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Contact Page</a>
+        <a href="#">{{ __('trans.Contact Page') }}</a>
       </li>
     </ul>
   </div>
@@ -44,12 +49,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-10">
-                        <div class="card-title">Contact Page</div>
+                        <div class="card-title">{{ __('trans.Contact Page') }}</div>
                     </div>
                     <div class="col-lg-2">
                         @if (!empty($langs))
                             <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                                <option value="" selected disabled>Select a Language</option>
+                                <option value="" selected disabled>{{ __('trans.Select a language') }}</option>
                                 @foreach ($langs as $lang)
                                     <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                                 @endforeach
@@ -63,71 +68,52 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
               <div class="col-lg-6 offset-lg-3">
                 @csrf
                 <div class="form-group">
-                  <label>Form Title **</label>
+                  <label>{{ __('trans.Form Title') }} **</label>
                   <input class="form-control" name="contact_form_title" value="{{$abs->contact_form_title}}" placeholder="Enter Titlte">
                   @if ($errors->has('contact_form_title'))
                     <p class="mb-0 text-danger">{{$errors->first('contact_form_title')}}</p>
                   @endif
                 </div>
                 <div class="form-group">
-                  <label>Form Subtitle **</label>
+                  <label>{{ __('trans.Form Subtitle') }} **</label>
                   <input class="form-control" name="contact_form_subtitle" value="{{$abs->contact_form_subtitle}}" placeholder="Enter Subtitlte">
                   @if ($errors->has('contact_form_subtitle'))
                     <p class="mb-0 text-danger">{{$errors->first('contact_form_subtitle')}}</p>
                   @endif
                 </div>
-
                 <div class="form-group">
-                  <label>Address **</label>
-                  <textarea class="form-control" name="contact_addresses" rows="3">{{$abex->contact_addresses}}</textarea>
-                  <p class="mb-0 text-warning">Use newline to seperate multiple addresses.</p>
-                  @if ($errors->has('contact_addresses'))
-                    <p class="mb-0 text-danger">{{$errors->first('contact_addresses')}}</p>
+                  <label>{{ __('trans.Address') }} **</label>
+                  <input class="form-control" name="contact_address" value="{{$abs->contact_address}}" placeholder="Enter Address">
+                  @if ($errors->has('contact_address'))
+                    <p class="mb-0 text-danger">{{$errors->first('contact_address')}}</p>
                   @endif
                 </div>
-
                 <div class="form-group">
-                  <label>Phone **</label>
-                  <input class="form-control" name="contact_numbers" data-role="tagsinput" value="{{$abex->contact_numbers}}" placeholder="Enter Phone Number">
-                  <p class="mb-0 text-warning">Use comma (,) to seperate multiple contact numbers.</p>
-                  @if ($errors->has('contact_numbers'))
-                    <p class="mb-0 text-danger">{{$errors->first('contact_numbers')}}</p>
+                  <label>{{ __('trans.Phone') }} **</label>
+                  <input class="form-control" name="contact_number" value="{{$abs->contact_number}}" placeholder="Enter Phone Number">
+                  @if ($errors->has('contact_number'))
+                    <p class="mb-0 text-danger">{{$errors->first('contact_number')}}</p>
                   @endif
                 </div>
-
                 <div class="form-group">
-                  <label>Email **</label>
-                  <input class="form-control ltr" name="contact_mails" data-role="tagsinput" value="{{$abex->contact_mails}}" placeholder="Enter Email Address">
-                  <p class="mb-0 text-warning">Use comma (,) to seperate multiple contact mails.</p>
-                  @if ($errors->has('contact_mails'))
-                    <p class="mb-0 text-danger">{{$errors->first('contact_mails')}}</p>
-                  @endif
+                  <label>{{ __('trans.Email') }} **</label>
+                  <input class="form-control ltr" name="contact_mail" value="{{$abe->to_mail}}" readonly>
+                  <div class="text-warning">{{ __('trans.email var') }}<a class="text-" href="{{route('admin.mailToAdmin')}}"><u>{{ __('trans.email vara') }}</u></a></p></div>
                 </div>
-
                 <div class="form-group">
-                  <label>Latitude </label>
-                  <input class="form-control" name="latitude" value="{{$abex->latitude}}" placeholder="Enter Google Map Address">
+                  <label>{{ __('trans.Latitude') }} **</label>
+                  <input class="form-control ltr" name="latitude" value="{{$abs->latitude}}" placeholder="Enter Latitude">
                   @if ($errors->has('latitude'))
                     <p class="mb-0 text-danger">{{$errors->first('latitude')}}</p>
                   @endif
                 </div>
-
                 <div class="form-group">
-                  <label>Longitude</label>
-                  <input class="form-control" name="longitude" value="{{$abex->longitude}}" placeholder="Enter Google Map Address">
+                  <label>{{ __('trans.Longitude') }} **</label>
+                  <input class="form-control ltr" name="longitude" value="{{$abs->longitude}}" placeholder="Enter Longitude">
                   @if ($errors->has('longitude'))
                     <p class="mb-0 text-danger">{{$errors->first('longitude')}}</p>
                   @endif
                 </div>
-
-                <div class="form-group">
-                  <label>Map Zoom</label>
-                  <input class="form-control" name="map_zoom" value="{{$abex->map_zoom}}" placeholder="Enter Google Map Address">
-                  @if ($errors->has('map_zoom'))
-                    <p class="mb-0 text-danger">{{$errors->first('map_zoom')}}</p>
-                  @endif
-                </div>
-
               </div>
             </div>
           </div>
@@ -135,7 +121,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button id="displayNotif" class="btn btn-success">Update</button>
+                  <button id="displayNotif" class="btn btn-success">{{ __('trans.Update') }}</button>
                 </div>
               </div>
             </div>
@@ -145,12 +131,4 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     </div>
   </div>
 
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $("input[name='contact_addresses']").tagsinput({ delimiter: '|' });
-        });
-    </script>
 @endsection

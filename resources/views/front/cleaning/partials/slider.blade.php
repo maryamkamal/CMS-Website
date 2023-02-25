@@ -3,7 +3,7 @@
         <div class="hero-carousel-active">
             @if (!empty($sliders))
                 @foreach ($sliders as $key => $slider)
-                    <div class="single-carousel-active lazy" data-bg="{{asset('assets/front/img/sliders/'.$slider->image)}}" style="background-size: cover;">
+                    <div class="single-carousel-active" style="background-image: url('{{asset('assets/front/img/sliders/'.$slider->image)}}');background-size: cover;">
                         <div class="container">
                             <div class="row">
                                 <div class="col-xl-6 col-lg-8">

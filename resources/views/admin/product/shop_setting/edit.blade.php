@@ -17,8 +17,15 @@
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
+
+
   <div class="page-header">
-    <h4 class="page-title">Edit Category</h4>
+    <h4 class="page-title">{{ __('trans.Edit Category') }}</h4>
     <ul class="breadcrumbs">
         <li class="nav-home">
           <a href="{{route('admin.dashboard')}}">
@@ -29,16 +36,16 @@
           <i class="flaticon-right-arrow"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Shipping</a>
+          <a href="#">{{ __('trans.Shipping') }}</a>
         </li>
         <li class="separator">
           <i class="flaticon-right-arrow"></i>
         </li>
         <li class="nav-item">
-          <a href="#">Shipping Charge</a>
+          <a href="#">{{ __('trans.Shipping Charge') }}</a>
         </li>
         <li class="nav-item">
-          <a href="#">Edit</a>
+          <a href="#">{{ __('trans.Edit') }}</a>
         </li>
     </ul>
   </div>
@@ -46,12 +53,12 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Edit Category</div>
+          <div class="card-title d-inline-block">{{ __('trans.Edit Category') }}</div>
           <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.shipping.index') . '?language=' . request()->input('language')}}">
             <span class="btn-label">
               <i class="fas fa-backward" style="font-size: 12px;"></i>
             </span>
-            Back
+            {{ __('trans.Back') }}
           </a>
         </div>
         <div class="card-body pt-5 pb-5">
@@ -64,18 +71,18 @@
           <input type="hidden" value="{{$shipping->id}}" name="shipping_id">
 
             <div class="form-group">
-              <label for="">Title **</label>
+              <label for="">{{ __('trans.Title') }}**</label>
               <input type="text" class="form-control" name="title" value="{{$shipping->title}}" placeholder="Enter title">
               <p id="errtitle" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Sort Text **</label>
+              <label for="">{{ __('trans.Sort Text') }} **</label>
               <input type="text" class="form-control" name="text" value="{{$shipping->text}}" placeholder="Enter text">
               <p id="errtext" class="mb-0 text-danger em"></p>
             </div>
 
             <div class="form-group">
-              <label for="">Charge ({{$bex->base_currency_text}}) **</label>
+              <label for="">{{ __('trans.Charge') }} **</label>
               <input type="text" class="form-control ltr" name="charge" value="{{$shipping->charge}}" placeholder="Enter charge">
               <p id="errcharge" class="mb-0 text-danger em"></p>
             </div>
@@ -88,7 +95,7 @@
           <div class="form">
             <div class="form-group from-show-notify row">
               <div class="col-12 text-center">
-                <button type="submit" id="submitBtn" class="btn btn-success">Update</button>
+                <button type="submit" id="submitBtn" class="btn btn-success">{{ __('trans.Update') }}</button>
               </div>
             </div>
           </div>

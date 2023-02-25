@@ -34,8 +34,8 @@
 			@endif
 			
 			   @if($bs->video_link!= null)
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-				    <iframe width="420" height="315"
+			   <div class="col">
+				    <iframe width="100%" height="315"
                    src="{{$bs->video_link}}">
                    </iframe> 
               </div>
@@ -67,11 +67,11 @@
                           </div>
                           <div class="service-txt">
 
-                            <h4 class="service-title"><a @if($service->details_page_status == 1) href="{{route('front.servicedetails', [$service->slug, $service->id])}}" @endif>{{convertUtf8(strlen($service->title)) > 18 ? convertUtf8(substr($service->title, 0, 18)) . '...' : convertUtf8($service->title)}}</a></h4>
+                            <h4 class="service-title"><a @if($service->details_page_status == 1) href="{{route('front.servicedetails', [$service->slug, $service->id])}}" @endif>{{convertUtf8(strlen($service->title)) > 150 ? convertUtf8(substr($service->title, 0, 150)) . '...' : convertUtf8($service->title)}}</a></h4>
 
                             <p class="service-summary">
-                                @if (strlen(convertUtf8($service->summary)) > 102)
-                                   {{substr(convertUtf8($service->summary), 0, 102)}}<span style="display: none;">{{substr(convertUtf8($service->summary), 102)}}</span>
+                                @if (strlen(convertUtf8($service->summary)) > 750)
+                                   {{substr(convertUtf8($service->summary), 0, 750)}}<span style="display: none;">{{substr(convertUtf8($service->summary), 750)}}</span>
                                    <a href="#" class="see-more">see more...</a>
                                 @else
                                    {{convertUtf8($service->summary)}}

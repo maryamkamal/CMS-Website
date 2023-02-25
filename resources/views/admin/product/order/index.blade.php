@@ -1,20 +1,25 @@
 @extends('admin.layout')
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
     <h4 class="page-title">
       @if (request()->path()=='admin/product/pending/orders')
-        Pending
+        {{ __('trans.Pending') }}
       @elseif (request()->path()=='admin/product/all/orders')
-        All
+        {{ __('trans.All') }}
       @elseif (request()->path()=='admin/product/processing/orders')
-        Processing
+        {{ __('trans.Processing') }}
       @elseif (request()->path()=='admin/product/completed/orders')
-        Completed
+        {{ __('trans.Completed') }}
       @elseif (request()->path()=='admin/product/rejected/orders')
-        Rejcted
+        {{ __('trans.Rejcted') }}
       @endif
-      Orders
+      {{ __('trans.Orders') }}
     </h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
@@ -26,13 +31,7 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Shop Management</a>
-      </li>
-      <li class="separator">
-        <i class="flaticon-right-arrow"></i>
-      </li>
-      <li class="nav-item">
-        <a href="#">Manage Orders</a>
+        <a href="#">{{ __('trans.Product Management') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
@@ -40,19 +39,19 @@
       <li class="nav-item">
         <a href="#">
             @if (request()->path()=='admin/product/pending/orders')
-            Pending
+            {{ __('trans.Pending') }}
           @elseif (request()->path()=='admin/product/all/orders')
-            All
+            {{ __('trans.All') }}
           @elseif (request()->path()=='admin/product/processing/orders')
-            Processing
+            {{ __('trans.Processing') }}
           @elseif (request()->path()=='admin/product/completed/orders')
-            Completed
+            {{ __('trans.Completed') }}
           @elseif (request()->path()=='admin/product/rejected/orders')
-            Rejcted
+            {{ __('trans.Rejcted') }}
           @elseif (request()->path()=='admin/product/search/orders')
-            Search
+            {{ __('trans.Search') }}
           @endif
-          Orders
+          {{ __('trans.Orders') }}
         </a>
       </li>
     </ul>
@@ -66,25 +65,25 @@
                 <div class="col-lg-6">
                     <div class="card-title">
                         @if (request()->path()=='admin/product/pending/orders')
-                            Pending
+                            {{ __('trans.Pending') }}
                         @elseif (request()->path()=='admin/product/all/orders')
-                            All
+                            {{ __('trans.All') }}
                         @elseif (request()->path()=='admin/product/processing/orders')
-                            Processing
+                            {{ __('trans.Processing') }}
                         @elseif (request()->path()=='admin/product/completed/orders')
-                            Completed
+                            {{ __('trans.Completed') }}
                         @elseif (request()->path()=='admin/product/rejected/orders')
-                            Rejcted
+                            {{ __('trans.Total') }}
                          @elseif (request()->path()=='admin/product/search/orders')
-                            Search
+                            {{ __('trans.Search') }}
                         @endif
-                        Orders
+                        {{ __('trans.Orders') }}
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <button class="btn btn-danger float-right btn-md ml-4 d-none bulk-delete" data-href="{{route('admin.product.order.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                    <button class="btn btn-danger float-right btn-md ml-4 d-none bulk-delete" data-href="{{route('admin.product.order.bulk.delete')}}"><i class="flaticon-interface-5"></i>{{ __('trans.Delete') }}</button>
                     <form action="{{url()->current()}}" class="d-inline-block float-right">
-                    <input class="form-control" type="text" name="search" placeholder="Search by Oder Number" value="{{request()->input('search') ? request()->input('search') : '' }}">
+                    <input class="form-control" type="text" name="search" placeholder='{{__('trans.Search by Oder Number')}}' value="{{request()->input('search') ? request()->input('search') : '' }}">
                   </form>
               </div>
             </div>
@@ -93,7 +92,7 @@
           <div class="row">
             <div class="col-lg-12">
               @if (count($orders) == 0)
-                <h3 class="text-center">NO ORDER FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO ORDER FOUND') }}</h3>
               @else
                 <div class="table-responsive">
                   <table class="table table-striped mt-3">
@@ -103,13 +102,12 @@
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
 
-                        <th scope="col">Order Number</th>
-                        <th scope="col" width="15%">Gateway</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Order Status</th>
-                        <th scope="col">Payment Status</th>
-                        <th scope="col">Receipt</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.Order Number') }}</th>
+                        <th scope="col" width="15%">{{ __('trans.Gateway') }}</th>
+                        <th scope="col">{{ __('trans.Total') }}</th>
+                        <th scope="col">{{ __('trans.Order Status') }}</th>
+                        <th scope="col">{{ __('trans.Receipt') }}</th>
+                        <th scope="col">{{ __('trans.Actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -136,42 +134,17 @@
                                 bg-danger
                               @endif
                               " name="order_status" onchange="document.getElementById('statusForm{{$order->id}}').submit();">
-                                <option value="pending" {{$order->order_status == 'pending' ? 'selected' : ''}}>Pending</option>
-                                <option value="processing" {{$order->order_status == 'processing' ? 'selected' : ''}}>Processing</option>
-                                <option value="completed" {{$order->order_status == 'completed' ? 'selected' : ''}}>Completed</option>
-                                <option value="rejected" {{$order->order_status == 'rejected' ? 'selected' : ''}}>Rejected</option>
+                                <option value="pending" {{$order->order_status == 'pending' ? 'selected' : ''}}>{{ __('trans.Pending') }}</option>
+                                <option value="processing" {{$order->order_status == 'processing' ? 'selected' : ''}}>{{ __('trans.Processing') }}</option>
+                                <option value="completed" {{$order->order_status == 'completed' ? 'selected' : ''}}>{{ __('trans.Completed') }}</option>
+                                <option value="rejected" {{$order->order_status == 'rejected' ? 'selected' : ''}}>{{ __('trans.Rejected') }}</option>
                               </select>
                             </form>
                           </td>
 
                           <td>
-                              @if ($order->gateway_type != 'offline')
-                                  @if($order->payment_status == 'Completed')
-                                    <span class="badge badge-success">Completed</span>
-                                  @elseif($order->payment_status == 'Pending')
-                                    <span class="badge badge-warning">Pending</span>
-                                  @endif
-                              @elseif ($order->gateway_type == 'offline')
-                                <form action="{{route('admin.product.paymentStatus')}}" id="paymentStatusForm{{$order->id}}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="order_id" value="{{$order->id}}">
-                                    <select class="form-control-sm text-white border-0
-                                    @if($order->payment_status == 'Completed')
-                                        bg-success
-                                    @elseif($order->payment_status == 'Pending')
-                                        bg-warning
-                                    @endif
-                                    " name="payment_status" onchange="document.getElementById('paymentStatusForm{{$order->id}}').submit();">
-                                        <option value="Pending" {{$order->payment_status == 'Pending' ? 'selected' : ''}}>Pending</option>
-                                        <option value="Completed" {{$order->payment_status == 'Completed' ? 'selected' : ''}}>Completed</option>
-                                    </select>
-                                </form>
-                              @endif
-                          </td>
-
-                          <td>
                               @if (!empty($order->receipt))
-                                <a class="btn btn-sm btn-info" href="#" data-toggle="modal" data-target="#receiptModal{{$order->id}}">Show</a>
+                                <a class="btn btn-sm btn-info" href="#" data-toggle="modal" data-target="#receiptModal{{$order->id}}">{{ __('trans.Show') }}</a>
                               @else
                                 -
                               @endif
@@ -180,16 +153,16 @@
                           <td>
                             <div class="dropdown">
                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Actions
+                                  {{ __('trans.Actions') }}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                  <a class="dropdown-item" href="{{route('admin.product.details', $order->id)}}" target="_blank">Details</a>
-                                  <a class="dropdown-item" href="{{asset('assets/front/invoices/product/'.$order->invoice_number)}}" target="_blank">Invoice</a>
+                                <a class="dropdown-item" href="{{route('admin.product.details', $order->id)}}" target="_blank">{{ __('trans.Deatails') }}</a>
+                                  <a class="dropdown-item" href="{{asset('assets/front/invoices/product/'.$order->invoice_number)}}" target="_blank">{{ __('trans.Invoice') }}</a>
                                     <form class="deleteform d-block" action="{{route('admin.product.order.delete')}}" method="post">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{$order->id}}">
                                         <button type="submit" class="deletebtn">
-                                        Delete
+                                        {{ __('trans.Delete') }}
                                         </button>
                                     </form>
                                 </div>
@@ -203,7 +176,7 @@
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Receipt Image</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">{{ __('trans.Receipt Image') }}</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
@@ -212,7 +185,7 @@
                                     <img src="{{asset('assets/front/receipt/' . $order->receipt)}}" alt="Receipt" width="100%">
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
                                 </div>
                               </div>
                             </div>
@@ -227,7 +200,7 @@
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Send Mail</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Send Mail') }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -236,25 +209,25 @@
                         <form id="ajaxEditForm" class="" action="{{route('admin.orders.mail')}}" method="POST">
                           @csrf
                           <div class="form-group">
-                            <label for="">Client Mail **</label>
+                            <label for="">{{ __('trans.Client Mail') }} **</label>
                             <input id="inemail" type="text" class="form-control" name="email" value="" placeholder="Enter email">
                             <p id="eerremail" class="mb-0 text-danger em"></p>
                           </div>
                           <div class="form-group">
-                            <label for="">Subject **</label>
+                            <label for="">{{ __('trans.Subject') }} **</label>
                             <input id="insubject" type="text" class="form-control" name="subject" value="" placeholder="Enter subject">
                             <p id="eerrsubject" class="mb-0 text-danger em"></p>
                           </div>
                           <div class="form-group">
-                            <label for="">Message **</label>
+                            <label for="">{{ __('trans.Message') }} **</label>
                             <textarea id="inmessage" class="form-control summernote" name="message" placeholder="Enter message" data-height="150"></textarea>
                             <p id="eerrmessage" class="mb-0 text-danger em"></p>
                           </div>
                         </form>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="updateBtn" type="button" class="btn btn-primary">Send Mail</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+                        <button id="updateBtn" type="button" class="btn btn-primary">{{ __('trans.Send Mail') }}</button>
                       </div>
                     </div>
                   </div>

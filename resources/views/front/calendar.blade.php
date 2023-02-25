@@ -11,12 +11,41 @@
 <link href='{{asset('assets/front/css/calendar.css')}}' rel='stylesheet' />
 @endsection
 
-@section('breadcrumb-title', convertUtf8($be->event_calendar_title))
-@section('breadcrumb-subtitle', convertUtf8($be->event_calendar_subtitle))
-@section('breadcrumb-link', convertUtf8($be->event_calendar_title))
-
 
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area about d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="service breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                 <span>{{convertUtf8($be->event_calendar_title)}}</span>
+                 <h1>{{convertUtf8($be->event_calendar_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{convertUtf8($be->event_calendar_title)}}</li>
+                 </ul>
+              </div>
+			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+            <div class="col">
+               <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
   <!--   about company section start   -->
   <div class="about-company-section pt-105 pb-115">
@@ -29,6 +58,7 @@
      </div>
   </div>
   <!--   about company section end   -->
+
 @endsection
 
 @section('scripts')

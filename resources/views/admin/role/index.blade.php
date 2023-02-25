@@ -1,8 +1,13 @@
 @extends('admin.layout')
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Roles</h4>
+    <h4 class="page-title">{{ __('trans.Roles') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,13 +18,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Roles Management</a>
+        <a href="#">{{ __('trans.Roles Management') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Roles</a>
+        <a href="#">{{ __('trans.Roles') }}</a>
       </li>
     </ul>
   </div>
@@ -28,23 +33,23 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Roles</div>
-          <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Role</a>
+          <div class="card-title d-inline-block">{{ __('trans.Roles') }}</div>
+          <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i>{{ __('trans.Add Role') }}</a>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-lg-12">
               @if (count($roles) == 0)
-                <h3 class="text-center">NO ROLE FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO ROLE FOUND') }}</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Permissions</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.Name') }}</th>
+                        <th scope="col">{{ __('trans.Permissions') }}</th>
+                        <th scope="col">{{ __('trans.Actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -57,7 +62,7 @@
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Manage
+                              {{ __('trans.Manage') }}
                             </a>
                           </td>
                           <td>
@@ -65,7 +70,7 @@
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Edit
+                              {{ __('trans.Edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.role.delete')}}" method="post">
                               @csrf
@@ -74,7 +79,7 @@
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.Delete') }}
                               </button>
                             </form>
                           </td>

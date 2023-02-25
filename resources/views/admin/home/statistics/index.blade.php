@@ -11,8 +11,13 @@
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Statistics Section</h4>
+    <h4 class="page-title">{{ __('trans.Statistics Section') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -23,30 +28,30 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Home</a>
+        <a href="#">{{ __('trans.homePage') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Statistics Section</a>
+        <a href="#">{{ __('trans.Statistics Section') }}</a>
       </li>
     </ul>
   </div>
   <div class="row">
     <div class="col-md-12">
 
-      @if ($be->theme_version != 'car' && $bex->home_page_pagebuilder == 0)
+      @if (getVersion($be->theme_version) != 'car')
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-10">
-                        <div class="card-title">Background Image</div>
+                        <div class="card-title">{{ __('trans.Background Image') }}</div>
                     </div>
                     <div class="col-lg-2">
                         @if (!empty($langs))
                             <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                                <option value="" selected disabled>Select a Language</option>
+                                <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                                 @foreach ($langs as $lang)
                                     <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                                 @endforeach
@@ -56,46 +61,49 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="offset-lg-3 col-lg-6 text-center">
-                        <form id="backgroundForm" action="{{route('admin.statistics.upload', $lang_id)}}" method="POST">
-                            @csrf
-                            {{-- Image Part --}}
-                            <div class="form-group">
-                                <div class="thumb-preview" id="thumbPreview1">
-                                    <img src="{{asset('assets/front/img/' . $abe->statistics_bg)}}" alt="Image">
+                <form class="mb-3 dm-uploader drag-and-drop-zone" enctype="multipart/form-data" action="{{route('admin.statistics.upload', $lang_id)}}" method="POST">
+                    <div class="row">
+                        <div class="col-lg-6 offset-lg-3">
+                            <div class="form-row">
+                                <div class="col-12 mb-2">
+                                    <label for=""><strong>{{ __('trans.Background Image') }} **</strong></label>
                                 </div>
-                                <br>
-                                <br>
+                                <div class="col-md-6 d-md-block mb-3">
+                                    @if (!empty($abe->statistics_bg))
+                                        <img src="{{asset('assets/front/img/'.$abe->statistics_bg)}}" alt="..." class="img-thumbnail">
+                                    @else
+                                        <img src="{{asset('assets/admin/img/noimage.jpg')}}" alt="..." class="img-thumbnail">
+                                    @endif
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="from-group mb-2">
+                                        <input type="text" class="form-control progressbar" aria-describedby="fileHelp" placeholder="{{__('trans.No image uploaded')}}" readonly="readonly" />
 
-
-                                <input id="fileInput1" type="hidden" name="background_image">
-                                <button id="chooseImage1" class="choose-image btn btn-primary" type="button" data-multiple="false" data-toggle="modal" data-target="#lfmModal1">Choose Image</button>
-
-
-                                <p class="text-warning mb-0">JPG, PNG, JPEG, SVG images are allowed</p>
-                                @if ($errors->has('background_image'))
-                                <p class="text-danger mb-0">{{$errors->first('background_image')}}</p>
-                                @endif
-
-                                <!-- Image LFM Modal -->
-                                <div class="modal fade lfm-modal" id="lfmModal1" tabindex="-1" role="dialog" aria-labelledby="lfmModalTitle" aria-hidden="true">
-                                    <i class="fas fa-times-circle"></i>
-                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body p-0">
-                                                <iframe src="{{url('laravel-filemanager')}}?serial=1" style="width: 100%; height: 500px; overflow: hidden; border: none;"></iframe>
-                                            </div>
+                                        <div class="progress mb-2 d-none">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                            role="progressbar"
+                                            style="width: 0%;"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="0">
+                                            0%
                                         </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <div role="button" class="btn btn-primary mr-2">
+                                        <i class="fa fa-folder-o fa-fw"></i> {{ __('trans.browseFiles') }}
+                                        <input type="file" title='Click to add Files' />
+                                        </div>
+                                        <small class="status text-muted">{{ __('trans.selectFile') }}</small>
+                                        <p class="text-warning mb-0">{{ __('trans.selectFileStruc') }}</p>
+                                        <p class="text-danger mb-0 em" id="errstatistics_bg"></p>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-success" type="submit" form="backgroundForm">Update</button>
+                </form>
             </div>
         </div>
       @endif
@@ -104,10 +112,10 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="card-title d-inline-block">Statistics</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Statistics') }}</div>
                 </div>
                 <div class="col-lg-6 mt-2 mt-lg-0">
-                    <a href="#" class="btn btn-primary float-lg-right float-left" data-toggle="modal" data-target="#createStatisticModal"><i class="fas fa-plus"></i> Add Statistic</a>
+                    <a href="#" class="btn btn-primary @if(session('language') == "ar") float-left @else float-right @endif" data-toggle="modal" data-target="#createStatisticModal"><i class="fas fa-plus"></i> {{ __('trans.Add Statistic') }}</a>
                 </div>
             </div>
         </div>
@@ -115,18 +123,18 @@
           <div class="row">
             <div class="col-lg-12">
               @if (count($statistics) == 0)
-                <h2 class="text-center">NO STATISTIC ADDED</h2>
+                <h2 class="text-center">{{ __('trans.NO STATISTIC ADDED') }}</h2>
               @else
                 <div class="table-responsive">
                   <table class="table table-striped mt-3">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Icon</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Serial Number</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.hash') }}</th>
+                        <th scope="col">{{ __('trans.icon') }}</th>
+                        <th scope="col">{{ __('trans.Title') }}</th>
+                        <th scope="col">{{ __('trans.Quantity') }}</th>
+                        <th scope="col">{{ __('trans.Serial Number') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -142,7 +150,7 @@
                             <span class="btn-label">
                               <i class="fas fa-edit"></i>
                             </span>
-                            Edit
+                            {{ __('trans.edit') }}
                             </a>
                             <form class="d-inline-block deleteform" action="{{route('admin.statistics.delete')}}" method="post">
                               @csrf
@@ -151,7 +159,7 @@
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>

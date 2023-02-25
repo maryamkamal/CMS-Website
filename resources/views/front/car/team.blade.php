@@ -7,11 +7,40 @@
 @section('meta-keywords', "$be->team_meta_keywords")
 @section('meta-description', "$be->team_meta_description")
 
-@section('breadcrumb-title', convertUtf8($bs->team_title))
-@section('breadcrumb-subtitle', $bs->team_subtitle)
-@section('breadcrumb-link', __('Team Members'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                 <span>{{convertUtf8($bs->team_title)}}</span>
+                 <h1>{{convertUtf8($bs->team_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Team Members')}}</li>
+                 </ul>
+              </div>
+			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
 		<!-- Start finlance_team section -->
 		<section class="finlance_team team-page team_v1 gray_bg pt-115 pb-80">
@@ -23,7 +52,7 @@
                                 <div class="grid_item">
                                     <div class="grid_inner_item">
                                         <div class="finlance_img">
-                                            <img class="lazy" data-src="{{asset('assets/front/img/members/'.$member->image)}}" class="img-fluid" alt="">
+                                            <img src="{{asset('assets/front/img/members/'.$member->image)}}" class="img-fluid" alt="">
                                             <div class="team_overlay">
                                                 <ul class="social_box">
                                                     @if (!empty($member->facebook))
@@ -52,6 +81,30 @@
                     </div>
 				</div>
 			</div>
-		</section>
+        </section>
+
+
+       <!-- Start finlance_cta section -->
+       @if ($bs->call_to_action_section == 1)
+       <section class="finlance_cta cta_v1 pt-70 pb-70" style="background-image: url({{asset('assets/front/img/pattern_bg_2.jpg')}});">
+          <div class="container">
+             <div class="row align-items-center">
+                <div class="col-lg-8">
+                   <div class="section_title">
+                      <h2>{{convertUtf8($bs->cta_section_text)}}</h2>
+                   </div>
+                </div>
+                <div class="col-lg-4">
+                   <div class="button_box">
+                      <a href="{{$bs->cta_section_button_url}}" class="finlance_btn">{{convertUtf8($bs->cta_section_button_text)}}</a>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </section>
+         @endif
+         <!-- End finlance_cta section -->
+  
+        
 		<!-- End finlance_team section -->
 @endsection

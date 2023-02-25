@@ -7,11 +7,41 @@
 @section('meta-keywords', "$be->team_meta_keywords")
 @section('meta-description', "$be->team_meta_description")
 
-@section('breadcrumb-title', convertUtf8($bs->team_title))
-@section('breadcrumb-subtitle', $bs->team_subtitle)
-@section('breadcrumb-link', __('Team Members'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5">
+                 <span>{{convertUtf8($bs->team_title)}}</span>
+                 <h1>{{convertUtf8($bs->team_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Team Members')}}</li>
+                 </ul>
+              </div>
+			  @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+				    <iframe width="420" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
+
 		<!-- Start finlance_team section -->
 		<section class="finlance_team team_v1 pt-115 pb-80">
 			<div class="container">
@@ -22,7 +52,7 @@
                                 <div class="grid_item mx-0">
                                     <div class="grid_inner_item">
                                         <div class="finlance_img">
-                                            <img data-src="{{asset('assets/front/img/members/'.$member->image)}}" class="img-fluid lazy" alt="">
+                                            <img src="{{asset('assets/front/img/members/'.$member->image)}}" class="img-fluid" alt="">
                                             <div class="overlay_content">
                                                 <div class="social_box">
                                                     <ul>

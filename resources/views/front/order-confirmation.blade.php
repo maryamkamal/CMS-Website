@@ -85,23 +85,18 @@
                                 </tr>
                                 @foreach ($fields as $key => $field)
                                     @php
-                                    if (is_array($field['value'])) {
-                                        $str = implode(", ", $field['value']);
+                                    if (is_array($field)) {
+                                        $str = implode(", ", $field);
                                         $value = $str;
                                     } else {
-                                        $value = $field['value'];
+                                        $value = $field;
                                     }
                                     @endphp
 
-
-                                    @if ($field['type'] != 5)
                                     <tr>
                                         <th scope="row" class="text-capitalize">{{str_replace("_"," ",$key)}}:</th>
-                                        <td>
-                                            {{$value}}
-                                        </td>
+                                        <td>{{$value}}</td>
                                     </tr>
-                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

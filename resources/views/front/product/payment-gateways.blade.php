@@ -304,5 +304,6 @@
 <input type="hidden" name="currency_code" value="USD">
 <input type="hidden" name="ref_id" id="ref_id" value="">
 <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest">
+<input type="hidden" name="user_id" value="{{$user->id}}">
 <input type="hidden" name="currency_sign" value="$">
 

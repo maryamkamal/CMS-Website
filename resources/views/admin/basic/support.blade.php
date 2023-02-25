@@ -17,8 +17,15 @@
 @endif
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Support Informations</h4>
+    <h4 class="page-title">{{ __('trans.Support Informations') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -29,13 +36,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Basic Settings</a>
+        <a href="#">{{ __('trans.Support manSetting') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Support Informations</a>
+        <a href="#">{{ __('trans.Support Informations') }}</a>
       </li>
     </ul>
   </div>
@@ -46,13 +53,13 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-10">
-                      <div class="card-title">Change Informations</div>
+                      <div class="card-title">{{ __('trans.Change Informations') }}</div>
                   </div>
                   <div class="col-lg-2">
                       @if (!empty($langs))
                           <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                              <option value="" selected disabled>Select a Language</option>
-                              <option value="" {{empty(request()->input('language')) ? 'selected' : ''}}>Default</option>
+                              <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
+                              <option value="" {{empty(request()->input('language')) ? 'selected' : ''}}>{{ __('trans.Default') }}</option>
                               @foreach ($langs as $lang)
                                   <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                               @endforeach
@@ -66,14 +73,14 @@
               <div class="col-lg-6 offset-lg-3">
                 @csrf
                 <div class="form-group">
-                  <label>Email **</label>
+                  <label>{{ __('trans.email') }}</label>
                   <input class="form-control ltr" name="support_email" value="{{$abs->support_email}}" placeholder="Email">
                   @if ($errors->has('support_email'))
                     <p class="mb-0 text-danger">{{$errors->first('support_email')}}</p>
                   @endif
                 </div>
                 <div class="form-group">
-                  <label>Phone **</label>
+                  <label>{{ __('trans.Phone') }}</label>
                   <input class="form-control" name="support_phone" value="{{$abs->support_phone}}" placeholder="Phone">
                   @if ($errors->has('support_phone'))
                     <p class="mb-0 text-danger">{{$errors->first('support_phone')}}</p>
@@ -89,7 +96,7 @@
 
                 </div>
                 <div class="col-12 text-center">
-                  <button id="displayNotif" class="btn btn-success">Update</button>
+                  <button id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>

@@ -4,11 +4,39 @@
  - {{convertUtf8($post->title)}}
 @endsection
 
-@section('breadcrumb-title', convertUtf8($bs->rss_details_title))
-@section('breadcrumb-subtitle', strlen($post->title) > 30 ? mb_substr($post->title, 0, 30, 'utf-8') . '...' : $post->title)
-@section('breadcrumb-link', __('RSS Feed Details'))
-
 @section('content')
+  <!--   hero area end   -->
+  <div class="blog-details breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                <span>{{convertUtf8($bs->rss_details_title)}}</span>
+                <h1>{{strlen(convertUtf8($post->title)) > 200 ? substr(convertUtf8($post->title), 0, 200) . '...' : convertUtf8($post->title)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('RSS Feed Details')}}</li>
+                 </ul>
+              </div>
+			  @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100% " height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   hero area end    -->
 
 
   <!--    blog details section start   -->
@@ -17,7 +45,7 @@
         <div class="row">
            <div class="col-lg-7">
               <div class="blog-details">
-                 <img class="blog-details-img-1 lazy" data-src="{{$post->photo}}" alt="">
+                 <img class="blog-details-img-1" src="{{$post->photo}}" alt="">
                  <small class="date">{{date('F d, Y', strtotime($post->created_at))}}  -  {{__('BY')}} {{$post->category->feed_name}}</small>
                  <h2 class="blog-details-title">{{convertUtf8($post->title)}}</h2>
                  <div class="blog-details-body">
@@ -48,7 +76,7 @@
                        <h4>{{__('Categories')}}</h4>
                        <ul>
                             @foreach ($categories as $key => $rcat)
-                                <li class="single-category"><a href="{{route('front.rss',['id' => $rcat->id])}}">{{convertUtf8($rcat->feed_name)}}</a></li>
+                                <li class="single-category"><a href="{{route('front.rcatpost',$rcat->id)}}">{{convertUtf8($rcat->feed_name)}}</a></li>
                             @endforeach
                        </ul>
                     </div>
@@ -71,7 +99,31 @@
      </div>
   </div>
   <!--    blog details section end   -->
+  
+ <!--    start contact section   -->
 
+ @if ($bs->call_to_action_section == 1)
+ <section class="finlance_cta cta_v1 pt-70 pb-70"
+    style="background-image: url({{asset('assets/front/img/pattern_bg_2.jpg')}});">
+    <div class="container">
+       <div class="row align-items-center">
+          <div class="col-lg-8">
+             <div class="section_title">
+                <h2>{{convertUtf8($bs->cta_section_text)}}</h2>
+             </div>
+          </div>
+          <div class="col-lg-4">
+             <div class="button_box">
+                <a href="{{$bs->cta_section_button_url}}"
+                   class="finlance_btn">{{convertUtf8($bs->cta_section_button_text)}}</a>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ @endif
+
+   <!--    end contact section   -->
 @endsection
 
 @section('scripts')

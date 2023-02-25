@@ -21,8 +21,15 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Userful Links</h4>
+    <h4 class="page-title">{{ __('trans.Userful Links') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -33,13 +40,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Footer</a>
+        <a href="#">{{ __('trans.Footer') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Userful Links</a>
+        <a href="#">{{ __('trans.Userful Links') }}</a>
       </li>
     </ul>
   </div>
@@ -50,12 +57,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Userful Links</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Userful Links') }}</div>
                 </div>
                 <div class="col-lg-3">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.Footer') }}Select a Language</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -63,7 +70,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                     @endif
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Userful Link</a>
+                    <a href="#" class="btn btn-primary @if(session('language')== "ar") float-left @else float-right @endif btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> {{ __('trans.Add Userful Link') }}</a>
                 </div>
             </div>
         </div>
@@ -71,16 +78,16 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="row">
             <div class="col-lg-12">
               @if (count($aulinks) == 0)
-                <h3 class="text-center">NO USEFUL LINK FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO USEFUL LINK FOUND') }}</h3>
               @else
                 <div class="table-responsive">
                   <table class="table table-striped mt-3">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">URL</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.hash') }}</th>
+                        <th scope="col">{{ __('trans.Name') }}</th>
+                        <th scope="col">{{ __('trans.URL') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -94,7 +101,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Edit
+                              {{ __('trans.edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.ulink.delete')}}" method="post">
                               @csrf
@@ -103,7 +110,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>
@@ -126,8 +133,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Userful Link</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Add Userful Link') }}</h5>
+          <button type="button" class="close" style="@if(session('language')== "ar") margin-left: -1rem !important; @endif" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -135,9 +142,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <form id="ajaxForm" class="modal-form create" action="{{route('admin.ulink.store')}}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="">Language **</label>
+                <label for="">{{ __('trans.Language') }}</label>
                 <select name="language_id" class="form-control">
-                    <option value="" selected disabled>Select a language</option>
+                    <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                     @foreach ($langs as $lang)
                         <option value="{{$lang->id}}">{{$lang->name}}</option>
                     @endforeach
@@ -145,20 +152,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <p id="errlanguage_id" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Name **</label>
+              <label for="">{{ __('trans.Name') }}</label>
               <input type="text" class="form-control" name="name" value="" placeholder="Enter name">
               <p id="errname" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">URL **</label>
+              <label for="">{{ __('trans.URL') }}</label>
               <input class="form-control ltr" name="url" placeholder="Enter url">
               <p id="errurl" class="mb-0 text-danger em"></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="submitBtn" type="button" class="btn btn-primary @if(session('language')== "ar") mr-2 @else ml-2 @endif">{{ __('trans.Submit') }}</button>
         </div>
       </div>
     </div>
@@ -169,8 +176,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edit Userful Link</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Edit Userful Link') }}</h5>
+          <button type="button" class="close" style="@if(session('language')== "ar") margin-left: -1rem !important; @endif" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -179,20 +186,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             @csrf
             <input id="inulink_id" type="hidden" name="ulink_id" value="">
             <div class="form-group">
-              <label for="">Name **</label>
+              <label for="">{{ __('trans.Name') }}</label>
               <input id="inname" type="text" class="form-control" name="name" value="" placeholder="Enter name">
               <p id="eerrname" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">URL **</label>
+              <label for="">{{ __('trans.URL') }}</label>
               <input id="inurl" class="form-control ltr" name="url" placeholder="Enter url">
               <p id="eerrurl" class="mb-0 text-danger em"></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="updateBtn" type="button" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="updateBtn" type="button" class="btn btn-primary">{{ __('trans.Save Changes') }}</button>
         </div>
       </div>
     </div>

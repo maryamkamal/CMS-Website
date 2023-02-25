@@ -13,18 +13,47 @@
 @section('meta-keywords', "$be->services_meta_keywords")
 @section('meta-description', "$be->services_meta_description")
 
-@section('breadcrumb-title', convertUtf8($bs->service_title))
-@section('breadcrumb-subtitle', $bs->service_subtitle)
-@section('breadcrumb-link', __('Services'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5">
+                 <span>{{convertUtf8($bs->service_title)}}</span>
+                 <h1>{{convertUtf8($bs->service_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Services')}}</li>
+                 </ul>
+              </div>
+			  @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+				    <iframe width="420" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
+
 
   <!--    services section start   -->
   <div class="service-section">
      <div class="container">
         <div class="row">
            <div class="col-lg-8">
-                <section class="logistics_service service_v1">
+                <section class="logistics_service service_v1 pt-115 pb-80">
                     <div class="container">
                         <div class="service_slide">
                             <div class="row">
@@ -34,21 +63,21 @@
                                             <div class="grid_inner_item">
                                                 @if (!empty($service->main_image))
                                                     <div class="logistics_icon">
-                                                        <img class="lazy" data-src="{{asset('assets/front/img/services/' . $service->main_image)}}" alt="service" />
+                                                        <img src="{{asset('assets/front/img/services/' . $service->main_image)}}" alt="service" />
                                                     </div>
                                                 @endif
                                                 <div class="logistics_content">
                                                     <h4>{{convertUtf8($service->title)}}</h4>
                                                     <p>
-                                                        @if (strlen($service->summary) > 120)
-                                                           {{mb_substr($service->summary, 0, 120, 'utf-8')}}<span style="display: none;">{{mb_substr($service->summary, 120, null, 'utf-8')}}</span>
-                                                           <a href="#" class="see-more">{{__('see more')}}...</a>
+                                                        @if (strlen(convertUtf8($service->summary)) > 120)
+                                                           {{substr(convertUtf8($service->summary), 0, 120)}}<span style="display: none;">{{substr(convertUtf8($service->summary), 120)}}</span>
+                                                           <a href="#" class="see-more">see more...</a>
                                                         @else
-                                                           {{$service->summary}}
+                                                           {{convertUtf8($service->summary)}}
                                                         @endif
                                                     </p>
                                                     @if($service->details_page_status == 1)
-                                                        <a href="{{route('front.servicedetails', [$service->slug])}}" class="btn_link">{{__('Read More')}}</a>
+                                                        <a href="{{route('front.servicedetails', [$service->slug, $service->id])}}" class="btn_link">{{__('Read More')}}</a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -82,7 +111,7 @@
                    </form>
                 </div>
              </div>
-             @if (serviceCategory())
+             @if (hasCategory($be->theme_version))
              <div class="blog-sidebar-widgets category-widget">
                 <div class="category-lists job">
                    <h4>{{__('Categories')}}</h4>

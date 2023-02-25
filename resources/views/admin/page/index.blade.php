@@ -21,8 +21,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Page Lists</h4>
+    <h4 class="page-title">{{ __('trans.Page Lists') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -33,13 +38,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Pages</a>
+        <a href="#">{{ __('trans.Pages') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Page Lists</a>
+        <a href="#">{{ __('trans.Page Lists') }}</a>
       </li>
     </ul>
   </div>
@@ -50,12 +55,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Page Lists</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Page Lists') }}</div>
                 </div>
                 <div class="col-lg-3">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.Select a Language') }}</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -63,8 +68,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                     @endif
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                    <a href="{{route('admin.page.create')}}" class="btn btn-primary float-lg-right float-left btn-sm"><i class="fas fa-plus"></i> Add Page</a>
-                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.page.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                    <a href="{{route('admin.page.create')}}" class="btn btn-primary float-lg-right float-left btn-sm"><i class="fas fa-plus"></i>{{ __('trans.Add Page') }}</a>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.page.bulk.delete')}}"><i class="flaticon-interface-5"></i> {{ __('trans.Delete') }}</button>
                 </div>
             </div>
         </div>
@@ -72,19 +77,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="row">
             <div class="col-lg-12">
               @if (count($apages) == 0)
-                <h2 class="text-center">NO LINK ADDED</h2>
+                <h2 class="text-center">{{ __('trans.NO LINK ADDED') }}</h2>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3">
                     <thead>
                       <tr>
                         <th scope="col">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Serial Number</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.Name') }}</th>
+                        <th scope="col">{{ __('trans.Title') }}</th>
+                        <th scope="col">{{ __('trans.Status') }}</th>
+                        <th scope="col">{{ __('trans.Serial Number') }}</th>
+                        <th scope="col">{{ __('trans.Actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -94,30 +100,22 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                             <input type="checkbox" class="bulk-check" data-val="{{$apage->id}}">
                           </td>
                           <td>{!! convertUtf8($apage->name) !!}</td>
+                          <td>{{convertUtf8($apage->title)}}</td>
                           <td>
                             @if ($apage->status == 1)
-                              <span class="badge badge-success">Active</span>
+                              <span class="badge badge-success">{{ __('trans.Active') }}</span>
                             @elseif ($apage->status == 0)
-                              <span class="badge badge-danger">Deactive</span>
+                              <span class="badge badge-danger">{{ __('trans.Deactive') }}</span>
                             @endif
                           </td>
                           <td>{{$apage->serial_number}}</td>
                           <td>
                             <a class="btn btn-secondary btn-sm" href="{{route('admin.page.edit', $apage->id) . '?language=' . request()->input('language')}}">
-                                <span class="btn-label">
-                                <i class="fas fa-edit"></i>
-                                </span>
-                                Edit
+                            <span class="btn-label">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                            {{ __('trans.Edit') }}
                             </a>
-                            @if ($bex->custom_page_pagebuilder == 1)
-
-                                <a class="btn btn-secondary btn-sm" href="{{route('admin.pagebuilder.content', ['id' => $apage->id, 'language' => $apage->language->code, 'type' => 'page'])}}" target="_blank">
-                                    <span class="btn-label">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    Content
-                                </a>
-                            @endif
                             <form class="d-inline-block deleteform" action="{{route('admin.page.delete')}}" method="post">
                               @csrf
                               <input type="hidden" name="pageid" value="{{$apage->id}}">
@@ -125,7 +123,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.Delete') }}
                               </button>
                             </form>
                           </td>

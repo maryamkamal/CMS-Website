@@ -7,11 +7,11 @@
 
 @section('content')
   <!--   hero area start   -->
-  <div class="breadcrumb-area" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
-     <div class="container">
+  <div class="breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
         <div class="breadcrumb-txt">
            <div class="row">
-              <div class="col-xl-6 col-lg-6 col-sm-5">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
                 <span>{{$be->rss_title}}</span>
                  <h1>{{$be->rss_subtitle}}</h1>
                  <ul class="breadcumb">
@@ -20,14 +20,14 @@
                  </ul>
               </div>
 			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
 				 </div>
 			@endif
 			
 			   @if($bs->video_link!= null)
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-				    <iframe width="420" height="315"
+			   <div class="col">
+				    <iframe width="100%" height="315"
                    src="{{$bs->video_link}}">
                    </iframe> 
               </div>
@@ -123,4 +123,25 @@
      </div>
   </div>
   <!--    blog lists end   -->
+
+       <!-- Start finlance_cta section -->
+       @if ($bs->call_to_action_section == 1)
+       <section class="finlance_cta cta_v1 pt-70 pb-70" style="background-image: url({{asset('assets/front/img/pattern_bg_2.jpg')}});">
+          <div class="container">
+             <div class="row align-items-center">
+                <div class="col-lg-8">
+                   <div class="section_title">
+                      <h2>{{convertUtf8($bs->cta_section_text)}}</h2>
+                   </div>
+                </div>
+                <div class="col-lg-4">
+                   <div class="button_box">
+                      <a href="{{$bs->cta_section_button_url}}" class="finlance_btn">{{convertUtf8($bs->cta_section_button_text)}}</a>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </section>
+         @endif
+         <!-- End finlance_cta section -->
 @endsection

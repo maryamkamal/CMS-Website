@@ -1,7 +1,7 @@
     <!-- HERO PART START -->
     <section class="hero-area">
         <div class="hero-carousel-active">
-            <div class="single-carousel-active lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" id="hero-home-5" style="background-size: cover;">
+            <div class="single-carousel-active" id="hero-home-5" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}'); background-size: cover;">
                 <div id="bgndVideo" data-property="{videoURL:'{{$bs->hero_section_video_link}}',containment:'#hero-home-5', quality:'large', autoPlay:true, loop:true, mute:true, opacity:1}"></div>
                 <div class="container">
                     <div class="row">

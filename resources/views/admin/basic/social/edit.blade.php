@@ -1,8 +1,15 @@
 @extends('admin.layout')
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Social Links</h4>
+    <h4 class="page-title">{{ __('trans.SocialLinks') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,13 +20,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Basic Settings</a>
+        <a href="#">{{ __('trans.manSetting') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Social Links</a>
+        <a href="#">{{ __('trans.SocialLinks') }}</a>
       </li>
     </ul>
   </div>
@@ -28,21 +35,21 @@
       <div class="card">
         <form id="socialForm" action="{{route('admin.social.update')}}" method="post" onsubmit="update(event)">
           <div class="card-header">
-            <div class="card-title d-inline-block">Edit Social Link</div>
-            <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.social.index')}}">
+            <div class="card-title d-inline-block">{{ __('trans.EditSocialLink') }}</div>
+            <a class="btn btn-info btn-sm @if(session('language') == "ar") float-left @else float-right @endif d-inline-block" href="{{route('admin.social.index')}}">
 							<span class="btn-label">
 								<i class="fas fa-backward" style="font-size: 12px;"></i>
 							</span>
-							Back
+							{{ __('trans.Back') }}
 						</a>
           </div>
           <div class="card-body pt-5 pb-5">
-            <div class="row">
+            <div class="row" style="direction:ltr;">
               <div class="col-lg-6 offset-lg-3">
                 @csrf
                 <input type="hidden" name="socialid" value="{{$social->id}}">
                 <div class="form-group">
-                  <label for="">Social Icon **</label>
+                  <label for="">{{ __('trans.SocialIcon') }}</label>
                   <div class="btn-group d-block">
                       <button type="button" class="btn btn-primary iconpicker-component"><i class="{{$social->icon}}"></i></button>
                       <button type="button" class="icp icp-dd btn btn-primary dropdown-toggle"
@@ -55,23 +62,23 @@
                     <p class="mb-0 text-danger">{{$errors->first('icon')}}</p>
                   @endif
                   <div class="mt-2">
-                    <small>NB: click on the dropdown icon to select a social link icon.</small>
+                    <small>{{ __('trans.socialIconInstrac') }}</small>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="">URL **</label>
+                  <label for="">{{ __('trans.URL') }}</label>
                   <input type="text" class="form-control" name="url" value="{{$social->url}}" placeholder="Enter URL of social media account">
                   @if ($errors->has('url'))
                     <p class="mb-0 text-danger">{{$errors->first('url')}}</p>
                   @endif
                 </div>
                 <div class="form-group">
-                  <label for="">Serial Number **</label>
+                  <label for="">{{ __('trans.serialNumber') }}</label>
                   <input type="number" class="form-control ltr" name="serial_number" value="{{$social->serial_number}}" placeholder="Enter Serial Number">
                   @if ($errors->has('serial_number'))
                     <p class="mb-0 text-danger">{{$errors->first('serial_number')}}</p>
                   @endif
-                  <p class="text-warning"><small>The higher the serial number is, the later the social link will be shown.</small></p>
+                  <p class="text-warning"><small>{{ __('trans.serialNumberAlert') }}</small></p>
                 </div>
               </div>
             </div>
@@ -83,7 +90,7 @@
 
                 </div>
                 <div class="col-12 text-center">
-                  <button type="submit" id="displayNotif" class="btn btn-success">Update</button>
+                  <button type="submit" id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>

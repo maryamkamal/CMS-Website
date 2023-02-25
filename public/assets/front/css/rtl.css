@@ -506,8 +506,8 @@ table.dataTable thead th, table.dataTable thead td {
     text-align: right;
 }
 ul.login {
-    margin-left: 19px;
-    margin-right: -6px;
+    margin-left: 0;
+    margin-right: 20px;
 }
 ul.login::before {
     left: auto;

@@ -17,7 +17,7 @@
                                 @endforeach
                             </ul>
 
-                            @if (!empty($currentLang) && count($langs) > 1)
+                            @if (!empty($currentLang))
                                 <div class="dropdown">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fas fa-globe"></i>{{convertUtf8($currentLang->name)}}
                                     </button>
@@ -30,51 +30,14 @@
                             @endif
 
                             @guest
-                                @if ($bex->is_user_panel == 1)
-                                    <ul class="login">
-                                        <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
-                                    </ul>
-                                @endif
+                            <ul class="login">
+                                <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
+                            </ul>
                             @endguest
                             @auth
-                            <div class="dropdown ml-4">
-                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="far fa-user mr-1"></i> {{Auth::user()->username}}
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a>
-                                    @if ($bex->recurring_billing == 1)
-                                        <a class="dropdown-item" href="{{route('user-packages')}}">{{__('Packages')}}</a>
-                                    @endif
-                                    @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                        <a class="dropdown-item" href="{{route('user-orders')}}">{{__('Product Orders')}} </a>
-                                    @endif
-                                    @if ($bex->recurring_billing == 0)
-                                        <a class="dropdown-item" href="{{route('user-package-orders')}}">{{__('Package Orders')}} </a>
-                                    @endif
-
-                                    @if ($bex->is_course == 1)
-                                    <a class="dropdown-item" href="{{route('user.course_orders')}}" >{{__('Courses')}}</a>
-                                    @endif
-
-                                    @if ($bex->is_event == 1)
-                                    <a class="dropdown-item" href="{{route('user-events')}}" >{{__('Event Bookings')}}</a>
-                                    @endif
-
-                                    @if ($bex->is_donation == 1)
-                                    <a class="dropdown-item" href="{{route('user-donations')}}" >{{__('Donations')}}</a>
-                                    @endif
-                                    @if ($bex->is_ticket == 1)
-                                        <a class="dropdown-item" href="{{route('user-tickets')}}">{{__('Support Tickets')}}</a>
-                                    @endif
-                                    <a class="dropdown-item" href="{{route('user-profile')}}">{{__('Edit Profile')}}</a>
-                                    @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                        <a class="dropdown-item" href="{{route('shpping-details')}}">{{__('Shipping Details')}}</a>
-                                        <a class="dropdown-item" href="{{route('billing-details')}}">{{__('Billing Details')}}</a>
-                                        <a class="dropdown-item" href="{{route('user-reset')}}">{{__('Change Password')}}</a>
-                                    @endif
-                                    <a class="dropdown-item" href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
-                                </div>
-                            </div>
+                            <ul class="login">
+                                <li><a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a></li>
+                            </ul>
                             @endauth
                         </div>
                     </div>
@@ -85,7 +48,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2 col-sm-12">
                             <div class="brand">
-                                <a href="{{route('front.index')}}"><img data-src="{{asset('assets/front/img/'.$bs->logo)}}" class="img-fluid lazy" alt=""></a>
+                                <a href="{{route('front.index')}}"><img src="{{asset('assets/front/img/'.$bs->logo)}}" class="img-fluid" alt=""></a>
                             </div>
                         </div>
                         <div class="{{$bs->is_quote == 1 ? 'col-lg-8' : 'col-lg-10'}} col-lg-8 d-flex {{$bs->is_quote == 1 ? 'justify-content-center' : 'justify-content-end'}}">
@@ -102,8 +65,32 @@
                                                 $href = getHref($link);
                                             @endphp
 
-                                            @if (strpos($link["type"], '-megamenu') !==  false)
-                                                @includeIf('front.construction.partials.mega-menu')
+                                            {{-- if the theme version has service category, then show megamenu --}}
+                                            @if ($link["type"] == 'services' && hasCategory($be->theme_version))
+
+                                                <li class="menu-item menu-item-has-children static"><a href="{{$href}}">{{$link["text"]}}</a>
+                                                    <ul class="mega-menu">
+                                                        <div class="row">
+                                                            @if (count($scats) > 0)
+                                                                @foreach ($scats as $key => $scat)
+                                                                    <div class="col-lg-3">
+                                                                        <li class="mega-item">
+                                                                            <a>{{$scat->name}}</a>
+                                                                            <ul>
+                                                                                @foreach ($scat->services()->orderBy('serial_number', 'ASC')->get() as $key => $service)
+
+                                                                                    <li><a href="{{route('front.servicedetails', [$service->slug, $service->id])}}">{{$service->title}}</a></li>
+
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </li>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+                                                    </ul>
+                                                </li>
+
 
                                             @else
 

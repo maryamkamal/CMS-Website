@@ -33,11 +33,11 @@
     margin-left: 10px;
 }
 .main-menu ul li:first-child {
-    margin-left: 0px;
+    margin-left: 12px;
     margin-right: 0px;
 }
 .main-menu ul li:first-child a{
-	padding-left: 0px;
+	padding-left: 13px;
 	padding-right: 0;
 }
 .main-menu ul li ul.mega-menu,

@@ -124,6 +124,19 @@
 										</label>
 									</div>
                 </div>
+				<div class="form-group">
+                  <label>{{ __('trans.productSection') }}</label>
+                  <div class="selectgroup w-100">
+										<label class="selectgroup-item">
+											<input type="radio" name="product_section" value="1" class="selectgroup-input" {{$abs->product_section == 1 ? 'checked' : ''}}>
+											<span class="selectgroup-button">{{ __('trans.activ') }}</span>
+										</label>
+										<label class="selectgroup-item">
+											<input type="radio" name="product_section" value="0" class="selectgroup-input" {{$abs->product_section == 0 ? 'checked' : ''}}>
+											<span class="selectgroup-button">{{ __('trans.disable') }}</span>
+										</label>
+									</div>
+                </div>
                 <div class="form-group">
                   <label>{{ __('trans.testimonialSection') }}</label>
                   <div class="selectgroup w-100">

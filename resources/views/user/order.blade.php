@@ -11,10 +11,10 @@
         <div class="breadcrumb-txt">
             <div class="row">
                 <div class="col-xl-7 col-lg-8 col-sm-10">
-                    <h1>{{__('Product Orders')}}</h1>
+                    <h1>{{__('My Orders')}}</h1>
                     <ul class="breadcumb">
                         <li><a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a></li>
-                        <li>{{__('Product Orders')}}</li>
+                        <li>{{__('Orders')}}</li>
                     </ul>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                         <div class="user-profile-details">
                             <div class="account-info">
                                 <div class="title">
-                                    <h4>{{__('Product Orders')}}</h4>
+                                    <h4>{{__('All Orders')}}</h4>
                                 </div>
                                 <div class="main-info">
                                     <div class="main-table">
@@ -44,7 +44,7 @@
                                         <table id="ordersTable" class="dataTables_wrapper dt-responsive table-striped dt-bootstrap4" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>{{__('Order number')}}</th>
+                                                    <th>{{__('Order number')}}r</th>
                                                     <th>{{__('Date')}}</th>
                                                     <th>{{__('Total Price')}}</th>
                                                     <th>{{__('Action')}}</th>
@@ -57,7 +57,7 @@
                                                 <td>{{$order->order_number}}</td>
                                                      <td>{{$order->created_at->format('d-m-Y')}}</td>
                                                     <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$order->total}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                                    <td><a href="{{route('user-orders-details',$order->id)}}" class="btn base-bg text-white">{{__('Details')}}</a></td>
+                                                    <td><a href="{{route('user-orders-details',$order->id)}}" class="btn">{{__('Details')}}</a></td>
                                                 </tr>
                                                 @endforeach
                                                 @else

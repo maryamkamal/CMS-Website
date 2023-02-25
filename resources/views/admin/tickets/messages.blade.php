@@ -1,7 +1,14 @@
 @extends('admin.layout')
 @section('content')
+@if(session('language')!=null)
+<?php  App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
 <div class="page-header">
-   <h4 class="page-title">Conversations</h4>
+   <h4 class="page-title">{{ __('trans.Conversations') }}</h4>
    <ul class="breadcrumbs">
       <li class="nav-home">
          <a href="{{route('admin.dashboard')}}">
@@ -12,13 +19,13 @@
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">Tickets</a>
+         <a href="#">{{ __('trans.Tickets') }}</a>
       </li>
       <li class="separator">
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">Conversations</a>
+         <a href="#">{{ __('trans.Conversations') }}</a>
       </li>
    </ul>
 </div>
@@ -28,10 +35,10 @@
          <div class="card-header">
             <div class="row">
                <div class="col-lg-4">
-               <div class="card-title d-inline-block">Ticket Details - #{{$ticket->ticket_number}}</div>
+               <div class="card-title d-inline-block">{{ __('trans.Ticket Details') }} - #{{$ticket->ticket_number}}</div>
                </div>
                <div class="col-lg-3 offset-lg-5 mt-2 mt-lg-0 text-right">
-                  <a href="{{route('admin.tickets.all')}}" class="btn btn-primary btn-md">Back to Lists</a>
+                  <a href="{{route('admin.tickets.all')}}" class="btn btn-primary btn-md">{{ __('trans.Back to Lists') }}</a>
                </div>
             </div>
          </div>
@@ -42,25 +49,25 @@
                      <div class="col-lg-12">
                         <h3 class="text-white">{{$ticket->subject}}</h3>
                         @if($ticket->status != 'close')
-                        <button class="close-ticket btn btn-success btn-md" data-href="{{route('admin.ticket.close',$ticket->id)}}"><i class="fas fa-check mr-1"></i> Close Ticket</button>
+                        <button class="close-ticket btn btn-success btn-md" data-href="{{route('admin.ticket.close',$ticket->id)}}"><i class="fas fa-check mr-1"></i>{{ __('trans.Close Ticket') }}</button>
                         @endif
                      </div>
                      <div class="col-lg-12 my-3">
                         @if($ticket->status == 'pending')
-                        <span class="badge badge-warning">Pending</span>
+                        <span class="badge badge-warning">{{ __('trans.Pending') }}</span>
                         @elseif($ticket->status == 'open')
-                        <span class="badge badge-primary">Open</span>
+                        <span class="badge badge-primary">{{ __('trans.Open') }}</span>
                         @else
-                        <span class="badge badge-danger">Closed</span>
+                        <span class="badge badge-danger">{{ __('trans.Closed') }}</span>
                         @endif
                         <span class="badge badge-secondary">{{$ticket->created_at->format('d-m-Y')}} {{date("h.i A", strtotime($ticket->created_at))}}</span>
                      </div>
                   </div>
                   <div class="row">
-                     <div class="col-lg-8 offset-lg-2">
+                     <div class="col-lg-12">
                         <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
                         @if($ticket->zip_file)
-                        <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
+                        <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i>{{ __('trans.Download Attachment') }}</a>
                         @endif
                      </div>
                   </div>
@@ -73,7 +80,7 @@
    <div class="{{$ticket->status == 'close' ? 'col-lg-12' : 'col-lg-6'}}">
     <div class="card card-round">
         <div class="card-body">
-           <div class="card-title fw-mediumbold">Replies</div>
+           <div class="card-title fw-mediumbold">{{ __('trans.Replies') }}</div>
            <div class="card-list">
                <div class="messages-container">
                 @if(count($ticket->messages) > 0)
@@ -91,7 +98,7 @@
                          <div class="status">{{$admin->id == 1 ? 'Super Admin' : $admin->role->name}}</div>
                          <p>{!! replaceBaseUrl($reply->reply) !!}</p>
                          @if($reply->file)
-                         <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="support_file" class="btn btn-rounded btn-info btn-sm">Download</a>
+                         <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="support_file" class="btn btn-rounded btn-info btn-sm">{{ __('trans.Download') }}</a>
                          @endif
                       </div>
                    </div>
@@ -101,18 +108,14 @@
                    @endphp
                    <div class="item-list">
                       <div class="avatar">
-                        @if (strpos($user->photo, 'facebook') !== false || strpos($user->photo, 'google'))
-                            <img class="avatar-img rounded-circle" src="{{$user->photo ? $user->photo : asset('assets/front/img/user/profile.jpg')}}" alt="user-photo">
-                        @else
-                            <img class="avatar-img rounded-circle" src="{{$user->photo ? asset('assets/front/img/user/'.$user->photo) : ''}}" alt="user-photo">
-                        @endif
+                         <img src="{{asset('assets/front/img/user/'.$user->photo)}}" alt="..." class="avatar-img rounded-circle">
                       </div>
                       <div class="info-user ml-3">
                          <div class="username">{{$user->username}}</div>
                          <div class="status">{{__('Customer')}}</div>
                          <p>{!! replaceBaseUrl($reply->reply) !!}</p>
                          @if($reply->file)
-                         <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="support_file" class="btn btn-rounded btn-info btn-sm">Download</a>
+                         <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="support_file" class="btn btn-rounded btn-info btn-sm">{{ __('trans.Download') }}</a>
                          @endif
                       </div>
                    </div>
@@ -130,19 +133,19 @@
  <div class="col-lg-6 message-type">
    <div class="card card-round">
        <div class="card-body">
-           <div class="card-title fw-mediumbold mb-2">Reply to Ticket</div>
+           <div class="card-title fw-mediumbold mb-2">{{ __('trans.Reply to Ticket') }}</div>
            <form action="{{route('admin.ticket.reply',$ticket->id)}}" id="ajaxform" method="POST" enctype="multipart/form-data">@csrf
                <div class="form-group">
-                   <label for="">Message **</label>
+                   <label for="">{{ __('trans.Message') }} **</label>
                    <textarea name="reply" class="summernote" data-height="200"></textarea>
                    <p class="em text-danger mb-0" id="errreply"></p>
                  </div>
                <div class="form-group">
-                   <label for="">Attachment</label>
+                   <label for="">{{ __('trans.Attachment') }}</label>
                    <div class="input-group">
                        <div class="custom-file">
                          <input type="file" name="file" class="custom-file-input" data-href="{{route('admin.zip_file.upload')}}" name="file" id="zip_file">
-                         <label class="custom-file-label" for="zip_file">Choose file</label>
+                         <label class="custom-file-label" for="zip_file">{{ __('trans.Choose file') }}</label>
                        </div>
                    </div>
                    <p class="em text-danger mb-0" id="errfile"></p>
@@ -150,10 +153,10 @@
                    <div class="progress progress-sm d-none">
                        <div class="progress-bar bg-success " role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax=""></div>
                    </div>
-                   <p class="text-warning">Upload only ZIP Files, Max File Size is 5 MB</p>
+                   <p class="text-warning">{{ __('trans.text var') }}</p>
                </div>
                <div class="form-group">
-                   <button type="submit" class="btn btn-success">Message</button>
+                   <button type="submit" class="btn btn-success">{{ __('trans.Message') }}</button>
                </div>
            </form>
        </div>

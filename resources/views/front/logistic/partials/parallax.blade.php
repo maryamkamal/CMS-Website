@@ -1,6 +1,6 @@
     <!-- Start logistics_banner section -->
     <section class="logistics_banner banner_v1">
-        <div class="hero_slide_v1 lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" style="background-attachment: fixed; background-size: cover;">
+        <div class="hero_slide_v1" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}'); background-attachment: fixed; background-size: cover;">
             <div class="single_slider bg_image">
                 <div class="container">
                     <div class="row">

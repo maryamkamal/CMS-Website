@@ -6,7 +6,8 @@
       {!! $bs->google_analytics_script !!}
       @endif
       <!--End of Google Analytics script-->
-
+      <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet">
+      <link href="https://unused-css.com/" rel="stylesheet">
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,20 +23,31 @@
       <link rel="stylesheet" href="{{asset('assets/front/css/bootstrap.min.css')}}">
       <!-- plugin css -->
       <link rel="stylesheet" href="{{asset('assets/front/css/plugin.min.css')}}">
+      
 
+      @yield('styles')
       <!-- main css -->
       <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-      <!-- common css -->
-      <link rel="stylesheet" href="{{asset('assets/front/css/common-style.css')}}">
-      @yield('styles')
+     <style>
+      :not(i){
+        font-family:'Tajawal', sans-serif !important; 
+        
+      }
+      
+    </style>
 
-      @if ($bs->is_tawkto == 1 || $bex->is_whatsapp == 1)
+
+      @if ($bs->is_tawkto == 1)
       <style>
-        .back-to-top.show {
-            right: auto;
-            left: 20px;
-        }
+      .back-to-top {
+          bottom: 50px;
+      }
+      .back-to-top.show {
+          right: 20px;
+      }
       </style>
       @endif
       @if (count($langs) == 0)
@@ -48,15 +60,20 @@
       }
       </style>
       @endif
+      @if($bs->feature_section == 0)
+      <style media="screen">
+      .hero-txt {
+          padding-bottom: 160px;
+      }
+      </style>
+      @endif
 
       <!-- responsive css -->
       <link rel="stylesheet" href="{{asset('assets/front/css/responsive.css')}}">
-      <!-- common base color change -->
-      <link href="{{url('/')}}/assets/front/css/common-base-color.php?color={{$bs->base_color}}" rel="stylesheet">
       <!-- base color change -->
-      <link href="{{url('/')}}/assets/front/css/base-color.php?color={{$bs->base_color}}{{$be->theme_version != 'dark' ? "&color1=" . $bs->secondary_base_color : ""}}" rel="stylesheet">
+      <link href="{{url('/')}}/assets/front/css/base-color.php?color={{$bs->base_color}}{{!isDark($be->theme_version) ? "&color1=" . $bs->secondary_base_color : ""}}" rel="stylesheet">
 
-      @if ($be->theme_version == 'dark')
+      @if (isDark($be->theme_version))
         <!-- dark version css -->
         <link rel="stylesheet" href="{{asset('assets/front/css/dark.css')}}">
         <!-- dark version base color change -->
@@ -66,7 +83,6 @@
       @if ($rtl == 1)
       <!-- RTL css -->
       <link rel="stylesheet" href="{{asset('assets/front/css/rtl.css')}}">
-      <link rel="stylesheet" href="{{asset('assets/front/css/pb-rtl.css')}}">
       @endif
       <!-- jquery js -->
       <script src="{{asset('assets/front/js/jquery-3.3.1.min.js')}}"></script>
@@ -105,12 +121,38 @@
                   </div>
                   <div class="col-lg-6 {{$rtl == 1 ? 'text-left' : 'text-right'}}">
                      <ul class="social-links">
+					    @if ($bs->product_section == 1)
+						 @php if (Session::has('cart')) {
+                             $cart = Session::get('cart');
+                             } else {
+                                 $cart = null;
+                             }
+	                 	
+						 
+                            $cartTotal = 0;
+                            $countitem = 0;
+                            if($cart){
+                            foreach($cart as $p){
+                                $cartTotal += $p['price'] * $p['qty'];
+                                $countitem += $p['qty'];
+                            }
+                        }
+                        @endphp
+                        <li>
+                           <a target="_blank" href="{{route('front.cart')}}">
+                               <i class="fa-opencart fab">
+							   {{$cart ? $countitem : 0}}
+                               </i>
+                           </a>
+                       </li>
+					   @endif
                        @foreach ($socials as $key => $social)
                          <li><a target="_blank" href="{{$social->url}}"><i class="{{$social->icon}}"></i></a></li>
                        @endforeach
+                       
                      </ul>
 
-                     @if (!empty($currentLang) && count($langs) > 1)
+                     @if (!empty($currentLang))
                        <div class="language">
                           <a class="language-btn" href="#"><i class="flaticon-worldwide"></i> {{convertUtf8($currentLang->name)}}</a>
                           <ul class="language-dropdown">
@@ -122,81 +164,14 @@
                      @endif
 
                      @guest
-                        @if ($bex->is_user_panel == 1)
-                            <ul class="login">
-                                <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
-                            </ul>
-                        @endif
-                    @endguest
+                     <ul class="login">
+                         <li><a href="{{route('user.login')}}">{{__('Login')}}</a></li>
+                     </ul>
+                     @endguest
                      @auth
-                     <div class="language dashboard">
-                         <a class="language-btn" href="#">
-                             <i class="far fa-user"></i> {{Auth::user()->username}}
-                         </a>
-                         <ul class="language-dropdown">
-                             <li>
-                                 <a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a>
-                             </li>
-
-                             @if ($bex->recurring_billing == 1)
-                                 <li><a href="{{route('user-packages')}}">{{__('Packages')}}</a></li>
-                             @endif
-
-                             @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                 <li><a href="{{route('user-orders')}}">{{__('Product Orders')}} </a></li>
-                             @endif
-
-                             @if ($bex->recurring_billing == 0)
-                                 <li><a href="{{route('user-package-orders')}}">{{__('Package Orders')}} </a></li>
-                             @endif
-
-
-                             @if ($bex->is_course == 1)
-                             <li>
-                                 <a href="{{route('user.course_orders')}}" >{{__('Courses')}}</a>
-                             </li>
-                             @endif
-
-
-                             @if ($bex->is_event == 1)
-                             <li>
-                                 <a href="{{route('user-events')}}" >{{__('Event Bookings')}}</a>
-                             </li>
-                             @endif
-
-
-                             @if ($bex->is_donation == 1)
-                             <li>
-                                 <a href="{{route('user-donations')}}" >{{__('Donations')}}</a>
-                             </li>
-                             @endif
-
-                             @if ($bex->is_ticket == 1)
-                             <li>
-                                 <a href="{{route('user-tickets')}}">{{__('Support Tickets')}}</a>
-                             </li>
-                             @endif
-
-                             <li>
-                                 <a href="{{route('user-profile')}}">{{__('Edit Profile')}}</a>
-                             </li>
-
-                             @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-                                 <li>
-                                     <a href="{{route('shpping-details')}}">{{__('Shipping Details')}}</a>
-                                 </li>
-                                 <li>
-                                     <a href="{{route('billing-details')}}">{{__('Billing Details')}}</a>
-                                 </li>
-                                 <li>
-                                     <a href="{{route('user-reset')}}">{{__('Change Password')}}</a>
-                                 </li>
-                             @endif
-                             <li>
-                                 <a href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
-                             </li>
-                         </ul>
-                     </div>
+                     <ul class="login">
+                         <li><a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a></li>
+                     </ul>
                      @endauth
 
 
@@ -212,50 +187,32 @@
       <!--   header area end   -->
 
 
-      @if (!request()->routeIs('front.index') && !request()->routeIs('front.packageorder.confirmation'))
-        <!--   breadcrumb area start   -->
-        <div class="breadcrumb-area cases lazy" data-bg="{{asset('assets/front/img/' . $bs->breadcrumb)}}" style="background-size:cover;">
-            <div class="container">
-            <div class="breadcrumb-txt">
-                <div class="row">
-                    <div class="col-xl-7 col-lg-8 col-sm-10">
-                        <span>@yield('breadcrumb-title')</span>
-                        <h1>@yield('breadcrumb-subtitle')</h1>
-                        <ul class="breadcumb">
-                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
-                        <li>@yield('breadcrumb-link')</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
-        </div>
-        <!--   breadcrumb area end    -->
-      @endif
-
-
       @yield('content')
+
+
+      <!--    announcement banner section start   -->
+      <a class="announcement-banner" href="{{asset('assets/front/img/'.$bs->announcement)}}"></a>
+      <!--    announcement banner section end   -->
 
 
       <!--    footer section start   -->
       <footer class="footer-section">
          <div class="container">
-            @if (!($bex->home_page_pagebuilder == 0 && $bs->top_footer_section == 0))
-            <div class="top-footer-section">
+            @if ($bs->top_footer_section == 1)
+            <div class="top-footer-section @if ($bs->copyright_section == 0) border-bottom-0 @endif">
                <div class="row">
                   <div class="col-lg-4 col-md-12">
                      <div class="footer-logo-wrapper">
                         <a href="{{route('front.index')}}">
-                        <img class="lazy" data-src="{{asset('assets/front/img/'.$bs->footer_logo)}}" alt="">
+                        <img src="{{asset('assets/front/img/'.$bs->footer_logo)}}" alt="">
                         </a>
                      </div>
                      <p class="footer-txt">
-                        @if (strlen($bs->footer_text) > 194)
-                           {{mb_substr($bs->footer_text, 0, 194, 'UTF-8')}}<span style="display: none;">{{mb_substr($bs->footer_text, 194, null, 'UTF-8')}}</span>
-                           <a href="#" class="see-more">{{__('see more')}}...</a>
+                        @if (strlen(convertUtf8($bs->footer_text)) > 194)
+                           {{substr(convertUtf8($bs->footer_text), 0, 194)}}<span style="display: none;">{{substr(convertUtf8($bs->footer_text), 194)}}</span>
+                           <a href="#" class="see-more">see more...</a>
                         @else
-                           {{$bs->footer_text}}
+                           {{convertUtf8($bs->footer_text)}}
                         @endif
                     </p>
                   </div>
@@ -281,54 +238,17 @@
                      <h4>{{__('Contact Us')}}</h4 >
                      <div class="footer-contact-info">
                         <ul>
-                           <li><i class="fa fa-home"></i>
-                            @php
-                            $addresses = explode(PHP_EOL, $bex->contact_addresses);
-                            @endphp
-                            <span>
-                                @foreach ($addresses as $address)
-                                {{$address}}
-                                @if (!$loop->last)
-                                    |
-                                @endif
-                                @endforeach
-                            </span>
+                           <li><i class="fa fa-home"></i><span>{{convertUtf8($bs->contact_address)}}</span>
                            </li>
-
-                           <li><i class="fa fa-phone"></i>
-                            @php
-                             $phones = explode(',', $bex->contact_numbers);
-                            @endphp
-                            <span>
-                                @foreach ($phones as $phone)
-                                {{$phone}}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                                @endforeach
-                            </span>
-                          </li>
-                           <li><i class="far fa-envelope"></i>
-                            @php
-                             $mails = explode(',', $bex->contact_mails);
-                            @endphp
-                            <span>
-                                @foreach ($mails as $mail)
-                                {{$mail}}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                                @endforeach
-                            </span>
-                           </li>
+                           <li><i class="fa fa-phone"></i><span>{{convertUtf8($bs->contact_number)}}</span></li>
+                           <li><i class="far fa-envelope"></i><span>{{convertUtf8($bs->contact_mail)}}</span></li>
                         </ul>
                      </div>
                   </div>
                </div>
             </div>
             @endif
-
-            @if (!($bex->home_page_pagebuilder == 0 && $bs->copyright_section == 0))
+            @if ($bs->copyright_section == 1)
             <div class="copyright-section">
                <div class="row">
                   <div class="col-sm-12 text-center">
@@ -342,39 +262,25 @@
       <!--    footer section end   -->
 
 
-      {{-- WhatsApp Chat Button --}}
-      <div id="WAButton"></div>
-
-        <!--====== PRELOADER PART START ======-->
-        @if ($bex->preloader_status == 1)
-        <div id="preloader">
-            <div class="loader revolve">
-                <img src="{{asset('assets/front/img/' . $bex->preloader)}}" alt="">
-            </div>
-        </div>
-        @endif
-        <!--====== PRELOADER PART ENDS ======-->
-
-        @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-            <div id="cartIconWrapper">
-                <a class="d-block" id="cartIcon" href="{{route('front.cart')}}">
-                    <div class="cart-length">
-                        <i class="fas fa-cart-plus"></i>
-                        <span class="length">{{cartLength()}} {{__('ITEMS')}}</span>
-                    </div>
-                    <div class="cart-total">
-                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-                        {{cartTotal()}}
-                        {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                    </div>
-                </a>
-            </div>
-        @endif
-
-      <!-- back to top area start -->
-      <div class="back-to-top">
-         <i class="fas fa-chevron-up"></i>
+      <!-- preloader section start -->
+      <div class="loader-container">
+         <span class="loader">
+         <span class="loader-inner"></span>
+         </span>
       </div>
+      <span class="fixed-scl">
+         <a href="https://wa.me/23456778888?text=السلام%20عليكم،%20لدي%20استفسار." class="float" target="_blank">
+            <i style="font-size: xxx-large;" class="fa fa-whatsapp"> </i> </a>
+            <a id="scroll_up" href="#" style="display: inline;"><i class="scroll fas fa-angle-up"></i></a> 
+      </span>
+   
+      
+      <div class="icon-bar" style="position: fixed; bottom: 0px; left: 0px; display: block;" id="fixed_bar">
+         <a href="#"><i class="fa fa-home"></i></a> 
+         <a href="https://wa.me/0201150850000?text=السلام%20عليكم،%20لدي%20استفسار."><i class="fa fa-whatsapp"></i></a> 
+         <a href="#"><i class="fa fa-comment-o"></i></a> 
+         <a id="scroll_up" href="#" style="display: inline;"><i class="fas fa-angle-up"></i></a> 
+       </div>
       <!-- back to top area end -->
 
 
@@ -384,63 +290,50 @@
       @endif
       {{-- Cookie alert dialog end --}}
 
-      {{-- Popups start --}}
-      @includeIf('front.partials.popups')
-      {{-- Popups end --}}
-
       @php
         $mainbs = [];
+        $mainbs['is_announcement'] = $bs->is_announcement;
+        $mainbs['announcement_delay'] = $bs->announcement_delay;
         $mainbs = json_encode($mainbs);
       @endphp
       <script>
+        var lat = {{$bs->latitude}};
+        var lng = {{$bs->longitude}};
         var mainbs = {!! $mainbs !!};
-        var mainurl = "{{url('/')}}";
-        var vap_pub_key = "{{env('VAPID_PUBLIC_KEY')}}";
+
         var rtl = {{ $rtl }};
       </script>
       <!-- popper js -->
+	  <script src="{{asset('assets/front/js/jquery.ui.js')}}"></script>
+      <script src="{{asset('assets/front/js/cart.js')}}"></script>
       <script src="{{asset('assets/front/js/popper.min.js')}}"></script>
       <!-- bootstrap js -->
       <script src="{{asset('assets/front/js/bootstrap.min.js')}}"></script>
       <!-- Plugin js -->
       <script src="{{asset('assets/front/js/plugin.min.js')}}"></script>
+      @if (request()->path() == 'contact')
+      <!-- google map api -->
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7eALQrRUekFNQX71IBNkxUXcz-ALS-MY&callback=initMap" async defer></script>
+      <!-- google map activate js -->
+      <script src="{{asset('assets/front/js/google-map-activate.min.js')}}"></script>
+      @endif
       <!-- main js -->
       <script src="{{asset('assets/front/js/main.js')}}"></script>
-      <!-- pagebuilder custom js -->
-      <script src="{{asset('assets/front/js/common-main.js')}}" defer></script>
+      
 
-      {{-- whatsapp init code --}}
-      @if ($bex->is_whatsapp == 1)
-        <script type="text/javascript">
-            var whatsapp_popup = {{$bex->whatsapp_popup}};
-            var whatsappImg = "{{asset('assets/front/img/whatsapp.svg')}}";
-            $(function () {
-                $('#WAButton').floatingWhatsApp({
-                    phone: "{{$bex->whatsapp_number}}", //WhatsApp Business phone number
-                    headerTitle: "{{$bex->whatsapp_header_title}}", //Popup Title
-                    popupMessage: `{!! nl2br($bex->whatsapp_popup_message) !!}`, //Popup Message
-                    showPopup: whatsapp_popup == 1 ? true : false, //Enables popup display
-                    buttonImage: '<img src="' + whatsappImg + '" />', //Button Image
-                    position: "right" //Position: left | right
-
-                });
-            });
-        </script>
-      @endif
       @yield('scripts')
-      @stack('event-js')
 
-        @if (session()->has('success'))
-        <script>
-            toastr["success"]("{{__(session('success'))}}");
-        </script>
-        @endif
+      @if (session()->has('success'))
+      <script>
+         toastr["success"]("{{__(session('success'))}}");
+      </script>
+      @endif
 
-        @if (session()->has('error'))
-        <script>
-            toastr["error"]("{{__(session('error'))}}");
-        </script>
-        @endif
+      @if (session()->has('error'))
+      <script>
+         toastr["error"]("{{__(session('error'))}}");
+      </script>
+      @endif
 
       <!--Start of subscribe functionality-->
       <script>
@@ -472,8 +365,6 @@
               }
             });
           });
-
-
         });
       </script>
       <!--End of subscribe functionality-->

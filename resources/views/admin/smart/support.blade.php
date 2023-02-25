@@ -11,24 +11,30 @@
 
 
 
-      
-
-        <div class="page-header">
-<h4 class="page-title">{{__('trans.support')}}</h4>
-<ul class="breadcrumbs">
-<li class="nav-home">
-  <a href="http://online.egtaz.com/admin/dashboard">
-    <i class="flaticon-home">{{__('trans.smart online')}}</i>
-  </a>
-</li>
-<li class="separator">
-  <i class="flaticon-right-arrow"></i>
-</li>
-<li class="nav-item">
-  <a href="#">{{__('trans.support')}}</a>
-</li>
-</ul>
+<div class="page-header">
+  <h4 class="page-title">{{__('trans.support')}}</h4>
+  <ul class="breadcrumbs">
+    <li class="nav-home">
+      <a href="http://online.egtaz.com/admin/dashboard">
+        <i class="flaticon-home"></i>
+      </a>
+    </li>
+    <li class="separator">
+      <i class="flaticon-right-arrow"></i>
+    </li>
+    <li class="nav-item">
+      <a href="#">{{__('trans.smart online')}}</a>
+    </li>
+    <li class="separator">
+      <i class="flaticon-right-arrow"></i>
+    </li>
+    <li class="nav-item">
+      <a href="#">{{__('trans.support')}}</a>
+    </li>
+  </ul>
 </div>
+
+
 <div class="row">
 <div class="col-lg-6">
 <div class="card">
@@ -95,9 +101,7 @@
     ">
 
 		<a href="https://wa.me/+201150850000?text=السلام%20عليكم،%20لدي%20استفسار." class="float" target="_blank">
-      <i style="       color: #e8c415;
-      font-size: xxx-large;
-      " class="fab fa-whatsapp"></i>		</a>
+      <i style="color: #e8c415; font-size: xxx-large;" class="fab fa-whatsapp"></i></a>
 
 <div class="form">
   <div class="form-group from-show-notify row">

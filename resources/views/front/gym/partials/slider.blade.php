@@ -8,7 +8,7 @@
                             $rgb = hex2rgb($heroOc);
                             $bgColor = "rgba(" . $rgb['red'] . "," . $rgb['green'] . "," . $rgb['blue'] . "," . $be->hero_overlay_opacity . ")";
                         @endphp
-                        <div class="single_slider bg_image lazy" data-bg="{{asset('assets/front/img/sliders/'.$slider->image)}}" style="background-color: {{$bgColor}};">
+                        <div class="single_slider bg_image" style="background-image: url('{{asset('assets/front/img/sliders/'.$slider->image)}}');background-color: {{$bgColor}};">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-lg-12">

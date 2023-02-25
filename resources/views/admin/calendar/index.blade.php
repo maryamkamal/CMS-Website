@@ -24,8 +24,15 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 
 
 @section('content')
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
   <div class="page-header">
-    <h4 class="page-title">Calendar Events</h4>
+    <h4 class="page-title">{{ __('trans.Calendar Events') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -36,7 +43,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Calendar Events</a>
+        <a href="#">{{ __('trans.Calendar Events') }}</a>
       </li>
     </ul>
   </div>
@@ -47,12 +54,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Calendar Events</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Calendar Events') }}</div>
                 </div>
                 <div class="col-lg-3">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -60,8 +67,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                     @endif
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Event</a>
-                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.calendar.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i>{{ __('trans.Add Event') }} </a>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.calendar.bulk.delete')}}"><i class="flaticon-interface-5"></i>{{ __('trans.delete') }} </button>
                 </div>
             </div>
         </div>
@@ -69,19 +76,19 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="row">
             <div class="col-lg-12">
               @if (count($events) == 0)
-                <h3 class="text-center">NO EVENT FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO EVENT FOUND') }}</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3">
                     <thead>
                       <tr>
                         <th scope="col">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Question</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.Question') }}</th>
+                        <th scope="col">{{ __('trans.Start Date') }}</th>
+                        <th scope="col">{{ __('trans.End Date') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -110,7 +117,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Edit
+                              {{ __('trans.edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.calendar.delete')}}" method="post">
                               @csrf
@@ -119,7 +126,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>
@@ -142,7 +149,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Event</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Add Event') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -151,9 +158,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <form id="ajaxForm" class="modal-form create" action="{{route('admin.calendar.store')}}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="">Language **</label>
+                <label for="">{{ __('trans.Language') }}</label>
                 <select name="language_id" class="form-control">
-                    <option value="" selected disabled>Select a language</option>
+                    <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                     @foreach ($langs as $lang)
                         <option value="{{$lang->id}}">{{$lang->name}}</option>
                     @endforeach
@@ -161,12 +168,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <p id="errlanguage_id" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Title **</label>
+              <label for="">{{ __('trans.Title') }}</label>
               <input name="title" class="form-control" placeholder="Enter Title" type="text" value="">
               <p id="errtitle" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Event Period **</label>
+              <label for="">{{ __('trans.Event Period') }}</label>
               <input type="text" name="datetimes" class="form-control ltr" placeholder="Enter Event Period" autocomplete="off"/>
               <input type="hidden" id="start_date" name="start_date" value="">
               <input type="hidden" id="end_date" name="end_date" value="">
@@ -176,8 +183,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="submitBtn" type="button" class="btn btn-primary">{{ __('trans.Submit') }}</button>
         </div>
       </div>
     </div>
@@ -188,7 +195,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edit Event</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Edit Event') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -198,12 +205,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             @csrf
             <input id="inevent_id" type="hidden" name="event_id" value="">
             <div class="form-group">
-              <label for="">Title **</label>
+              <label for="">{{ __('trans.Title') }}</label>
               <input id="intitle" name="title" class="form-control" placeholder="Enter Title" type="text" value="">
               <p id="eerrtitle" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-            <label for="">Event Period **</label>
+            <label for="">{{ __('trans.Event Period') }}</label>
                 <input type="text" name="edatetimes" class="form-control ltr" placeholder="Enter Event Period"/>
                 <input type="hidden" id="instart_date" name="start_date" value="">
                 <input type="hidden" id="inend_date" name="end_date" value="">
@@ -213,8 +220,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="updateBtn" type="button" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="updateBtn" type="button" class="btn btn-primary">{{ __('trans.Save Changes') }}</button>
         </div>
       </div>
     </div>

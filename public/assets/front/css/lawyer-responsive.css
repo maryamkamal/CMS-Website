@@ -204,9 +204,6 @@
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 991px) {
-    .brand img {
-        max-width: 30%;
-    }
     .top_header .top_right .social {
         display: none;
     }
@@ -330,10 +327,6 @@
     .feature_v1 .container-fluid {
         padding-left: 15px;
         padding-right: 15px;
-    }
-    .img-fluid {
-        max-width: 30%;
-        height: auto;
     }
     .feature_v1 .grid_item {
         padding: 70px 25px;

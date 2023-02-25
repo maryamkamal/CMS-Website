@@ -21,8 +21,15 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Blog Categories</h4>
+    <h4 class="page-title">{{ __('trans.Blog Categories') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -33,13 +40,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Blogs</a>
+        <a href="#">{{ __('trans.Blogs') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Categories</a>
+        <a href="#">{{ __('trans.Categories') }}</a>
       </li>
     </ul>
   </div>
@@ -50,12 +57,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Categories</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Categories') }}</div>
                 </div>
                 <div class="col-lg-3">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -63,8 +70,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                     @endif
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Blog Category</a>
-                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.bcategory.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> {{ __('trans.Add Blog Category') }}</a>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.bcategory.bulk.delete')}}"><i class="flaticon-interface-5"></i> {{ __('trans.delete') }}</button>
                 </div>
             </div>
         </div>
@@ -72,7 +79,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="row">
             <div class="col-lg-12">
               @if (count($bcategorys) == 0)
-                <h3 class="text-center">NO BLOG CATEGORY FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO BLOG CATEGORY FOUND') }}</h3>
               @else
                 <div class="table-responsive">
                   <table class="table table-striped mt-3">
@@ -81,10 +88,10 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                         <th scope="col">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Serial Number</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.Name') }}</th>
+                        <th scope="col">{{ __('trans.Status') }}</th>
+                        <th scope="col">{{ __('trans.Serial Number') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -96,9 +103,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           <td>{{convertUtf8($bcategory->name)}}</td>
                           <td>
                             @if ($bcategory->status == 1)
-                              <h2 class="d-inline-block"><span class="badge badge-success">Active</span></h2>
+                              <h2 class="d-inline-block"><span class="badge badge-success">{{ __('trans.activ') }}</span></h2>
                             @else
-                              <h2 class="d-inline-block"><span class="badge badge-danger">Deactive</span></h2>
+                              <h2 class="d-inline-block"><span class="badge badge-danger">{{ __('trans.disable') }}</span></h2>
                             @endif
                           </td>
                           <td>{{$bcategory->serial_number}}</td>
@@ -107,7 +114,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Edit
+                              {{ __('trans.Edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.bcategory.delete')}}" method="post">
                               @csrf
@@ -116,7 +123,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>
@@ -146,7 +153,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Blog Category</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Add Blog Category') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -155,9 +162,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <form id="ajaxForm" class="modal-form create" action="{{route('admin.bcategory.store')}}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="">Language **</label>
+                <label for="">{{ __('trans.Language') }}</label>
                 <select name="language_id" class="form-control">
-                    <option value="" selected disabled>Select a language</option>
+                    <option value="" selected disabled>{{ __('trans.Select a language') }}</option>
                     @foreach ($langs as $lang)
                         <option value="{{$lang->id}}">{{$lang->name}}</option>
                     @endforeach
@@ -165,30 +172,30 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <p id="errlanguage_id" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Name **</label>
+              <label for="">{{ __('trans.Name') }}</label>
               <input type="text" class="form-control" name="name" value="" placeholder="Enter name">
               <p id="errname" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Status **</label>
+              <label for="">{{ __('trans.Status') }}</label>
               <select class="form-control ltr" name="status">
-                <option value="" selected disabled>Select a status</option>
-                <option value="1">Active</option>
-                <option value="0">Deactive</option>
+                <option value="" selected disabled>{{ __('trans.Select a status') }}</option>
+                <option value="1">{{ __('trans.activ') }}</option>
+                <option value="0">{{ __('trans.disable') }}</option>
               </select>
               <p id="errstatus" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Serial Number **</label>
+              <label for="">{{ __('trans.Serial Number') }}</label>
               <input type="number" class="form-control ltr" name="serial_number" value="" placeholder="Enter Serial Number">
               <p id="errserial_number" class="mb-0 text-danger em"></p>
-              <p class="text-warning"><small>The higher the serial number is, the later the blog category will be shown.</small></p>
+              <p class="text-warning"><small>{{ __('trans.SerialNumberStru') }}</small></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="submitBtn" type="button" class="btn btn-primary">{{ __('trans.Submit') }}</button>
         </div>
       </div>
     </div>
@@ -199,7 +206,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edit Blog Category</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Edit Blog Category') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -209,30 +216,30 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             @csrf
             <input id="inbcategory_id" type="hidden" name="bcategory_id" value="">
             <div class="form-group">
-              <label for="">Name **</label>
-              <input id="inname" type="name" class="form-control" name="name" value="" placeholder="Enter name">
+              <label for="">{{ __('trans.Name') }} </label>
+              <input id="inname" type="name" class="form-control" name="name" value="" placeholder="{{ __('trans.Enter name') }}">
               <p id="eerrname" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Status **</label>
+              <label for="">{{ __('trans.Status') }} </label>
               <select id="instatus" class="form-control" name="status">
-                <option value="" selected disabled>Select a status</option>
-                <option value="1">Active</option>
-                <option value="0">Deactive</option>
+                <option value="" selected disabled>{{ __('trans.Select a status') }}</option>
+                <option value="1">{{ __('trans.activ') }}</option>
+                <option value="0">{{ __('trans.disable') }}</option>
               </select>
               <p id="eerrstatus" class="mb-0 text-danger em"></p>
             </div>
             <div class="form-group">
-              <label for="">Serial Number **</label>
-              <input id="inserial_number" type="number" class="form-control ltr" name="serial_number" value="" placeholder="Enter Serial Number">
+              <label for="">{{ __('trans.Serial Number') }}</label>
+              <input id="inserial_number" type="number" class="form-control ltr" name="serial_number" value="" placeholder="{{ __('trans.Enter Serial Number') }}">
               <p id="eerrserial_number" class="mb-0 text-danger em"></p>
-              <p class="text-warning"><small>The higher the serial number is, the later the blog category will be shown.</small></p>
+              <p class="text-warning"><small>{{ __('trans.SerialNumberStru') }}</small></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="updateBtn" type="button" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="updateBtn" type="button" class="btn btn-primary">{{ __('trans.Save Changes') }}</button>
         </div>
       </div>
     </div>

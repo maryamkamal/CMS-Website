@@ -273,7 +273,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus']
     Route::get('/breadcrumb', 'Admin\BasicController@breadcrumb')->name('admin.breadcrumb');
     Route::post('/breadcrumb/{langid}/update', 'Admin\BasicController@updatebreadcrumb')->name('admin.breadcrumb.update');
     Route::post('/updateInnerImage/{langid}/update', 'Admin\BasicController@updateInnerImage')->name('admin.updateInnerImage.update');
-	Route::get('/deleteInnerImage/{langid}/delete', 'Admin\BasicController@deleteInnerImage')->name('admin.deleteInnerImage.delete');
+	Route::get('/deleteInnerImage/delete/{langid}', 'Admin\BasicController@deleteInnerImage')->name('admin.deleteInnerImage.delete');
+	Route::get('/deleteBreadcrumbImage/delete/{langid}', 'Admin\BasicController@deleteBreadcrumbImage')->name('admin.deleteBreadcrumbImage.delete');
     Route::post('/updateVideoLink/{langid}/update', 'Admin\BasicController@updateVideoLink')->name('admin.updateVideoLink.update');
     // Admin Page Heading Routes
     Route::get('/heading', 'Admin\BasicController@heading')->name('admin.heading');
@@ -411,7 +412,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus']
     // Admin Portfolio Section Routes
     Route::get('/portfoliosection', 'Admin\PortfoliosectionController@index')->name('admin.portfoliosection.index');
     Route::post('/portfoliosection/{langid}/update', 'Admin\PortfoliosectionController@update')->name('admin.portfoliosection.update');
-
+    
+	// Admin Product Section Routes
+    Route::get('/productsection', 'Admin\ProductsectionController@index')->name('admin.productsection.index');
+    Route::post('/productsection/{langid}/update', 'Admin\ProductsectionController@update')->name('admin.productsection.update');
+	
     // Admin Testimonial Routes
     Route::get('/testimonials', 'Admin\TestimonialController@index')->name('admin.testimonial.index');
     Route::get('/testimonial/create', 'Admin\TestimonialController@create')->name('admin.testimonial.create');
@@ -537,6 +542,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus']
     Route::post('/service/bulk-delete', 'Admin\ServiceController@bulkDelete')->name('admin.service.bulk.delete');
     Route::get('/service/{langid}/getcats', 'Admin\ServiceController@getcats')->name('admin.service.getcats');
     Route::post('/service/feature', 'Admin\ServiceController@feature')->name('admin.service.feature');
+	Route::get('/service/{id}/deleteMainImage', 'Admin\ServiceController@deleteMainImage')->name('admin.service.deleteMainImage');
+	Route::get('/service/{id}/deleteBackgroundImage', 'Admin\ServiceController@deleteBackgroundImage')->name('admin.service.deleteBackgroundImage');
+	Route::get('/service/{id}/deleteInnerImage', 'Admin\ServiceController@deleteInnerImage')->name('admin.service.deleteInnerImage');
   });
 
 

@@ -1,8 +1,15 @@
 @extends('admin.layout')
 
 @section('content')
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
   <div class="page-header">
-    <h4 class="page-title">Payment Gateways</h4>
+    <h4 class="page-title">{{ __('trans.Payment Gateways') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,7 +20,7 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Payment Gateways</a>
+        <a href="#">{{ __('trans.Payment Gateways') }}</a>
       </li>
     </ul>
   </div>
@@ -25,7 +32,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Paypal</div>
+                      <div class="card-title">{{ __('trans.Paypal') }}</div>
                   </div>
               </div>
           </div>
@@ -35,15 +42,15 @@
                 @csrf
 
                 <div class="form-group">
-                  <label>Paypal</label>
+                  <label>{{ __('trans.Paypal') }}</label>
                   <div class="selectgroup w-100">
                     <label class="selectgroup-item">
                       <input type="radio" name="status" value="1" class="selectgroup-input" {{$paypal->status == 1 ? 'checked' : ''}}>
-                      <span class="selectgroup-button">Active</span>
+                      <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                     </label>
                     <label class="selectgroup-item">
                       <input type="radio" name="status" value="0" class="selectgroup-input" {{$paypal->status == 0 ? 'checked' : ''}}>
-                      <span class="selectgroup-button">Deactive</span>
+                      <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                     </label>
                   </div>
                 </div>
@@ -52,27 +59,27 @@
                     // dd($paypalInfo);
                 @endphp
                 <div class="form-group">
-                  <label>Paypal Test Mode</label>
+                  <label>{{ __('trans.Paypal Test Mode') }}</label>
                   <div class="selectgroup w-100">
                     <label class="selectgroup-item">
                       <input type="radio" name="sandbox_check" value="1" class="selectgroup-input" {{$paypalInfo["sandbox_check"] == 1 ? 'checked' : ''}}>
-                      <span class="selectgroup-button">Active</span>
+                      <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                     </label>
                     <label class="selectgroup-item">
                       <input type="radio" name="sandbox_check" value="0" class="selectgroup-input" {{$paypalInfo["sandbox_check"] == 0 ? 'checked' : ''}}>
-                      <span class="selectgroup-button">Deactive</span>
+                      <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                     </label>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>Paypal Client ID</label>
+                  <label>{{ __('trans.Paypal Client ID') }}</label>
                   <input class="form-control" name="client_id" value="{{$paypalInfo["client_id"]}}">
                   @if ($errors->has('client_id'))
                     <p class="mb-0 text-danger">{{$errors->first('client_id')}}</p>
                   @endif
                 </div>
                 <div class="form-group">
-                  <label>Paypal Client Secret</label>
+                  <label>{{ __('trans.Paypal Client Secret') }}</label>
                   <input class="form-control" name="client_secret" value="{{$paypalInfo["client_secret"]}}">
                   @if ($errors->has('client_secret'))
                     <p class="mb-0 text-danger">{{$errors->first('client_secret')}}</p>
@@ -86,7 +93,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" id="displayNotif" class="btn btn-success">Update</button>
+                  <button type="submit" id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -103,7 +110,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Stripe</div>
+                      <div class="card-title">{{ __('trans.Stripe') }}</div>
                   </div>
               </div>
           </div>
@@ -116,27 +123,27 @@
                     // dd($stripeInfo);
                 @endphp
                 <div class="form-group">
-                    <label>Stripe</label>
+                    <label>{{ __('trans.Stripe') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="1" class="selectgroup-input" {{$stripe->status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="0" class="selectgroup-input" {{$stripe->status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Stripe Key</label>
+                    <label>{{ __('trans.Stripe Key') }}</label>
                     <input class="form-control" name="key" value="{{$stripeInfo['key']}}">
                     @if ($errors->has('key'))
                         <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Stripe Secret</label>
+                    <label>{{ __('trans.Stripe Secret') }}</label>
                     <input class="form-control" name="secret" value="{{$stripeInfo['secret']}}">
                     @if ($errors->has('secret'))
                         <p class="mb-0 text-danger">{{$errors->first('secret')}}</p>
@@ -150,7 +157,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" id="displayNotif" class="btn btn-success">Update</button>
+                  <button type="submit" id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -167,7 +174,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Paytm</div>
+                      <div class="card-title">{{ __('trans.Paytm') }}</div>
                   </div>
               </div>
           </div>
@@ -182,41 +189,41 @@
                     // dd($paytmInfo);
                 @endphp
                 <div class="form-group">
-                    <label>Paytm</label>
+                    <label>{{ __('trans.Paytm') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="1" class="selectgroup-input" {{$paytm->status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="0" class="selectgroup-input" {{$paytm->status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Paytm Merchant Key</label>
+                    <label>{{ __('trans.Paytm Merchant Key') }}</label>
                     <input class="form-control" name="secret" value="{{$paytmInfo['secret']}}">
                     @if ($errors->has('secret'))
                         <p class="mb-0 text-danger">{{$errors->first('secret')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Paytm Merchant mid</label>
+                    <label>{{ __('trans.Paytm Merchant mid') }}</label>
                     <input class="form-control" name="merchant" value="{{$paytmInfo['merchant']}}">
                     @if ($errors->has('merchant'))
                         <p class="mb-0 text-danger">{{$errors->first('merchant')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Paytm Merchant website</label>
+                    <label>{{ __('trans.Paytm Merchant website') }}</label>
                     <input class="form-control" name="website" value="{{$paytmInfo['website']}}">
                     @if ($errors->has('website'))
                         <p class="mb-0 text-danger">{{$errors->first('website')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Industry type id</label>
+                    <label>{{ __('trans.Industry type id') }}</label>
                     <input class="form-control" name="industry" value="{{$paytmInfo['industry']}}">
                     @if ($errors->has('industry'))
                         <p class="mb-0 text-danger">{{$errors->first('industry')}}</p>
@@ -230,7 +237,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-success">Update</button>
+                  <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -247,7 +254,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Instamojo</div>
+                      <div class="card-title">{{ __('trans.Instamojo') }}</div>
                   </div>
               </div>
           </div>
@@ -262,40 +269,40 @@
                     // dd($instamojoInfo);
                 @endphp
                 <div class="form-group">
-                    <label>Instamojo</label>
+                    <label>{{ __('trans.Instamojo') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="1" class="selectgroup-input" {{$instamojo->status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="0" class="selectgroup-input" {{$instamojo->status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Test Mode</label>
+                    <label>{{ __('trans.Test Mode') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="sandbox_check" value="1" class="selectgroup-input" {{$instamojoInfo['sandbox_check'] == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="sandbox_check" value="0" class="selectgroup-input" {{$instamojoInfo['sandbox_check'] == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Instamojo API Key</label>
+                    <label>{{ __('trans.Instamojo API Key') }}</label>
                     <input class="form-control" name="key" value="{{$instamojoInfo['key']}}">
                     @if ($errors->has('key'))
                         <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Instamojo Auth Token</label>
+                    <label>{{ __('trans.Instamojo Auth Token') }}</label>
                     <input class="form-control" name="token" value="{{$instamojoInfo['token']}}">
                     @if ($errors->has('token'))
                         <p class="mb-0 text-danger">{{$errors->first('token')}}</p>
@@ -310,7 +317,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-success">Update</button>
+                  <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -327,7 +334,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Paystack</div>
+                      <div class="card-title">{{ __('trans.Paystack') }}</div>
                   </div>
               </div>
           </div>
@@ -340,34 +347,27 @@
                     // dd($paystackInfo);
                 @endphp
                 <div class="form-group">
-                    <label>Paystack</label>
+                    <label>{{ __('trans.Paystack') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="1" class="selectgroup-input" {{$paystack->status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="0" class="selectgroup-input" {{$paystack->status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Paystack Secret Key</label>
-                    <input class="form-control" name="secret_key" value="{{$paystackInfo['secret_key']}}">
-                    @if ($errors->has('secret_key'))
-                        <p class="mb-0 text-danger">{{$errors->first('secret_key')}}</p>
-                    @endif
-                </div>
-                <div class="form-group">
-                    <label>Paystack Public Key</label>
+                    <label>{{ __('trans.Paystack Public Key') }}</label>
                     <input class="form-control" name="key" value="{{$paystackInfo['key']}}">
                     @if ($errors->has('key'))
                         <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Paystack Business Email</label>
+                    <label>{{ __('trans.confirmInfo') }}Paystack Business Email</label>
                     <input class="form-control" name="email" value="{{$paystackInfo['email']}}">
                     @if ($errors->has('email'))
                         <p class="mb-0 text-danger">{{$errors->first('email')}}</p>
@@ -381,7 +381,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" id="displayNotif" class="btn btn-success">Update</button>
+                  <button type="submit" id="displayNotif" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -398,7 +398,7 @@
           <div class="card-header">
               <div class="row">
                   <div class="col-lg-12">
-                      <div class="card-title">Flutterwave</div>
+                      <div class="card-title">{{ __('trans.Flutterwave') }}</div>
                   </div>
               </div>
           </div>
@@ -411,27 +411,27 @@
                     // dd($flutterwaveInfo);
                 @endphp
                 <div class="form-group">
-                    <label>Flutterwave</label>
+                    <label>{{ __('trans.Flutterwave') }}</label>
                     <div class="selectgroup w-100">
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="1" class="selectgroup-input" {{$flutterwave->status == 1 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Active</span>
+                        <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                       </label>
                       <label class="selectgroup-item">
                         <input type="radio" name="status" value="0" class="selectgroup-input" {{$flutterwave->status == 0 ? 'checked' : ''}}>
-                        <span class="selectgroup-button">Deactive</span>
+                        <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                       </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Flutterwave Public Key</label>
+                    <label>{{ __('trans.Flutterwave Public Key') }}</label>
                     <input class="form-control" name="public_key" value="{{$flutterwaveInfo['public_key']}}">
                     @if ($errors->has('public_key'))
                         <p class="mb-0 text-danger">{{$errors->first('public_key')}}</p>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label>Flutterwave Secret Key</label>
+                    <label>{{ __('trans.Flutterwave Secret Key') }}</label>
                     <input class="form-control" name="secret_key" value="{{$flutterwaveInfo['secret_key']}}">
                     @if ($errors->has('secret_key'))
                         <p class="mb-0 text-danger">{{$errors->first('secret_key')}}</p>
@@ -445,7 +445,7 @@
             <div class="form">
               <div class="form-group from-show-notify row">
                 <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-success">Update</button>
+                  <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                 </div>
               </div>
             </div>
@@ -461,7 +461,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card-title">Mollie Payment</div>
+                        <div class="card-title">{{ __('trans.Mollie Payment') }}</div>
                     </div>
                 </div>
             </div>
@@ -476,21 +476,21 @@
                         // dd($mollieInfo);
                     @endphp
                     <div class="form-group">
-                        <label>Mollie Payment</label>
+                        <label>{{ __('trans.Mollie Payment') }}</label>
                         <div class="selectgroup w-100">
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="1" class="selectgroup-input" {{$mollie->status == 1 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Active</span>
+                            <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                         </label>
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="0" class="selectgroup-input" {{$mollie->status == 0 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Deactive</span>
+                            <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                         </label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Mollie Payment Key</label>
+                        <label>{{ __('trans.Mollie Payment Key') }}</label>
                         <input class="form-control" name="key" value="{{$mollieInfo['key']}}">
                         @if ($errors->has('key'))
                             <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
@@ -505,7 +505,7 @@
                 <div class="form">
                 <div class="form-group from-show-notify row">
                     <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                     </div>
                 </div>
                 </div>
@@ -521,7 +521,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card-title">Razorpay</div>
+                        <div class="card-title">{{ __('trans.Razorpay') }}</div>
                     </div>
                 </div>
             </div>
@@ -540,17 +540,17 @@
                         <div class="selectgroup w-100">
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="1" class="selectgroup-input" {{$razorpay->status == 1 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Active</span>
+                            <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                         </label>
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="0" class="selectgroup-input" {{$razorpay->status == 0 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Deactive</span>
+                            <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                         </label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Razorpay Key</label>
+                        <label>{{ __('trans.Razorpay Key') }}</label>
                         <input class="form-control" name="key" value="{{$razorpayInfo['key']}}">
                         @if ($errors->has('key'))
                             <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
@@ -558,7 +558,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Razorpay Secret</label>
+                        <label>{{ __('trans.Razorpay Secret') }}</label>
                         <input class="form-control" name="secret" value="{{$razorpayInfo['secret']}}">
                         @if ($errors->has('secret'))
                             <p class="mb-0 text-danger">{{$errors->first('secret')}}</p>
@@ -573,7 +573,7 @@
                 <div class="form">
                 <div class="form-group from-show-notify row">
                     <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                     </div>
                 </div>
                 </div>
@@ -589,7 +589,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card-title">PayUmoney</div>
+                        <div class="card-title">{{ __('trans.PayUmoney') }}</div>
                     </div>
                 </div>
             </div>
@@ -603,35 +603,21 @@
                             $payumoneyInfo = json_decode($payumoney->information, true);
                         @endphp
                         <div class="form-group">
-                            <label>PayUmoney</label>
+                            <label>{{ __('trans.PayUmoney') }}</label>
                             <div class="selectgroup w-100">
                             <label class="selectgroup-item">
                                 <input type="radio" name="status" value="1" class="selectgroup-input" {{$payumoney->status == 1 ? 'checked' : ''}}>
-                                <span class="selectgroup-button">Active</span>
+                                <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                             </label>
                             <label class="selectgroup-item">
                                 <input type="radio" name="status" value="0" class="selectgroup-input" {{$payumoney->status == 0 ? 'checked' : ''}}>
-                                <span class="selectgroup-button">Deactive</span>
+                                <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                             </label>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Test Mode</label>
-                            <div class="selectgroup w-100">
-                              <label class="selectgroup-item">
-                                <input type="radio" name="sandbox_check" value="1" class="selectgroup-input" {{array_key_exists('sandbox_check', $payumoneyInfo) && $payumoneyInfo['sandbox_check'] == 1 ? 'checked' : ''}}>
-                                <span class="selectgroup-button">Active</span>
-                              </label>
-                              <label class="selectgroup-item">
-                                <input type="radio" name="sandbox_check" value="0" class="selectgroup-input" {{array_key_exists('sandbox_check', $payumoneyInfo) && $payumoneyInfo['sandbox_check'] == 0 ? 'checked' : ''}}>
-                                <span class="selectgroup-button">Deactive</span>
-                              </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>PayUmoney Merchant Key</label>
+                            <label>{{ __('trans.PayUmoney Merchant Key') }}</label>
                             <input class="form-control" name="key" value="{{$payumoneyInfo['key']}}">
                             @if ($errors->has('key'))
                                 <p class="mb-0 text-danger">{{$errors->first('key')}}</p>
@@ -639,7 +625,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>PayUmoney Salt</label>
+                            <label>{{ __('trans.PayUmoney Salt') }}</label>
                             <input class="form-control" name="salt" value="{{$payumoneyInfo['salt']}}">
                             @if ($errors->has('salt'))
                                 <p class="mb-0 text-danger">{{$errors->first('salt')}}</p>
@@ -654,7 +640,7 @@
                 <div class="form">
                 <div class="form-group from-show-notify row">
                     <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                     </div>
                 </div>
                 </div>
@@ -670,7 +656,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card-title">Mercadopago</div>
+                        <div class="card-title">{{ __('trans.Mercado pago') }}</div>
                     </div>
                 </div>
             </div>
@@ -684,35 +670,35 @@
                         // dd($mercadopagoInfo);
                     @endphp
                     <div class="form-group">
-                        <label>Mercado Pago</label>
+                        <label>{{ __('trans.Mercado Pago') }}</label>
                         <div class="selectgroup w-100">
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="1" class="selectgroup-input" {{$mercadopago->status == 1 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Active</span>
+                            <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                         </label>
                         <label class="selectgroup-item">
                             <input type="radio" name="status" value="0" class="selectgroup-input" {{$mercadopago->status == 0 ? 'checked' : ''}}>
-                            <span class="selectgroup-button">Deactive</span>
+                            <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                         </label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                      <label>Mercado Pago Test Mode</label>
+                      <label>{{ __('trans.Mercado Pago Test Mode') }}</label>
                       <div class="selectgroup w-100">
                         <label class="selectgroup-item">
                           <input type="radio" name="sandbox_check" value="1" class="selectgroup-input" {{$mercadopagoInfo["sandbox_check"] == 1 ? 'checked' : ''}}>
-                          <span class="selectgroup-button">Active</span>
+                          <span class="selectgroup-button">{{ __('trans.activ') }}</span>
                         </label>
                         <label class="selectgroup-item">
                           <input type="radio" name="sandbox_check" value="0" class="selectgroup-input" {{$mercadopagoInfo["sandbox_check"] == 0 ? 'checked' : ''}}>
-                          <span class="selectgroup-button">Deactive</span>
+                          <span class="selectgroup-button">{{ __('trans.disable') }}</span>
                         </label>
                       </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Mercadopago Token</label>
+                        <label>{{ __('trans.Mercadopago Token') }}</label>
                         <input class="form-control" name="token" value="{{$mercadopagoInfo['token']}}">
                         @if ($errors->has('token'))
                             <p class="mb-0 text-danger">{{$errors->first('token')}}</p>
@@ -724,7 +710,7 @@
                 <div class="form">
                 <div class="form-group from-show-notify row">
                     <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">{{ __('trans.confirmInfo') }}</button>
                     </div>
                 </div>
                 </div>

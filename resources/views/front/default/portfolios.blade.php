@@ -29,13 +29,13 @@
               </div>
 			  @if(($bs->inner_image!=null)&&($bs->video_link== null))
 			   <div class="col-xl-6 col-lg-6 col-sm-5">
-                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
 				 </div>
 			@endif
 			
 			   @if($bs->video_link!= null)
-			   <div class="col-xl-6 col-lg-6 col-sm-5">
-				    <iframe width="420" height="315"
+			   <div class="col">
+				    <iframe width="100%" height="315"
                    src="{{$bs->video_link}}">
                    </iframe> 
               </div>
@@ -105,4 +105,25 @@
      </div>
   </div>
   <!--    case lists end   -->
+
+
+  @if ($bs->call_to_action_section == 1)
+  <!--    call to action section start    -->
+  <div class="cta-section" style="background-image: url('{{asset('assets/front/img/'.$bs->cta_bg)}}');background-size:cover;">
+     <div class="container">
+        <div class="cta-content">
+           <div class="row">
+              <div class="col-md-9 col-lg-7">
+                 <h3>{{convertUtf8($bs->cta_section_text)}}</h3>
+              </div>
+              <div class="col-md-3 col-lg-5 contact-btn-wrapper">
+                 <a href="{{$bs->cta_section_button_url}}" class="boxed-btn contact-btn"><span>{{convertUtf8($bs->cta_section_button_text)}}</span></a>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="cta-overlay" style="background-color: #{{$be->cta_overlay_color}};opacity: {{$be->cta_overlay_opacity}};"></div>
+  </div>
+  <!--    call to action section end    -->
+  @endif
 @endsection

@@ -12,11 +12,36 @@
 
 
 <div class="container">
-
+	<div class="page-header">
+		<h4 class="page-title">{{__('trans.Explain the program')}}</h4>
+		<ul class="breadcrumbs">
+		  <li class="nav-home">
+			<a href="http://online.egtaz.com/admin/dashboard">
+			  <i class="flaticon-home"></i>
+			</a>
+		  </li>
+		  <li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		  </li>
+		  <li class="nav-item">
+			<a href="#">{{__('trans.smart online')}}</a>
+		  </li>
+		  <li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		  </li>
+		  <li class="nav-item">
+			<a href="#">{{__('trans.Explain the program')}}</a>
+		  </li>
+		</ul>
+	  </div>
 	<div class="row pt-3 pb-4 rounded" style="background-color:#071f29;">
-		<h2 class=" mb-4 col-lg-12">
-			{{__('trans.about the system')}}
-		</h2>
+		<div class="card-header">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card-title">{{__('trans.Explain the program')}}</div>
+				</div>
+			</div>
+		</div>
 	
 		<div class="col-lg-12">
 			<div class="row justify-content-center">
@@ -65,8 +90,8 @@
 
 			<div class="mx-3">
 				<h2>{{__('trans.explination articel titel 2')}}</h2>
-				<p>
-					{{__('trans.explination articel body 2')}}
+				<p>				
+						{{__('trans.explination articel body 2')}}
 				</p>
 				<a href="#" class="btn btn-primary btn-sm" style="border-radius: 25px">
 					{{__('trans.Read more')}}

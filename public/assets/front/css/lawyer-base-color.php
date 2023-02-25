@@ -357,7 +357,6 @@ button.mfp-close:hover {
 
 .header_v1 .header_navigation .site_menu .button_box .lawyer_btn {
     border: 1px solid <?php echo $color; ?>;
-
 }
 .main-menu ul li:hover > a {
     color: <?php echo $color; ?>;

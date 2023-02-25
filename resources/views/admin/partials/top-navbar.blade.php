@@ -3,7 +3,7 @@
   <div class="logo-header" data-background-color="dark2">
 
     <a href="{{route('front.index')}}" class="logo" target="_blank">
-      <img src="{{asset('assets/front/img/'.$bs->logo)}}" alt="navbar brand" class="navbar-brand" width="120">
+      <img src="{{asset('assets/front/img/'.$bs->logo)}}" alt="navbar brand" class="navbar-brand" >
     </a>
     <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon">
@@ -12,7 +12,7 @@
     </button>
     <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
     <div class="nav-toggle">
-      <button class="btn btn-toggle @if(request()->routeIs('admin.file-manager')) sidenav-overlay-toggler @else toggle-sidebar @endif">
+      <button class="btn btn-toggle toggle-sidebar">
         <i class="icon-menu"></i>
       </button>
     </div>
@@ -55,16 +55,29 @@
               </li>
               <li>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{route('admin.editProfile')}}">Edit Profile</a>
+                <a class="dropdown-item" href="{{route('admin.editProfile')}}">{{ __('trans.Edit Profile') }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{route('admin.changePass')}}">Change Password</a>
+                <a class="dropdown-item" href="{{route('admin.changePass')}}">{{ __('trans.Change Password') }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a>
+                <a class="dropdown-item" href="{{route('admin.logout')}}">{{ __('trans.Logout') }}</a>
               </li>
             </div>
           </ul>
         </li>
       </ul>
+	  
+	  {{-- <ul class="navbar-nav topbar-nav ml-md-auto align-items-center"> --}}
+	  <ul class="navbar-nav topbar-nav align-items-center">
+
+        <li>
+             <div>
+                <a href="#" class="btn btn-primary"        style="border-radius: 25px">{{ __('trans.topbar') }}</a>
+                <a href="#" class="btn btn-success mr-2"   style="border-radius: 25px">{{ __('trans.route') }}</a>
+                <a href="#" class="btn btn-secondary mr-2" style="border-radius: 25px">{{ __('trans.egtaz.com') }}</a></div>
+        </li>
+      </ul>
+	  
+	  
     </div>
   </nav>
   <!-- End Navbar -->

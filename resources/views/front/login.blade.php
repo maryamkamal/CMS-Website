@@ -9,11 +9,26 @@
 @section('meta-keywords', "$be->login_meta_keywords")
 @section('meta-description', "$be->login_meta_description")
 
-@section('breadcrumb-subtitle', __('Sign In'))
-@section('breadcrumb-link', __('Sign In'))
-
 
 @section('content')
+   <!--   hero area start   -->
+   <div class="breadcrumb-area services service-bg d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-sm-10 align-self-center">
+                    <h1>{{__('Sign In')}}</h1>
+                    <ul class="breadcumb">
+                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                        <li>{{__('Sign In')}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-area-overlay"></div>
+</div>
+<!--   hero area end    -->
 
 
 <!--   hero area start    -->
@@ -21,35 +36,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                @if($bex->product_guest_checkout == 1 && !empty(request()->input('redirected')) && request()->input('redirected') == 'checkout' && !containsDigitalItemsInCart())
-                    <a href="{{route('front.checkout', ['type' => 'guest'])}}" class="btn btn-block btn-primary mb-4 base-bg py-3 border-0">{{__('Checkout as Guest')}}</a>
-
-                    <div class="mt-4 mb-3 text-center">
-                        <h3 class="mb-0"><strong>{{__('OR')}},</strong></h3>
-                    </div>
-                @elseif($bex->package_guest_checkout == 1 && !empty(request()->input('redirected')) && request()->input('redirected') == 'package-checkout')
-                    <a href="{{session()->get('link') . '?type=guest'}}" class="btn btn-block btn-primary mb-4 base-bg py-3 border-0">{{__('Checkout as Guest')}}</a>
-
-                    <div class="mt-4 mb-3 text-center">
-                        <h3 class="mb-0"><strong>{{__('OR')}},</strong></h3>
-                    </div>
-                @endif
                 <div class="login-content">
                     <div class="login-title">
                         <h3 class="title">{{__('Login')}}</h3>
                     </div>
-                    @if ($bex->is_facebook_login == 1 || $bex->is_google_login == 1)
-                    <div class="social-logins mt-4 mb-4">
-                        <div class="btn-group btn-group-toggle d-flex">
-                            @if ($bex->is_facebook_login == 1)
-                                <a class="btn btn-primary text-white py-2 facebook-login-btn" href="{{route('front.facebook.login')}}"><i class="fab fa-facebook-f mr-2"></i> {{__('Login via Facebook')}}</a>
-                            @endif
-                            @if ($bex->is_google_login == 1)
-                                <a class="btn btn-danger text-white py-2 google-login-btn" href="{{route('front.google.login')}}"><i class="fab fa-google mr-2"></i> {{__('Login via Google')}}</a>
-                            @endif
-                        </div>
-                    </div>
-                    @endif
                     <form id="loginForm" action="{{route('user.login')}}" method="POST">
                         @csrf
                         <div class="input-box">

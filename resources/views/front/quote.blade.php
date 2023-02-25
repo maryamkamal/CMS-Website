@@ -7,11 +7,39 @@
 @section('meta-keywords', "$be->quote_meta_keywords")
 @section('meta-description', "$be->quote_meta_description")
 
-@section('breadcrumb-title', $bs->quote_title)
-@section('breadcrumb-subtitle', $bs->quote_subtitle)
-@section('breadcrumb-link', __('Quote Page'))
-
 @section('content')
+  <!--   breadcrumb area start   -->
+  <div class="breadcrumb-area" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5">
+                 <span>{{convertUtf8($bs->quote_title)}}</span>
+                 <h1>{{convertUtf8($bs->quote_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Quote Page')}}</li>
+                 </ul>
+              </div>
+			  @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col-xl-6 col-lg-6 col-sm-5">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" class="img-fluid" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col"> 
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   breadcrumb area end    -->
 
 
   <!--   quote area start   -->
@@ -77,28 +105,6 @@
                                 <textarea name="{{$input->name}}" id="" cols="30" rows="10" placeholder="{{convertUtf8($input->placeholder)}}">{{old("$input->name")}}</textarea>
                             @endif
 
-                            @if ($input->type == 6)
-                                <label>{{convertUtf8($input->label)}} @if($input->required == 1) <span>**</span> @endif</label>
-                                <input class="datepicker" name="{{$input->name}}" type="text" value="{{old("$input->name")}}" placeholder="{{convertUtf8($input->placeholder)}}" autocomplete="off">
-                            @endif
-
-                            @if ($input->type == 7)
-                                <label>{{convertUtf8($input->label)}} @if($input->required == 1) <span>**</span> @endif</label>
-                                <input class="timepicker" name="{{$input->name}}" type="text" value="{{old("$input->name")}}" placeholder="{{convertUtf8($input->placeholder)}}" autocomplete="off">
-                            @endif
-
-                            @if ($input->type == 5)
-                            <div class="row">
-                              <div class="col-lg-12">
-                                <div class="form-element mb-2">
-                                  <label>{{$input->label}} @if($input->required == 1) <span>**</span> @endif</label>
-                                  <input type="file" name="{{$input->name}}" value="">
-                                </div>
-                                <p class="text-warning mb-0">** {{__('Only zip file is allowed')}}</p>
-                              </div>
-                            </div>
-                            @endif
-
                             @if ($errors->has("$input->name"))
                             <p class="text-danger mb-0">{{$errors->first("$input->name")}}</p>
                             @endif
@@ -107,6 +113,20 @@
                 @endforeach
             </div>
 
+            @if ($ndaIn->active == 1)
+            <div class="row mb-4">
+              <div class="col-lg-12">
+                <div class="form-element mb-2">
+                  <label>{{__('NDA File')}} @if($ndaIn->required == 1) <span>**</span> @endif</label>
+                  <input type="file" name="nda" value="">
+                </div>
+                <p class="text-warning mb-0">** {{__('Only doc, docx, pdf, rtf, txt, zip, rar files are allowed')}}</p>
+                @if ($errors->has('nda'))
+                  <p class="text-danger mb-0">{{$errors->first('nda')}}</p>
+                @endif
+              </div>
+            </div>
+            @endif
 
             @if ($bs->is_recaptcha == 1)
               <div class="row mb-4">

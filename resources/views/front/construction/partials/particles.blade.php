@@ -1,7 +1,7 @@
     <!-- Start finlance_banner section -->
     <section class="finlance_banner banner_v1">
         <div class="hero_slide_v1">
-            <div class="single_slider bg_image lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" id="particles-js" style="background-size: cover;">
+            <div class="single_slider bg_image" id="particles-js" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}'); background-size: cover;">
                 <div class="bg_overlay" style="background-color: #{{$be->hero_overlay_color}};opacity: {{$be->hero_overlay_opacity}};"></div>
                 <div class="container">
                     <div class="row">

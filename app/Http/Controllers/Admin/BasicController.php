@@ -500,8 +500,21 @@ class BasicController extends Controller
             $bs->inner_image = null;
             $bs->save();
         
-
-        return response()->json(['status' => "Inner image deleted success", 'image' => 'inner image']);
+        Session::flash('success', 'Inner image deleted successfully!');
+        return back();
+       
+    }
+	 public function deleteBreadcrumbImage($langid)
+    {
+      
+            $bs = BasicSetting::where('language_id', $langid)->firstOrFail();
+            @unlink('assets/front/img/' . $bs->breadcrumb);
+            $bs->breadcrumb = null;
+            $bs->save();
+        
+        Session::flash('success', 'Breadcrumb deleted successfully!');
+        return back();
+       
     }
     public function heading(Request $request)
     {
@@ -781,6 +794,7 @@ class BasicController extends Controller
             $bs->approach_section = $request->approach_section;
             $bs->statistics_section = $request->statistics_section;
             $bs->portfolio_section = $request->portfolio_section;
+			$bs->product_section = $request->product_section;
             $bs->testimonial_section = $request->testimonial_section;
             $bs->team_section = $request->team_section;
             $bs->news_section = $request->news_section;

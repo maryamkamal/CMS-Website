@@ -21,8 +21,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Jobs</h4>
+    <h4 class="page-title">{{ __('trans.Jobs') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -33,13 +38,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Career Page</a>
+        <a href="#">{{ __('trans.confirmInfo') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Jobs</a>
+        <a href="#">{{ __('trans.Jobs') }}</a>
       </li>
     </ul>
   </div>
@@ -50,12 +55,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
         <div class="card-header">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Jobs</div>
+                    <div class="card-title d-inline-block">{{ __('trans.Jobs') }}</div>
                 </div>
                 <div class="col-lg-3">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                            <option value="" selected disabled>Select a Language</option>
+                            <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                             @foreach ($langs as $lang)
                                 <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                             @endforeach
@@ -63,8 +68,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                     @endif
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                    <a href="{{route('admin.job.create') . '?language=' . request()->input('language')}}" class="btn btn-primary float-lg-right float-left btn-sm"><i class="fas fa-plus"></i> Post Job</a>
-                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.job.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                    <a href="{{route('admin.job.create') . '?language=' . request()->input('language')}}" class="btn btn-primary float-lg-right float-left btn-sm"><i class="fas fa-plus"></i>{{ __('trans.Post Job') }} </a>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.job.bulk.delete')}}"><i class="flaticon-interface-5"></i>{{ __('trans.delete') }} </button>
                 </div>
             </div>
         </div>
@@ -73,20 +78,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
           <div class="row">
             <div class="col-lg-12">
               @if (count($jobs) == 0)
-                <h3 class="text-center">NO JOB FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO JOB FOUND') }}</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3">
                     <thead>
                       <tr>
                         <th scope="col">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Vacancy</th>
-                        <th scope="col">Serial Number</th>
-                        <th scope="col" width="17%">Actions</th>
+                        <th scope="col">{{ __('trans.Title') }}</th>
+                        <th scope="col">{{ __('trans.Category') }}</th>
+                        <th scope="col">{{ __('trans.Vacancy') }}</th>
+                        <th scope="col">{{ __('trans.Serial Number') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -103,15 +108,21 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           </td>
                           <td>{{$job->vacancy}}</td>
                           <td>{{$job->serial_number}}</td>
-                          <td width="17%">
+                          <td>
                             <a class="btn btn-secondary btn-sm" href="{{route('admin.job.edit', $job->id) . '?language=' . request()->input('language')}}">
+                            <span class="btn-label">
                               <i class="fas fa-edit"></i>
+                            </span>
+                            {{ __('trans.edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.job.delete')}}" method="post">
                               @csrf
                               <input type="hidden" name="job_id" value="{{$job->id}}">
                               <button type="submit" class="btn btn-danger btn-sm deletebtn">
+                                <span class="btn-label">
                                   <i class="fas fa-trash"></i>
+                                </span>
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>
@@ -124,9 +135,59 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             </div>
           </div>
         </div>
-
+        <div class="card-footer">
+          <div class="row">
+            <div class="d-inline-block mx-auto">
+              {{$jobs->links()}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+
+  <!-- Create Job Modal -->
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Post Job') }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="ajaxForm" class="" action="{{route('admin.job.store')}}" method="POST">
+            @csrf
+            <input type="hidden" id="image" name="" value="">
+            <div class="form-group">
+              <label for="">{{ __('trans.Title') }} </label>
+              <input type="text" class="form-control" name="title" placeholder="Enter title" value="">
+              <p id="errtitle" class="mb-0 text-danger em"></p>
+            </div>
+            <div class="form-group">
+              <label for="">{{ __('trans.Category') }} </label>
+              <select class="form-control" name="category">
+                <option value="" selected disabled>{{ __('trans.Select a category') }}</option>
+                @foreach ($scats as $key => $scat)
+                  <option value="{{$scat->id}}">{{$scat->name}}</option>
+                @endforeach
+              </select>
+              <p id="errcategory" class="mb-0 text-danger em"></p>
+            </div>
+            <div class="form-group">
+              <label for="">{{ __('trans.Content') }} </label>
+              <textarea id="nicContent" class="form-control nic-edit" name="content" rows="8" cols="80" placeholder="Enter content"></textarea>
+              <p id="errcontent" class="mb-0 text-danger em"></p>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="submitBtn" type="button" class="btn btn-primary">{{ __('trans.Submit') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection

@@ -984,11 +984,11 @@ li.submenus::after {
 	text-transform: uppercase;
 	font-weight: 400;
 	font-family: "Teko";
+	letter-spacing: 2px;
 	margin-bottom: 45px;
 }
 .hero_slide_v1 .single_slider .banner_content p span{
-    color: #f34e3a;
-    font-size: xxx-large;
+	color: #f34e3a;
 }
 .hero_slide_v1 .single_slider .banner_content h1{
 	color: #fff;
@@ -1137,7 +1137,7 @@ li.submenus::after {
 	transition: all .3s;
 }
 .feature_v1 .grid_item:hover{
-	position: static;
+	position: relative;
 	background: #f34e3a;
 	transform: scale(1.1);
 	z-index: 1;
@@ -1168,7 +1168,7 @@ li.submenus::after {
 .feature_v1 .grid_item .finlance_content h3{
 	color: #fff;
 	font-weight: 600;
-    font-size: 15px;
+	letter-spacing: .60px;
 }
 /*>----------------------------------
 	Start finlance_feature section css
@@ -1236,11 +1236,9 @@ li.submenus::after {
 }
 .service_v1 .service_slide .grid_item .finlance_content{
 	margin-top: 10px;
-    text-align: center;
-    border: 1px solid #dcdfe2;
-    text-align: center;
-    padding: 30px 30px 20px;
-    border-top: 0;
+	padding: 13px 15px 12px;
+	background: #f34e3a;
+	text-align: center;
 }
 .service_v1 .service_slide .grid_item .finlance_content h3{
 	font-weight: 600;
@@ -1457,9 +1455,8 @@ li.submenus::after {
 .finlance_fun_v1 .counter_box .icon i{
 	display: block;
     font-size: 45px;
-    margin-left: 8px;
+    margin-left: 35px;
     color: #fff;
-    margin-top: 7px;
 }
 .finlance_fun_v1 .counter_box h2{
 	color: #fff;
@@ -1482,14 +1479,7 @@ li.submenus::after {
 	border-bottom: 1px solid #e5e7ea;
 }
 .partner_v1 .partner_slide .single_partner img{
-    margin: 0 auto;
-    width: 100px;
-}
-
-
-.aaa {
-    text-align: center;
-
+	margin: 0 auto;
 }
 /*>----------------------------------
 	End partner_slide section css

@@ -21,8 +21,15 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
 @endif
 
 @section('content')
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
 <div class="page-header">
-   <h4 class="page-title">RSS Feed Posts</h4>
+   <h4 class="page-title">{{ __('trans.RSS Feed Posts') }}</h4>
    <ul class="breadcrumbs">
       <li class="nav-home">
          <a href="{{route('admin.dashboard')}}">
@@ -33,13 +40,13 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">RSS Feeds</a>
+         <a href="#">RSS Feeds{{ __('trans.Delete') }}</a>
       </li>
       <li class="separator">
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">RSS Posts</a>
+         <a href="#">{{ __('trans.RSS Posts') }}</a>
       </li>
    </ul>
 </div>
@@ -49,12 +56,12 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
          <div class="card-header">
             <div class="row">
                <div class="col-lg-4">
-                  <div class="card-title d-inline-block">RSS Feed Posts</div>
+                  <div class="card-title d-inline-block">{{ __('trans.RSS Feed Posts') }}</div>
                </div>
                <div class="col-lg-3">
                   @if (!empty($langs))
                   <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                     <option value="" selected disabled>Select a Language</option>
+                     <option value="" selected disabled>{{ __('trans.Select a Language') }}</option>
                      @foreach ($langs as $lang)
                      <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                      @endforeach
@@ -62,14 +69,14 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                   @endif
                </div>
                <div class="col-lg-5">
-                  <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.rss.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                  <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.rss.bulk.delete')}}"><i class="flaticon-interface-5"></i> {{ __('trans.Delete') }}</button>
                </div>
             </div>
          </div>
 
          @if (count($rsss) == 0)
          <div class="card-body">
-            <h3 class="text-center">NO RSS POST FOUND</h3>
+            <h3 class="text-center">{{ __('trans.NO RSS POST FOUND') }}</h3>
          </div>
          @else
          <div class="card-body">
@@ -83,11 +90,11 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                               <th scope="col">
                                 <input type="checkbox" class="bulk-check" data-val="all">
                               </th>
-                              <th scope="col">Image</th>
-                              <th scope="col">Category</th>
-                              <th scope="col">Title</th>
-                              <th scope="col">Created at</th>
-                              <th scope="col">Actions</th>
+                              <th scope="col">{{ __('trans.Image') }}</th>
+                              <th scope="col">{{ __('trans.Category') }}</th>
+                              <th scope="col">{{ __('trans.Title') }}</th>
+                              <th scope="col">{{ __('trans.Created at') }}</th>
+                              <th scope="col">{{ __('trans.Actions') }}</th>
                            </tr>
                         </thead>
                         <tbody>
@@ -113,7 +120,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                     <span class="btn-label">
                                     <i class="fas fa-trash"></i>
                                     </span>
-                                    Delete
+                                    {{ __('trans.Delete') }}
                                     </button>
                                  </form>
                               </td>

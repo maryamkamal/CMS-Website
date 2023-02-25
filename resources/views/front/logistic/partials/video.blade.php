@@ -1,7 +1,7 @@
     <!-- Start logistics_banner section -->
     <section class="logistics_banner banner_v1">
         <div class="hero_slide_v1">
-            <div class="single_slider bg_image lazy" data-bg="{{asset('assets/front/img/'.$bs->hero_bg)}}" id="hero-home-5" style="background-size: cover;">
+            <div class="single_slider bg_image" id="hero-home-5" style="background-image: url('{{asset('assets/front/img/'.$bs->hero_bg)}}'); background-size: cover;">
                 <div id="bgndVideo" data-property="{videoURL:'{{$bs->hero_section_video_link}}',containment:'#hero-home-5', quality:'large', autoPlay:true, loop:true, mute:true, opacity:1}"></div>
                 <div class="container">
                     <div class="row">

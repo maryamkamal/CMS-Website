@@ -37,15 +37,9 @@
                                         <form action="{{route('user-profile-update')}}" method="POST" enctype="multipart/form-data" >
                                             @csrf
                                             <div class="upload-img">
-                                                @if (strpos($user->photo, 'facebook') !== false || strpos($user->photo, 'google'))
-                                                    <div class="img-box">
-                                                        <img class="showimage" src="{{$user->photo ? $user->photo : asset('assets/front/img/user/profile.jpg')}}" alt="user-image">
-                                                    </div>
-                                                @else
-                                                    <div class="img-box">
-                                                        <img class="showimage" src="{{$user->photo ? asset('assets/front/img/user/'.$user->photo) : asset('assets/front/img/user/profile.jpg')}}" alt="user-image">
-                                                    </div>
-                                                @endif
+                                                <div class="img-box">
+                                                <img class="showimage" src="{{$user->photo ? asset('assets/front/img/user/'.$user->photo) : asset('assets/user/img/profile.jpg')}}" alt="user-image">
+                                                </div>
                                                 <div class="file-upload-area">
                                                     <div class="upload-file">
                                                         <input type="file" name="photo" class="upload image">
@@ -69,13 +63,7 @@
                                                         <p class="text-danger mb-4">{{ convertUtf8($message) }}</p>
                                                     @enderror
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <input type="username" class="form_control" placeholder="{{__('Username')}}" name="username" value="{{convertUtf8($user->username)}}" value="{{Request::old('username')}}">
-                                                    @error('username')
-                                                        <p class="text-danger mb-4">{{ convertUtf8($message) }}</p>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-12">
                                                     <input type="email" class="form_control" placeholder="{{__('Email')}}" name="email" disabled value="{{convertUtf8($user->email)}}" value="{{Request::old('email')}}">
                                                 </div>
 

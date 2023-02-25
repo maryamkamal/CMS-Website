@@ -13,11 +13,39 @@
 @section('meta-keywords', "$be->blogs_meta_keywords")
 @section('meta-description', "$be->blogs_meta_description")
 
-@section('breadcrumb-title', convertUtf8($bs->blog_title))
-@section('breadcrumb-subtitle', convertUtf8($bs->blog_subtitle))
-@section('breadcrumb-link', __('Latest Blogs'))
-
 @section('content')
+  <!--   hero area start   -->
+  <div class="breadcrumb-area blogs d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+     <div class="container align-self-center">
+        <div class="breadcrumb-txt">
+           <div class="row">
+              <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+                 <span>{{convertUtf8($bs->blog_title)}}</span>
+                 <h1>{{convertUtf8($bs->blog_subtitle)}}</h1>
+                 <ul class="breadcumb">
+                    <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                    <li>{{__('Latest Blogs')}}</li>
+                 </ul>
+              </div>
+			  @if(($bs->inner_imge!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img class="img-fluid" src="{{asset('assets/front/img/' . $bs->inner_imge)}}" alt="">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+            <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+           </div>
+        </div>
+     </div>
+     <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+  </div>
+  <!--   hero area end    -->
 
 
   <!--    blog lists start   -->
@@ -37,7 +65,7 @@
                     <div class="col-md-6">
                        <div class="single-blog">
                           <div class="blog-img-wrapper">
-                             <img class="lazy" data-src="{{asset('assets/front/img/blogs/'.$blog->main_image)}}" alt="">
+                             <img src="{{asset('assets/front/img/blogs/'.$blog->main_image)}}" alt="">
                           </div>
                           <div class="blog-txt">
                             @php
@@ -51,11 +79,11 @@
                             @endphp
                              <p class="date"><small>{{__('By')}} <span class="username">{{__('Admin')}}</span></small> | <small>{{$blogDate}}</small> </p>
 
-                             <h4 class="blog-title"><a href="{{route('front.blogdetails', [$blog->slug])}}">{{strlen($blog->title) > 40 ? mb_substr($blog->title, 0, 40, 'utf-8') . '...' : $blog->title}}</a></h4>
+                             <h4 class="blog-title"><a href="{{route('front.blogdetails', [$blog->slug, $blog->id])}}">{{convertUtf8(strlen($blog->title)) > 200 ? convertUtf8(substr($blog->title, 0, 200)) . '...' : convertUtf8($blog->title)}}</a></h4>
 
-                             <p class="blog-summary">{!! strlen(strip_tags($blog->content)) > 100 ? mb_substr(strip_tags($blog->content), 0, 100, 'utf-8') . '...' : strip_tags($blog->content) !!}</p>
+                             <p class="blog-summary">{!! (strlen(strip_tags(convertUtf8($blog->content))) > 1000) ? substr(strip_tags(convertUtf8($blog->content)), 0, 1000) . '...' : strip_tags(convertUtf8($blog->content)) !!}</p>
 
-                             <a href="{{route('front.blogdetails', [$blog->slug])}}" class="readmore-btn"><span>{{__('Read More')}}</span></a>
+                             <a href="{{route('front.blogdetails', [$blog->slug, $blog->id])}}" class="readmore-btn"><span>{{__('Read More')}}</span></a>
 
                           </div>
                        </div>

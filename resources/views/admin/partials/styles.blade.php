@@ -19,9 +19,8 @@
 <link rel="stylesheet" href="{{asset('assets/admin/css/bootstrap-tagsinput.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/bootstrap-datepicker.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/jquery.timepicker.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/admin/css/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/summernote-bs4.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/atlantis.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/admin/css/custom.css')}}">
+
 
 @yield('styles')

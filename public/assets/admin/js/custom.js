@@ -66,9 +66,10 @@ $(function ($) {
       let $this = $(this);
       $this.dmUploader({ //
           url: $this.attr('action'),
-          multiple: false,
+          multiple: true,
           allowedTypes: 'image/*',
-          extFilter: ['jpg', 'jpeg', 'png'],
+		  maxFileSize: 100000000,
+          extFilter: ['jpg', 'jpeg', 'png','gif'],
           onDragEnter: function() {
               // Happens when dragging something over the DnD area
               this.addClass('active');
@@ -190,9 +191,10 @@ $('.drag-and-drop-zone-1').each(function(i) {
       let $this = $(this);
       $this.dmUploader({ //
           url: $this.attr('action'),
-          multiple: false,
+          multiple: true,
           allowedTypes: 'image/*',
-          extFilter: ['jpg', 'jpeg', 'png'],
+		  maxFileSize: 100000000,
+          extFilter: ['jpg', 'jpeg', 'png','gif'],
           onDragEnter: function() {
               // Happens when dragging something over the DnD area
               this.addClass('active');
@@ -314,9 +316,10 @@ $('.drag-and-drop-zone-2').each(function(i) {
       let $this = $(this);
       $this.dmUploader({ //
           url: $this.attr('action'),
-          multiple: false,
+          multiple: true,
           allowedTypes: 'image/*',
-          extFilter: ['jpg', 'jpeg', 'png'],
+		  maxFileSize: 100000000,
+          extFilter: ['jpg', 'jpeg', 'png','gif'],
           onDragEnter: function() {
               // Happens when dragging something over the DnD area
               this.addClass('active');
@@ -752,34 +755,7 @@ $('.drag-and-drop-zone-2').each(function(i) {
   /* ***************************************************
   ==========Delete Using AJAX Request Start==========
   ******************************************************/
-  $('.deletebtn').on('click', function (e) {
-    e.preventDefault();
-
-    $(".request-loader").addClass("show");
-
-    swal({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      buttons: {
-        confirm: {
-          text: 'Yes, delete it!',
-          className: 'btn btn-success'
-        },
-        cancel: {
-          visible: true,
-          className: 'btn btn-danger'
-        }
-      }
-    }).then((Delete) => {
-      if (Delete) {
-        $(this).parent(".deleteform").submit();
-      } else {
-        swal.close();
-        $(".request-loader").removeClass("show");
-      }
-    });
-  });
+ 
   /* ***************************************************
   ==========Delete Using AJAX Request End==========
   ******************************************************/

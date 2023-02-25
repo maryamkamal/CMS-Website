@@ -1,106 +1,99 @@
 @extends("front.$version.layout")
 
 @section('pagename')
-- {{__('Gallery')}}
+ - {{__('Gallery')}}
 @endsection
 
 @section('meta-keywords', "$be->gallery_meta_keywords")
 @section('meta-description', "$be->gallery_meta_description")
 
-@section('breadcrumb-title', $bs->gallery_title)
-@section('breadcrumb-subtitle', $bs->gallery_subtitle)
-@section('breadcrumb-link', __('GALLERY'))
-
 @section('content')
-<!--    Gallery section start   -->
-<section class="gallery-area-v1" id="masonry-gallery">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        @if (count($categories) > 0 && $bex->gallery_category_status == 1)
-          <div class="filter-nav text-center mb-15">
-            <ul class="filter-btn">
-              <li data-filter="*" class="active">{{__('All')}}</li>
-              @foreach ($categories as $category)
-                @php
-                    $filterValue = "." . Str::slug($category->name);
-                @endphp
-
-                <li data-filter="{{ $filterValue }}">{{ convertUtf8($category->name) }}</li>
-              @endforeach
-            </ul>
-          </div>
-        @endif
-      </div>
-    </div>
-
-    <div class="masonry-row">
-      <div class="row">
-        @if (count($galleries) == 0)
-          <div class="col">
-            <h3 class="text-center">{{ __('No Gallery Image Found!') }}</h3>
-          </div>
-        @else
-          @foreach ($galleries as $gallery)
-            @php
-              $galleryCategory = $gallery->galleryImgCategory()->first();
-
-              if (!empty($galleryCategory)) {
-                $categoryName = Str::slug($galleryCategory->name);
-              } else {
-                $categoryName = "";
-              }
-            @endphp
-
-            <div class="col-lg-4 col-md-6 col-sm-12 galery-column {{ $categoryName }}">
-              <div class="gallery-item mb-30">
-                <div class="gallery-img">
-                  <a href="{{ asset('assets/front/img/gallery/' . $gallery->image) }}" class="img-popup">
-                    <img src="{{ asset('assets/front/img/gallery/' . $gallery->image) }}" alt="gallery">
-                  </a>
-                </div>
-              </div>
+<!--   breadcrumb area start   -->
+<div class="breadcrumb-area d-flex" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+   <div class="container align-self-center">
+      <div class="breadcrumb-txt">
+         <div class="row">
+            <div class="col-xl-6 col-lg-6 col-sm-5 align-self-center">
+               <span>{{$bs->gallery_title}}</span>
+               <h1>{{$bs->gallery_subtitle}}</h1>
+               <ul class="breadcumb">
+                  <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                  <li>{{__('GALLERY')}}</li>
+               </ul>
             </div>
-          @endforeach
-        @endif
+			 @if(($bs->inner_image!=null)&&($bs->video_link== null))
+			   <div class="col">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="" class="img-fluid">
+				 </div>
+			@endif
+			
+			   @if($bs->video_link!= null)
+			   <div class="col">
+				    <iframe width="100%" height="315"
+                   src="{{$bs->video_link}}">
+                   </iframe> 
+              </div>
+			  @endif
+         </div>
       </div>
-    </div>
-  </div>
-</section>
+   </div>
+   <div class="breadcrumb-area-overlay" style="background-color: #{{$be->breadcrumb_overlay_color}};opacity: {{$be->breadcrumb_overlay_opacity}};"></div>
+</div>
+<!--   breadcrumb area end    -->
+
+
+<!--    Gallery section start   -->
+<div class="gallery-section masonry clearfix">
+   <div class="container">
+      <div class="grid">
+         <div class="grid-sizer"></div>
+         @foreach ($galleries as $key => $gallery)
+           <div class="single-pic">
+              <img src="{{asset('assets/front/img/gallery/'.$gallery->image)}}" alt="">
+              <div class="single-pic-overlay"></div>
+              <div class="txt-icon">
+                 <div class="outer">
+                    <div class="inner">
+                       <h4>{{convertUtf8(strlen($gallery->title)) > 20 ? convertUtf8(substr($gallery->title, 0, 20)) . '...' : convertUtf8($gallery->title)}}</h4>
+                       <a class="icon-wrapper" href="{{asset('assets/front/img/gallery/'.$gallery->image)}}" data-lightbox="single-pic" data-title="{{convertUtf8($gallery->title)}}">
+                       <i class="fas fa-search-plus"></i>
+                       </a>
+                    </div>
+                 </div>
+              </div>
+           </div>
+         @endforeach
+      </div>
+      <div class="row mt-5">
+         <div class="col-md-12">
+            <nav class="pagination-nav">
+              {{$galleries->links()}}
+            </nav>
+         </div>
+      </div>
+   </div>
+</div>
 <!--    Gallery section end   -->
-@endsection
 
-@section('scripts')
-  <script>
-    $('#masonry-gallery').imagesLoaded( function() {
-      // items on button click
-      $('.filter-btn').on('click', 'li', function () {
-        var filterValue = $(this).attr('data-filter');
-        $grid.isotope({
-          filter: filterValue
-        });
-      });
-      // menu active class
-      $('.filter-btn li').on('click', function (e) {
-        $(this).siblings('.active').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-      });
-      var $grid = $('.masonry-row').isotope({
-        itemSelector: '.galery-column',
-        percentPosition: true,
-        masonry: {
-          columnWidth: 0
-        }
-      });
-    });
+@if ($bs->call_to_action_section == 1)
+<!--    call to action section start    -->
+<div class="cta-section" style="background-image: url('{{asset('assets/front/img/'.$bs->cta_bg)}}');background-size:cover;">
+   <div class="container">
+      <div class="cta-content">
+         <div class="row">
+            <div class="col-md-9 col-lg-7">
+               <h3>{{convertUtf8($bs->cta_section_text)}}</h3>
+            </div>
+            <div class="col-md-3 col-lg-5 contact-btn-wrapper">
+               <a href="{{$bs->cta_section_button_url}}" class="boxed-btn contact-btn"><span>{{convertUtf8($bs->cta_section_button_text)}}</span></a>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="cta-overlay" style="background-color: #{{$be->cta_overlay_color}};opacity: {{$be->cta_overlay_opacity}};"></div>
+</div>
+<!--    call to action section end    -->
+@endif
 
-    //===== Magnific Popup
-    $('.img-popup').magnificPopup({
-      type: 'image',
-      gallery: {
-        enabled: true
-      }
-    });
-  </script>
+ 
 @endsection

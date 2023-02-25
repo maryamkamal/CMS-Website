@@ -346,8 +346,6 @@ li.submenus ul {
 }
 .section_title span {
     color: <?php echo $color; ?>;
-    font-size: xxx-large;
-
 }
 .service_v1 .service_slide .grid_item .finlance_img .service_overlay .button_box a.more_icon {
     background: <?php echo $color; ?>;
@@ -623,4 +621,26 @@ a.proceed-checkout-btn:hover {
     background: <?php echo $color; ?>;
 }
 
-.product-items .shop-item .shop-content a:hove
+.product-items .shop-item .shop-content a:hover {
+    color: <?php echo $color; ?>;
+}
+.product-details-area .product-details-content .product-social-icon ul li a:hover {
+    color: <?php echo $color; ?>;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width : 991px) {
+    li.submenus ul {
+        background: transparent;
+    }
+}
+@media only screen and (max-width: 575px) {
+  .case-types ul li a {
+      background-color: #fff;
+  }
+}

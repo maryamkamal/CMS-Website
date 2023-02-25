@@ -1,10 +1,6 @@
 .header_v1 .top_header .top_left {
     text-align: right;
 }
-.main-menu ul > li > a {
-    padding: 8px 4px;
-    font-size: 14px;
-}
 .header_v1 .top_header .top_left span{
 	margin-right: 0;
 	margin-left: 35px;
@@ -233,8 +229,6 @@ li.submenus ul {
     .header_v1 .header_navigation .site_menu .button_box .finlance_btn{
         margin-left: 0;
         margin-right: 20px;
-        font-size: smaller;
-
     }
 }
 /*Large Device*/

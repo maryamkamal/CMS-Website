@@ -8,11 +8,28 @@
 @section('meta-keywords', "$be->checkout_meta_keywords")
 @section('meta-description', "$be->checkout_meta_description")
 
-@section('breadcrumb-title', convertUtf8($be->checkout_title))
-@section('breadcrumb-subtitle', convertUtf8($be->checkout_subtitle))
-@section('breadcrumb-link', __('Checkout'))
-
 @section('content')
+<!--   hero area start   -->
+<div class="breadcrumb-area services service-bg" style="background-image: url('{{asset('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="container">
+        <div class="breadcrumb-txt">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-sm-10">
+                    <span>{{convertUtf8($be->checkout_title)}}</span>
+                    <h1>{{convertUtf8($be->checkout_subtitle)}}</h1>
+                    <ul class="breadcumb">
+                        <li><a href="{{route('front.index')}}">{{__('Home')}}</a></li>
+                        <li>{{__('Checkout')}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-area-overlay"></div>
+</div>
+<!--   hero area end    -->
+
+
 
     <!--====== CHECKOUT PART START ======-->
     <section class="checkout-area">
@@ -33,17 +50,7 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Country')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $bcountry = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bcountry = Auth::user()->billing_country;
-                                                }
-                                            } else {
-                                                $bcountry = old('billing_country');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_country" value="{{$bcountry}}">
+                                        <input type="text" name="billing_country" value="{{convertUtf8($user->billing_country)}}">
                                     </div>
                                     @error('billing_country')
                                         <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -52,17 +59,7 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="field-label">{{__('First Name')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $bfname = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bfname = Auth::user()->billing_fname;
-                                                }
-                                            } else {
-                                                $bfname = old('billing_fname');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_fname" value="{{$bfname}}">
+                                        <input type="text" name="billing_fname" value="{{convertUtf8($user->billing_fname)}}">
                                     </div>
                                     @error('billing_fname')
                                         <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -71,17 +68,7 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="field-label">{{__('Last Name')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $blname = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $blname = Auth::user()->billing_lname;
-                                                }
-                                            } else {
-                                                $blname = old('billing_lname');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_lname" value="{{$blname}}">
+                                        <input type="text" name="billing_lname" value="{{convertUtf8($user->billing_lname)}}">
                                     </div>
                                     @error('billing_lname')
                                         <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -90,17 +77,7 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Address')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $baddress = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $baddress = Auth::user()->billing_address;
-                                                }
-                                            } else {
-                                                $baddress = old('billing_address');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_address" value="{{$baddress}}">
+                                        <input type="text" name="billing_address" value="{{convertUtf8($user->billing_address)}}">
                                     </div>
                                     @error('billing_address')
                                         <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -110,17 +87,7 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Town / City')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $bcity = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bcity = Auth::user()->billing_city;
-                                                }
-                                            } else {
-                                                $bcity = old('billing_city');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_city" value="{{$bcity}}">
+                                        <input type="text" name="billing_city" value="{{convertUtf8($user->billing_city)}}">
                                     </div>
                                     @error('billing_city')
                                     <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -129,17 +96,7 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Contact Email')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $bmail = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bmail = Auth::user()->billing_email;
-                                                }
-                                            } else {
-                                                $bmail = old('billing_email');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_email" value="{{$bmail}}">
+                                        <input type="text" name="billing_email" value="{{convertUtf8($user->billing_email)}}">
                                     </div>
                                     @error('billing_email')
                                     <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -148,17 +105,7 @@
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Phone')}} *</div>
                                     <div class="field-input">
-                                        @php
-                                            $bnumber = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bnumber = Auth::user()->billing_number;
-                                                }
-                                            } else {
-                                                $bnumber = old('billing_number');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_number" value="{{$bnumber}}">
+                                        <input type="text" name="billing_number" value="{{convertUtf8($user->billing_number)}}">
                                     </div>
                                     @error('billing_number')
                                     <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -176,17 +123,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Country')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $scountry = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $scountry = Auth::user()->shpping_country;
-                                            }
-                                        } else {
-                                            $scountry = old('shpping_country');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_country" value="{{$scountry}}">
+                                    <input type="text" name="shpping_country" value="{{convertUtf8($user->shpping_country)}}">
                                 </div>
                                 @error('shpping_country')
                                     <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -195,17 +132,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="field-label">{{__('First Name')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $sfname = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $sfname = Auth::user()->shpping_fname;
-                                            }
-                                        } else {
-                                            $sfname = old('shpping_fname');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_fname" value="{{$sfname}}">
+                                    <input type="text" name="shpping_fname" value="{{convertUtf8($user->shpping_fname)}}">
                                 </div>
                                 @error('shpping_fname')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -214,17 +141,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="field-label">{{__('Last Name')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $slname = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $slname = Auth::user()->shpping_lname;
-                                            }
-                                        } else {
-                                            $slname = old('shpping_lname');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_lname" value="{{$slname}}">
+                                    <input type="text" name="shpping_lname" value="{{convertUtf8($user->shpping_lname)}}">
                                 </div>
                                 @error('shpping_lname')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -233,17 +150,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Address')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $saddress = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $saddress = Auth::user()->shpping_address;
-                                            }
-                                        } else {
-                                            $saddress = old('shpping_address');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_address" value="{{$saddress}}">
+                                    <input type="text" name="shpping_address" value="{{convertUtf8($user->shpping_address)}}">
                                 </div>
                                 @error('shpping_address')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -253,17 +160,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Town / City')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $scity = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $scity = Auth::user()->shpping_city;
-                                            }
-                                        } else {
-                                            $scity = old('shpping_city');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_city" value="{{$scity}}">
+                                    <input type="text" name="shpping_city" value="{{convertUtf8($user->shpping_city)}}">
                                 </div>
                                 @error('shpping_city')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -272,17 +169,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Contact Email')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $smail = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $smail = Auth::user()->shpping_email;
-                                            }
-                                        } else {
-                                            $smail = old('shpping_email');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_email" value="{{$smail}}">
+                                    <input type="text" name="shpping_email" value="{{convertUtf8($user->shpping_email)}}">
                                 </div>
                                 @error('shpping_email')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -291,17 +178,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Phone')}} *</div>
                                 <div class="field-input">
-                                    @php
-                                        $snumber = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $snumber = Auth::user()->shpping_number;
-                                            }
-                                        } else {
-                                            $snumber = old('shpping_number');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_number" value="{{$snumber}}">
+                                    <input type="text" name="shpping_number" value="{{convertUtf8($user->shpping_number)}}">
                                 </div>
                                 @error('shpping_number')
                                 <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -316,7 +193,6 @@
         <div class="bottom">
             <div class="container">
                 <div class="row">
-                    @if (!onlyDigitalItemsInCart() && count($shippings) > 0)
                     <div class="col-12 mb-5">
                         <div class="table">
                             <div class="shop-title-box">
@@ -331,29 +207,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    @if($shippings)
                                     @foreach ($shippings as $key => $charge)
-                                        <tr>
-                                            <td>
-                                                <input type="radio" {{$key == 0 ? 'checked' : ''}} name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="{{$charge->charge}}"   class="shipping-charge"  value="{{$charge->id}}">
-                                            </td>
-                                            <td>
-                                                <p class="mb-2"><strong>{{convertUtf8($charge->title)}}</strong></p>
-                                                <p><small>{{convertUtf8($charge->text)}}</small></p>
-                                            </td>
-                                            <td>
-                                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{$charge->charge}}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="radio" {{$key == 0 ? 'checked' : ''}} name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="{{$charge->charge}}"   class="shipping-charge"  value="{{$charge->id}}">
+                                        </td>
+                                        <td>
+                                        <p class="mb-2"><strong>{{convertUtf8($charge->title)}}</strong></p>
+                                            <p><small>{{convertUtf8($charge->text)}}</small></p>
+                                        </td>
+                                        <td>{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{$charge->charge}}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                    </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td>
+                                            <input type="radio" checked name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="0"   class="shipping-charge"  value="0">
+                                        </td>
+                                        <td>
+                                        <p class="mb-2"><strong>{{__('Free Shipping')}}</strong></p>
+                                            <p><small>{{__('10 to 15 days')}}</small></p>
+                                        </td>
+                                        <td>$ <span>0</span></td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    @else
-                    <div class="col-12">
-                        <input style="visibility: hidden;" type="radio" checked name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="0"   class="shipping-charge"  value="0">
-                    </div>
-                    @endif
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <div class="table">
                             <div class="shop-title-box">
@@ -383,6 +266,9 @@
                                     <tr>
                                         <td colspan="2" class="product-column">
                                             <div class="column-box">
+                                                <div class="prod-thumb">
+                                                   <img src="{{asset('assets/front/img/product/featured/'.$item['photo'])}}" alt="">
+                                                </div>
                                                 <div class="product-title">
                                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}"><h3 class="prod-title">{{convertUtf8($item['name'])}}</h3></a>
                                                 </div>
@@ -407,77 +293,28 @@
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <div class="cart-total">
                             <div class="shop-title-box">
-                                <h3>{{__('Order Total')}}</h3>
+                                <h3>{{__('Cart Totals')}}</h3>
                             </div>
+                            <ul class="cart-total-table">
+                                <li class="clearfix">
+                                    <span class="col col-title">{{__('Cart Subtotal')}}</span>
+                                    <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span data="{{round($total,2)}}" class="subtotal">{{round($total,2)}}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                </li>
 
-                            <div id="cartTotal">
-                                <ul class="cart-total-table">
+
+                                @if (sizeof($shippings) > 0)
                                     <li class="clearfix">
-                                        <span class="col col-title">{{__('Cart Total')}}</span>
-                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{cartTotal()}}" class="subtotal">{{cartTotal()}}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                        <span class="col col-title">{{__('Shipping Charge')}}</span>
+                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span data="{{$shippings ? round($shippings[0]->charge,2) : 0}}" class="shipping">{{$shippings ? round($shippings[0]->charge,2) : 0}}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                     </li>
-                                    <li class="clearfix">
-                                        <span class="col col-title">{{ __('Discount') }}
-                                             <span class="text-success">(<i class="fas fa-minus"></i>)</span></span>
-                                        <span class="col">
-                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span data="{{ $discount }}">{{ $discount }}</span>
-                                            {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
-                                        </span>
-
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="col col-title">{{ __('Subtotal') }}</span>
-                                        <span class="col">
-                                        {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data="{{ cartSubTotal() }}" class="subtotal"
-                                            id="subtotal">{{ cartSubTotal() }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
-                                        </span>
-                                    </li>
-
-
-                                    @if (!onlyDigitalItemsInCart() && sizeof($shippings) > 0)
-                                        @php
-                                            $scharge = round($shippings[0]->charge,2);
-                                        @endphp
-                                        <li class="clearfix">
-                                            <span class="col col-title">{{__('Shipping Charge')}}
-                                                <span class="text-danger">(<i class="fas fa-plus"></i>)</span></span>
-                                            <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{$scharge}}" class="shipping">{{$scharge}}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
-                                        </li>
-                                    @else
-                                        @php
-                                            $scharge = 0;
-                                        @endphp
-                                    @endif
-
-                                    <li class="clearfix">
-                                        <span class="col col-title">{{ __('Tax') }}
-                                            ({{$bex->tax}}%)
-                                            <span class="text-danger">(<i class="fas fa-plus"></i>)</span>
-                                        </span>
-                                        <span class="col">
-                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data-tax="{{ tax() }}" id="tax">{{ tax() }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
-                                        </span>
-                                    </li>
-
                                     <li class="clearfix">
                                         <span class="col col-title">{{__('Order Total')}}</span>
-                                        <span class="col">
-                                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ cartSubTotal() + $scharge + tax() }}" class="grandTotal">{{ cartSubTotal() + $scharge + tax() }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span data="{{$shippings ? round($total + $shippings[0]->charge,2) : $total }}" class="grandTotal">{{$shippings ? round($total + $shippings[0]->charge,2) : $total }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                     </li>
+                                @endif
 
 
-                                </ul>
-                            </div>
-
-                            <div class="coupon mt-4">
-                                <h4 class="mb-3">{{__('Coupon')}}</h4>
-                                <div class="form-group d-flex">
-                                    <input type="text" class="form-control" name="coupon" value="">
-                                    <button class="btn btn-primary base-bg border-0" type="button" onclick="applyCoupon();">{{__('Apply')}}</button>
-                                </div>
-                            </div>
+                            </ul>
 
                             <div class="payment-options">
                                 <h4 class="mb-4">{{__('Pay Via')}}</h4>
@@ -506,52 +343,8 @@
 @section('scripts')
 <script src="https://js.stripe.com/v2/"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
-@if (session()->has('unsuccess'))
 <script>
-   toastr["error"]("{{__(session('unsuccess'))}}");
-</script>
-@endif
-<script>
-    // apply coupon functionality starts
-    function applyCoupon() {
-        $.post(
-            "{{route('front.coupon')}}",
-            {
-                coupon: $("input[name='coupon']").val(),
-                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
-            },
-            function(data) {
-                console.log(data);
-                if (data.status == 'success') {
-                    toastr["success"](data.message);
-                    $("input[name='coupon']").val('');
-                    $("#cartTotal").load(location.href + " #cartTotal", function() {
-                        let scharge = parseFloat($("input[name='shipping_charge']:checked").attr('data'));
-                        let total = parseFloat($(".grandTotal").attr('data'));
-
-                        $(".shipping").attr('data', scharge);
-                        $(".shipping").text(scharge);
-
-                        total += scharge;
-                        $(".grandTotal").attr('data', total);
-                        $(".grandTotal").text(total);
-                    });
-                } else {
-                    toastr["error"](data.message);
-                }
-            }
-        );
-    }
-    $("input[name='coupon']").on('keypress', function(e) {
-        let code = e.which;
-        if (code == 13) {
-            e.preventDefault();
-            applyCoupon();
-        }
-    });
-    // apply coupon functionality ends
-
-    $(document).on('click', '.shipping-charge', function(){
+    $('.shipping-charge').on('click','',function(){
         let total = 0;
         let subtotal  = 0;
         let grantotal  = 0;
@@ -586,11 +379,8 @@
 
         $(".gateway-details").removeClass("d-flex");
         $(".gateway-details").addClass("d-none");
-        $(".gateway-details input").attr('disabled', true);
 
         if ($("#tab-"+tabid).length > 0) {
-            $("#tab-"+tabid + " input").removeAttr('disabled');
-            $("#tab-"+tabid).removeClass("d-none");
             $("#tab-"+tabid).addClass("d-flex");
         }
 

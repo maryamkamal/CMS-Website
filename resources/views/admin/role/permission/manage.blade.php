@@ -1,8 +1,15 @@
 @extends('admin.layout')
 
 @section('content')
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
   <div class="page-header">
-    <h4 class="page-title">Roles</h4>
+    <h4 class="page-title">{{ __('trans.Roles') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -19,7 +26,7 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Permissions Management</a>
+        <a href="#">{{ __('trans.Permissions Management') }}</a>
       </li>
     </ul>
   </div>
@@ -28,7 +35,7 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Permissions Management</div>
+          <div class="card-title d-inline-block">{{ __('trans.Permissions Management') }}</div>
           <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.role.index')}}">
             <span class="btn-label">
               <i class="fas fa-backward" style="font-size: 12px;"></i>
@@ -53,87 +60,117 @@
                 @endphp
 
                 <div class="form-group">
-                  <label for="">Permissions: </label>
+                  <label for="">{{ __('trans.Permissions') }}: </label>
                 	<div class="selectgroup selectgroup-pills mt-2">
                 		<label class="selectgroup-item">
                 			<input type="hidden" name="permissions[]" value="Dashboard" class="selectgroup-input">
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Theme & Home" class="selectgroup-input" @if(is_array($permissions) && in_array('Theme & Home', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Theme & Home</span>
+                			<input type="checkbox" name="permissions[]" value="Basic Settings" class="selectgroup-input" @if(is_array($permissions) && in_array('Basic Settings', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Basic Settings') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Menu Builder" class="selectgroup-input" @if(is_array($permissions) && in_array('Menu Builder', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Website Menu Builder</span>
+                			<input type="checkbox" name="permissions[]" value="Customers" class="selectgroup-input" @if(is_array($permissions) && in_array('Customers', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Customers') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Content Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Content Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Content Management</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Pages" class="selectgroup-input" @if(is_array($permissions) && in_array('Pages', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Custom Pages</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Event Calendar" class="selectgroup-input" @if(is_array($permissions) && in_array('Event Calendar', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Event Calendar</span>
+                			<input type="checkbox" name="permissions[]" value="Subscribers" class="selectgroup-input" @if(is_array($permissions) && in_array('Subscribers', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Subscribers') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
                 			<input type="checkbox" name="permissions[]" value="Package Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Package Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Package Management</span>
+                			<span class="selectgroup-button">{{ __('trans.Package Management') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
                 			<input type="checkbox" name="permissions[]" value="Quote Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Quote Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Quote Management</span>
+                			<span class="selectgroup-button">{{ __('trans.Quote Management') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Shop Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Shop Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Shop Management</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Course Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Course Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Course Management</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Events Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Events Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Events Management</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Donation Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Donation Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Donations & Causes</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Knowledgebase" class="selectgroup-input" @if(is_array($permissions) && in_array('Knowledgebase', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Knowledgebase</span>
+                			<input type="checkbox" name="permissions[]" value="Product Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Product Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Product Management') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
                 			<input type="checkbox" name="permissions[]" value="Tickets" class="selectgroup-input" @if(is_array($permissions) && in_array('Tickets', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Support Tickets</span>
+                			<span class="selectgroup-button">{{ __('trans.Tickets') }}</span>
                 		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Payment Gateways" class="selectgroup-input" @if(is_array($permissions) && in_array('Payment Gateways', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Payment Gateways') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Home Page" class="selectgroup-input" @if(is_array($permissions) && in_array('Home Page', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Home Page') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Menu Builder" class="selectgroup-input" @if(is_array($permissions) && in_array('Menu Builder', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Drag') }} & {{ __('trans.Drop Menu Builder') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Footer" class="selectgroup-input" @if(is_array($permissions) && in_array('Footer', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Footer') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Pages" class="selectgroup-input" @if(is_array($permissions) && in_array('Pages', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Pages') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Service Page" class="selectgroup-input" @if(is_array($permissions) && in_array('Service Page', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Service Page') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Portfolio Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Portfolio Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Portfolio Management') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Career Page" class="selectgroup-input" @if(is_array($permissions) && in_array('Career Page', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Career Page') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Event Calendar" class="selectgroup-input" @if(is_array($permissions) && in_array('Event Calendar', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Event Calendar') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Gallery Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Gallery Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Gallery Management') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="FAQ Management" class="selectgroup-input" @if(is_array($permissions) && in_array('FAQ Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.FAQ Management') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Blogs" class="selectgroup-input" @if(is_array($permissions) && in_array('Blogs', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Blogs') }}</span>
+						</label>
 
 						<label class="selectgroup-item">
                 			<input type="checkbox" name="permissions[]" value="RSS Feeds" class="selectgroup-input" @if(is_array($permissions) && in_array('RSS Feeds', $permissions)) checked @endif>
-                			<span class="selectgroup-button">RSS Feeds</span>
+                			<span class="selectgroup-button">{{ __('trans.RSS Feeds') }}</span>
 						</label>
+
+						<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Sitemap" class="selectgroup-input" @if(is_array($permissions) && in_array('Sitemap', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Sitemap') }}</span>
+						</label>
+
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Contact Page" class="selectgroup-input" @if(is_array($permissions) && in_array('Contact Page', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Contact Page') }}</span>
+                		</label>
+                		<label class="selectgroup-item">
+                			<input type="checkbox" name="permissions[]" value="Role Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Role Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Role Management') }}</span>
+                		</label>
                 		<label class="selectgroup-item">
                 			<input type="checkbox" name="permissions[]" value="Users Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Users Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Users Management</span>
+                			<span class="selectgroup-button">{{ __('trans.Users Management') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Announcement Popup" class="selectgroup-input" @if(is_array($permissions) && in_array('Announcement Popup', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Announcement Popup</span>
+                			<input type="checkbox" name="permissions[]" value="Language Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Language Management', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Language Management') }}</span>
                 		</label>
                 		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Basic Settings" class="selectgroup-input" @if(is_array($permissions) && in_array('Basic Settings', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Settings</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Admins Management" class="selectgroup-input" @if(is_array($permissions) && in_array('Admins Management', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Admins Management</span>
-                		</label>
-                		<label class="selectgroup-item">
-                			<input type="checkbox" name="permissions[]" value="Client Feedbacks" class="selectgroup-input" @if(is_array($permissions) && in_array('Client Feedbacks', $permissions)) checked @endif>
-                			<span class="selectgroup-button">Client Feedbacks</span>
+                			<input type="checkbox" name="permissions[]" value="Backup" class="selectgroup-input" @if(is_array($permissions) && in_array('Backup', $permissions)) checked @endif>
+                			<span class="selectgroup-button">{{ __('trans.Backup') }}</span>
                 		</label>
                 	</div>
                 </div>
@@ -145,7 +182,7 @@
           <div class="form">
             <div class="form-group from-show-notify row">
               <div class="col-12 text-center">
-                <button type="submit" id="submitBtn" class="btn btn-success" onclick="document.getElementById('permissionsForm').submit();">Update</button>
+                <button type="submit" id="submitBtn" class="btn btn-success" onclick="document.getElementById('permissionsForm').submit();">{{ __('trans.Update') }}</button>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 <div class="hero-area hero2-carousel owl-carousel owl-theme">
   @if (!empty($sliders))
     @foreach ($sliders as $key => $slider)
-      <div class="hero-bg-2 lazy" data-bg="{{asset('assets/front/img/sliders/'.$slider->image)}}">
+      <div class="hero-bg-2" style="background-image: url('{{asset('assets/front/img/sliders/'.$slider->image)}}')">
          <div class="container">
             <div class="hero-txt">
                <div class="row">

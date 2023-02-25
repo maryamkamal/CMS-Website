@@ -337,7 +337,6 @@ li.submenus ul {
 }
 .hero_slide_v1 .single_slider .banner_content p span {
     color: <?php echo $color; ?>;
-    font-size: xxx-large;
 }
 .finlance_btn {
     background: <?php echo $color; ?>;
@@ -349,7 +348,6 @@ li.submenus ul {
     color: <?php echo $color; ?>;
 }
 .section_title span {
-    font-size: xxx-large;
     color: <?php echo $color; ?>;
 }
 .service_v1 .service_slide .grid_item .finlance_img .service_overlay .button_box a.more_icon {

@@ -106,7 +106,7 @@ body {
 .form button:hover,
 .form button:active,
 .form button:focus {
-  background: #1a2035;
+  background: #68564c;
   color: #fff;
   box-shadow: 4px 0 6px 0px  #68564c;
 }

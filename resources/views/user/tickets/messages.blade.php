@@ -95,12 +95,8 @@
                                             @endphp
                                             <div class="single-message">
                                                 <div class="user-details">
-                                                    <div class="user-img rounded-circle">
-                                                        @if (strpos($user->photo, 'facebook') !== false || strpos($user->photo, 'google'))
-                                                            <img class="rounded-circle" src="{{$user->photo ? $user->photo : asset('assets/front/img/user/profile.jpg')}}" alt="user-photo">
-                                                        @else
-                                                            <img class="rounded-circle" src="{{$user->photo ? asset('assets/front/img/user/'.$user->photo) : ''}}" alt="user-photo">
-                                                        @endif
+                                                    <div class="user-img">
+                                                        <img src="{{asset('assets/front/img/user/'.$user->photo)}}" alt="user-photo">
                                                     </div>
                                                     <div class="user-infos">
                                                         <h6 class="name">{{convertUtf8($user->username)}}</h6>

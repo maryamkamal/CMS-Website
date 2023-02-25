@@ -1,8 +1,18 @@
 @extends('admin.layout')
 
 @section('content')
+
   <div class="page-header">
-    <h4 class="page-title">Archives</h4>
+
+	
+@if(session('language')!=null)
+<?php App::setLocale(session('language'));
+?>
+@else
+<?php App::setLocale("en");
+?>
+@endif
+    <h4 class="page-title">{{ __('trans.Archives') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="{{route('admin.dashboard')}}">
@@ -13,13 +23,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Blogs</a>
+        <a href="#">{{ __('trans.Blogs') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Archives</a>
+        <a href="#">{{ __('trans.Archives') }}</a>
       </li>
     </ul>
   </div>
@@ -28,22 +38,22 @@
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title d-inline-block">Archives</div>
+          <div class="card-title d-inline-block">{{ __('trans.Archives') }}</div>
           <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Archive</a>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-lg-12">
               @if (count($archives) == 0)
-                <h3 class="text-center">NO ARCHIVE FOUND</h3>
+                <h3 class="text-center">{{ __('trans.NO ARCHIVE FOUND') }}</h3>
               @else
                 <div class="table-responsive">
                   <table class="table table-striped mt-3">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">{{ __('trans.date') }}</th>
+                        <th scope="col">{{ __('trans.actions') }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -62,7 +72,7 @@
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
-                              Edit
+                              {{ __('trans.edit') }}
                             </a>
                             <form class="deleteform d-inline-block" action="{{route('admin.archive.delete')}}" method="post">
                               @csrf
@@ -71,7 +81,7 @@
                                 <span class="btn-label">
                                   <i class="fas fa-trash"></i>
                                 </span>
-                                Delete
+                                {{ __('trans.delete') }}
                               </button>
                             </form>
                           </td>
@@ -94,7 +104,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add Archive</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Add Archive') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -103,15 +113,15 @@
           <form id="ajaxForm" class="" action="{{route('admin.archive.store')}}" method="POST">
             @csrf
             <div class="form-group">
-              <label for="">Date **</label>
+              <label for="">{{ __('trans.date') }} **</label>
               <input class="form-control datepicker" name="date" placeholder="Enter date">
               <p id="errdate" class="mb-0 text-danger em"></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="submitBtn" type="button" class="btn btn-primary">{{ __('trans.Submit') }}</button>
         </div>
       </div>
     </div>
@@ -122,7 +132,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Edit Archive</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ __('trans.Edit Archive') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -132,15 +142,15 @@
             @csrf
             <input id="inarchive_id" type="hidden" name="archive_id">
             <div class="form-group">
-              <label for="">Date **</label>
+              <label for="">{{ __('trans.date') }} **</label>
               <input id="indate" class="form-control datepicker" name="date" placeholder="Enter date">
               <p id="eerrdate" class="mb-0 text-danger em"></p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="updateBtn" type="button" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('trans.Close') }}</button>
+          <button id="updateBtn" type="button" class="btn btn-primary">{{ __('trans.Save Changes') }}</button>
         </div>
       </div>
     </div>

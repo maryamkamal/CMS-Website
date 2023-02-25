@@ -33,6 +33,7 @@ use App\Language;
 use App\Package;
 use App\PackageOrder;
 use App\Admin;
+use App\Product;
 use App\CalendarEvent;
 use App\Mail\ContactMail;
 use App\Mail\OrderPackage;
@@ -74,7 +75,7 @@ class FrontendController extends Controller
         $lang_id = $currentLang->id;
 
         $data['sliders'] = Slider::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
-        $data['portfolios'] = Portfolio::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->limit(10)->get();
+        $data['portfolios'] = Portfolio::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->limit(6)->get();
         $data['features'] = Feature::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
         $data['points'] = Point::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
         $data['statistics'] = Statistic::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
@@ -82,9 +83,10 @@ class FrontendController extends Controller
         $data['faqs'] = Faq::orderBy('serial_number', 'ASC')->get();
         $data['members'] = Member::where('language_id', $lang_id)->where('feature', 1)->get();
         $data['blogs'] = Blog::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->limit(6)->get();
-        $data['partners'] = Partner::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
-        $data['packages'] = Package::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->get();
+        $data['partners'] = Partner::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->limit(6)->get();
+        $data['packages'] = Package::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->limit(6)->get();
         $data['scategories'] = Scategory::where('language_id', $lang_id)->where('feature', 1)->where('status', 1)->orderBy('serial_number', 'ASC')->get();
+		$data['products'] = Product::where('status', 1)->where('language_id',$currentLang->id)->paginate(6);
         if (!hasCategory($be->theme_version)) {
             $data['services'] = Service::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->get();
         }
@@ -265,13 +267,19 @@ class FrontendController extends Controller
 
     public function servicedetails($slug, $id)
     {
-
-        if (session()->has('lang')) {
+         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
             $currentLang = Language::where('is_default', 1)->first();
         }
+        $data['currentLang'] = $currentLang;
 
+        $bs = $currentLang->basic_setting;
+        $be = $currentLang->basic_extended;
+        $lang_id = $currentLang->id;
+
+        $data['portfolios'] = Portfolio::where('language_id', $lang_id)->where('feature', 1)->orderBy('serial_number', 'ASC')->limit(10)->get();
+        
         $data['service'] = Service::findOrFail($id);
 
         if ($data['service']->details_page_status == 0) {
@@ -284,10 +292,27 @@ class FrontendController extends Controller
         if ($version == 'dark') {
             $version = 'default';
         }
-
+        $data['products'] = Product::where('status', 1)->where('language_id',$currentLang->id)->paginate(6);
+		
         $data['version'] = $version;
-
-        return view('front.service-details', $data);
+        if ($version == 'gym') {
+            return view('front.gym.service-details', $data);
+        } elseif ($version == 'car') {
+            return view('front.car.service-details', $data);
+        } elseif ($version == 'cleaning') {
+            return view('front.cleaning.service-details', $data);
+        } elseif ($version == 'construction') {
+        
+            return view('front.construction.service-details', $data);
+        } elseif ($version == 'logistic') {
+    
+            return view('front.logistic.service-details', $data);
+        } elseif ($version == 'lawyer') {
+            return view('front.lawyer.service-details', $data);
+        } elseif ($version == 'default' || $version == 'dark') {
+            return view('front.default.service-details', $data);
+        }
+       
 
     }
 
@@ -887,12 +912,20 @@ class FrontendController extends Controller
 
     public function dynamicPage($slug, $id)
     {
-        if (session()->has('lang')) {
+		 if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
             $currentLang = Language::where('is_default', 1)->first();
         }
+        $data['currentLang'] = $currentLang;
 
+        $be = $currentLang->basic_extended;
+        $lang_id = $currentLang->id;
+		
+		$data['features'] = Feature::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
+        $data['points'] = Point::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
+        $data['statistics'] = Statistic::where('language_id', $lang_id)->orderBy('serial_number', 'ASC')->get();
+       
         $data['page'] = Page::findOrFail($id);
 
         $be = $currentLang->basic_extended;
@@ -903,8 +936,22 @@ class FrontendController extends Controller
         }
 
         $data['version'] = $version;
-
-        return view('front.dynamic', $data);
+       if ($version == 'gym') {
+            return view('front.gym.dynamic', $data);
+        } elseif ($version == 'car') {
+           return view('front.car.dynamic', $data);
+        } elseif ($version == 'cleaning') {
+            return view('front.cleaning.dynamic', $data);
+        } elseif ($version == 'construction') {
+            return view('front.construction.dynamic', $data);
+        } elseif ($version == 'logistic') {
+            return view('front.logistic.dynamic', $data);
+        } elseif ($version == 'lawyer') {
+            return view('front.lawyer.dynamic', $data);
+        } elseif ($version == 'default' || $version == 'dark') {
+            return view('front.default.dynamic', $data);
+        }
+        
     }
 
     public function changeLanguage($lang)

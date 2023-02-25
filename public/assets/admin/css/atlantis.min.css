@@ -338,9 +338,10 @@ body {
     .logo-header .logo:hover {
       text-decoration: none; }
     .logo-header .logo .navbar-brand {
-      padding-top: 0px;
+      padding-top: 26px;
       padding-bottom: 0px;
-      margin-right: 0px; }
+      width: 100%;
+      margin-right: 0px;}
   .logo-header .nav-toggle {
     position: absolute;
     top: 0;
@@ -5524,7 +5525,10 @@ label.error {
     padding: 0;
     position: relative !important;
     top: 0;
-    width: auto !important; }
+    width: auto !important; 
+    margin-top: 85px;
+
+  }
     .scroll-wrapper > .scroll-content::-webkit-scrollbar {
       height: 0;
       width: 0; }
@@ -8556,7 +8560,9 @@ div.table-responsive > div.dataTables_wrapper > div.row {
     border-right: 1px solid #f1f1f1; }
 
   .sidebar .sidebar-wrapper {
-    padding-top: 0px; }
+    padding-top: 0px; 
+    margin-top: 0;
+  }
     .sidebar .sidebar-wrapper .sidebar-content {
       padding-top: 0px !important; }
     .sidebar .sidebar-wrapper .scroll-element.scroll-y {
@@ -8625,6 +8631,8 @@ div.table-responsive > div.dataTables_wrapper > div.row {
       margin-left: auto; }
     .logo-header .navbar-brand {
       position: unset !important;
+      width: 117px !important;
+    padding-top: 0 !important;
       margin-right: 0px; }
 
   .nav-search {

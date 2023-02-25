@@ -1,8 +1,15 @@
 @extends('admin.layout')
 
 @section('content')
+{{-- set local --}}
+	
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
 <div class="page-header">
-   <h4 class="page-title">Offline Gateways</h4>
+   <h4 class="page-title">{{ __('trans.Offline Gateways') }}</h4>
    <ul class="breadcrumbs">
       <li class="nav-home">
          <a href="{{route('admin.dashboard')}}">
@@ -13,13 +20,13 @@
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">Payment Gateways</a>
+         <a href="#">{{ __('trans.Payment Gateways') }}</a>
       </li>
       <li class="separator">
          <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-         <a href="#">Offline Gateways</a>
+         <a href="#">{{ __('trans.Offline Gateways') }}</a>
       </li>
    </ul>
 </div>
@@ -29,12 +36,12 @@
          <div class="card-header">
             <div class="row">
                <div class="col-lg-4">
-                  <div class="card-title d-inline-block">Offline Gateways</div>
+                  <div class="card-title d-inline-block">{{ __('trans.Offline Gateways') }}</div>
                </div>
                <div class="col-lg-3">
                   @if (!empty($langs))
                   <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
-                     <option value="" selected disabled>Select a Language</option>
+                     <option value="" selected disabled>{{ __('trans.selectLanguage') }}</option>
                      @foreach ($langs as $lang)
                      <option value="{{$lang->code}}" {{$lang->code == request()->input('language') ? 'selected' : ''}}>{{$lang->name}}</option>
                      @endforeach
@@ -42,8 +49,8 @@
                   @endif
                </div>
                <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
-                  <a href="#" class="btn btn-primary float-lg-right float-left btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> Add Gateway</a>
-                  <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.package.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
+                  <a href="#" class="btn btn-primary float-lg-right float-left btn-sm" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus"></i> {{ __('trans.Add Gateway') }}</a>
+                  <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.package.bulk.delete')}}"><i class="flaticon-interface-5"></i> {{ __('trans.delete') }}</button>
                </div>
             </div>
          </div>
@@ -51,21 +58,17 @@
             <div class="row">
                <div class="col-lg-12">
                   @if (count($ogateways) == 0)
-                  <h3 class="text-center">NO OFFLINE PAYMENT GATEWAY FOUND</h3>
+                  <h3 class="text-center">{{ __('trans.NO OFFLINE PAYMENT GATEWAY FOUND') }}</h3>
                   @else
                   <div class="table-responsive">
                      <table class="table table-striped mt-3">
                         <thead>
                            <tr>
-                              <th scope="col">Name</th>
-                              @if ($bex->catalog_mode == 0)
-                              <th scope="col">Product Checkout</th>
-                              @endif
-                              <th scope="col">Package Checkout</th>
-                              <th scope="col">Course Checkout</th>
-                              <th scope="col">Donation Checkout</th>
-                              <th scope="col">Event Checkout</th>
-                              <th scope="col">Actions</th>
+                              <th scope="col">{{ __('trans.Name') }}</th>
+                              <th scope="col">{{ __('trans.Product Checkout') }}</th>
+                              <th scope="col">{{ __('trans.Package Order') }}</th>
+                              <th scope="col">{{ __('trans.serialNumber') }}</th>
+                              <th scope="col">{{ __('trans.actions') }}</th>
                            </tr>
                         </thead>
                         <tbody>
@@ -74,75 +77,45 @@
                               <td>
                                 {{convertUtf8($ogateway->name)}}
                               </td>
-
-                              @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
                               <td>
                                 <form id="productForm{{$ogateway->id}}" class="d-inline-block" action="{{route('admin.offline.status')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
                                 <input type="hidden" name="type" value="product">
-                                <select class="form-control form-control-sm {{$ogateway->product_checkout_status == 1 ? 'bg-success' : 'bg-danger'}}" name="product_checkout_status" onchange="document.getElementById('productForm{{$ogateway->id}}').submit();">
-                                    <option value="1" {{$ogateway->product_checkout_status == 1 ? 'selected' : ''}}>Active</option>
-                                    <option value="0" {{$ogateway->product_checkout_status == 0 ? 'selected' : ''}}>Deactive</option>
+                                <select class="form-control {{$ogateway->product_checkout_status == 1 ? 'bg-success' : 'bg-danger'}}" name="product_checkout_status" onchange="document.getElementById('productForm{{$ogateway->id}}').submit();">
+                                    <option value="1" {{$ogateway->product_checkout_status == 1 ? 'selected' : ''}}>{{ __('trans.activ') }}</option>
+                                    <option value="0" {{$ogateway->product_checkout_status == 0 ? 'selected' : ''}}>{{ __('trans.disable') }}</option>
                                 </select>
                                 </form>
                               </td>
-                              @endif
-
                               <td>
                                 <form id="packageForm{{$ogateway->id}}" class="d-inline-block" action="{{route('admin.offline.status')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
                                 <input type="hidden" name="type" value="package">
-                                <select class="form-control form-control-sm {{$ogateway->package_order_status == 1 ? 'bg-success' : 'bg-danger'}}" name="package_order_status" onchange="document.getElementById('packageForm{{$ogateway->id}}').submit();">
-                                    <option value="1" {{$ogateway->package_order_status == 1 ? 'selected' : ''}}>Active</option>
-                                    <option value="0" {{$ogateway->package_order_status == 0 ? 'selected' : ''}}>Deactive</option>
+                                <select class="form-control {{$ogateway->package_order_status == 1 ? 'bg-success' : 'bg-danger'}}" name="package_order_status" onchange="document.getElementById('packageForm{{$ogateway->id}}').submit();">
+                                    <option value="1" {{$ogateway->package_order_status == 1 ? 'selected' : ''}}>{{ __('trans.activ') }}</option>
+                                    <option value="0" {{$ogateway->package_order_status == 0 ? 'selected' : ''}}>{{ __('trans.disable') }}</option>
                                 </select>
                                 </form>
                               </td>
+                              <td>{{$ogateway->serial_number}}</td>
                               <td>
-                                <form id="courseForm{{$ogateway->id}}" class="d-inline-block" action="{{route('admin.offline.status')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
-                                <input type="hidden" name="type" value="course">
-                                <select class="form-control form-control-sm {{$ogateway->course_checkout_status == 1 ? 'bg-success' : 'bg-danger'}}" name="course_checkout_status" onchange="document.getElementById('courseForm{{$ogateway->id}}').submit();">
-                                    <option value="1" {{$ogateway->course_checkout_status == 1 ? 'selected' : ''}}>Active</option>
-                                    <option value="0" {{$ogateway->course_checkout_status == 0 ? 'selected' : ''}}>Deactive</option>
-                                </select>
-                                </form>
-                              </td>
-                              <td>
-                                <form id="donationForm{{$ogateway->id}}" class="d-inline-block" action="{{route('admin.offline.status')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
-                                <input type="hidden" name="type" value="donation">
-                                <select class="form-control form-control-sm {{$ogateway->donation_checkout_status == 1 ? 'bg-success' : 'bg-danger'}}" name="donation_checkout_status" onchange="document.getElementById('donationForm{{$ogateway->id}}').submit();">
-                                    <option value="1" {{$ogateway->donation_checkout_status == 1 ? 'selected' : ''}}>Active</option>
-                                    <option value="0" {{$ogateway->donation_checkout_status == 0 ? 'selected' : ''}}>Deactive</option>
-                                </select>
-                                </form>
-                              </td>
-                              <td>
-                                <form id="eventForm{{$ogateway->id}}" class="d-inline-block" action="{{route('admin.offline.status')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
-                                <input type="hidden" name="type" value="event">
-                                <select class="form-control form-control-sm {{$ogateway->event_checkout_status == 1 ? 'bg-success' : 'bg-danger'}}" name="event_checkout_status" onchange="document.getElementById('eventForm{{$ogateway->id}}').submit();">
-                                    <option value="1" {{$ogateway->event_checkout_status == 1 ? 'selected' : ''}}>Active</option>
-                                    <option value="0" {{$ogateway->event_checkout_status == 0 ? 'selected' : ''}}>Deactive</option>
-                                </select>
-                                </form>
-                              </td>
-                              <td width="15%">
-                                <a class="btn btn-warning btn-sm editbtn" href="#editModal" data-toggle="modal" data-ogateway_id="{{$ogateway->id}}" data-name="{{$ogateway->name}}" data-short_description="{{$ogateway->short_description}}" data-instructions="{{replaceBaseUrl($ogateway->instructions)}}" data-is_receipt="{{$ogateway->is_receipt}}" data-serial_number="{{$ogateway->serial_number}}" title="Edit">
-                                    <i class="far fa-edit"></i>
+                                <a class="btn btn-secondary btn-sm editbtn" href="#editModal" data-toggle="modal" data-ogateway_id="{{$ogateway->id}}" data-name="{{$ogateway->name}}" data-short_description="{{$ogateway->short_description}}" data-instructions="{{replaceBaseUrl($ogateway->instructions)}}" data-is_receipt="{{$ogateway->is_receipt}}" data-serial_number="{{$ogateway->serial_number}}">
+                                    <span class="btn-label">
+                                    <i class="fas fa-edit"></i>
+                                    </span>
+                                    {{ __('trans.edit') }}
                                 </a>
 
                                  <form class="deleteform d-inline-block" action="{{route('admin.offline.gateway.delete')}}" method="post">
                                     @csrf
                                     <input type="hidden" name="ogateway_id" value="{{$ogateway->id}}">
-                                    <button type="submit" class="btn btn-danger btn-sm deletebtn" title="Delete">
-                                        <i class="far fa-trash-alt"></i>
+                                    <button type="submit" class="btn btn-danger btn-sm deletebtn">
+                                    <span class="btn-label">
+                                    <i class="fas fa-trash"></i>
+                                    </span>
+                                    {{ __('trans.delete') }}
                                     </button>
                                  </form>
                               </td>

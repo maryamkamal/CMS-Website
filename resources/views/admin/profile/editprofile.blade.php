@@ -5,8 +5,13 @@
 @endsection
 
 @section('content')
+@if(session('language')!=null)
+@php( App::setLocale(session('language')))
+@else
+@php( App::setLocale("en"))
+@endif
   <div class="page-header">
-    <h4 class="page-title">Profile</h4>
+    <h4 class="page-title">{{ __('trans.Profile') }}</h4>
     <ul class="breadcrumbs">
       <li class="nav-home">
         <a href="#">
@@ -17,13 +22,13 @@
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Profile Settings</a>
+        <a href="#">{{ __('trans.Profile Settings') }}</a>
       </li>
       <li class="separator">
         <i class="flaticon-right-arrow"></i>
       </li>
       <li class="nav-item">
-        <a href="#">Profile</a>
+        <a href="#">{{ __('trans.Profile') }}</a>
       </li>
     </ul>
   </div>
@@ -31,7 +36,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Update Profile</div>
+          <div class="card-title">{{ __('trans.Update Profile') }}</div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -60,12 +65,12 @@
                     </div>
                     <div class="mt-4">
                       <div role="button" class="btn btn-primary mr-2">
-                        <i class="fa fa-folder-o fa-fw"></i> Browse Files
+                        <i class="fa fa-folder-o fa-fw"></i> {{ __('trans.Browse Files') }}
                         <input type="file" title='Click to add Files' name="image" />
                       </div>
-                      <small class="status text-muted">Select a file or drag it over this area..</small>
-                      <p class="text-warning mb-0 mt-2">Upload squre size image for best quality.</p>
-                      <p class="text-warning mb-0">Only jpg, jpeg, png image is allowed.</p>
+                      <small class="status text-muted">{{ __('trans.Select a file or drag it over this area..') }}</small>
+                      <p class="text-warning mb-0 mt-2">{{ __('trans.Upload squre size image for best quality.') }}</p>
+                      <p class="text-warning mb-0">{{ __('trans.Only jpg, jpeg, png image is allowed.') }}</p>
                       <p class="text-danger mb-0 em" id="errimage"></p>
                     </div>
                   </div>
@@ -77,7 +82,7 @@
                  <div class="form-body">
                     <div class="form-group">
                         <div class="col-md-12">
-                          <label>Username</label>
+                          <label>{{ __('trans.Username') }}</label>
                         </div>
                        <div class="col-md-12">
                           <input class="form-control input-lg" name="username" value="{{$admin->username}}" placeholder="Your Username" type="text">
@@ -88,7 +93,7 @@
                     </div>
                      <div class="form-group">
                          <div class="col-md-12">
-                           <label>Email</label>
+                           <label>{{ __('trans.Email') }}</label>
                          </div>
                         <div class="col-md-12">
                            <input class="form-control input-lg" name="email" value="{{$admin->email}}" placeholder="Your Email" type="text">
@@ -99,7 +104,7 @@
                      </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                          <label>First Name</label>
+                          <label>{{ __('trans.First Name') }}</label>
                         </div>
                        <div class="col-md-12">
                           <input class="form-control input-lg" name="first_name" value="{{$admin->first_name}}" placeholder="Your First Name" type="text">
@@ -110,7 +115,7 @@
                     </div>
                     <div class="form-group">
                       <div class="col-md-12">
-                       <label>Last Name</label>
+                       <label>{{ __('trans.Last Name') }}</label>
                       </div>
                        <div class="col-md-12">
                           <input class="form-control input-lg" name="last_name" value="{{$admin->last_name}}" placeholder="Your Last Name" type="last_name">
@@ -121,7 +126,7 @@
                     </div>
                     <div class="row">
                        <div class="col-md-12 text-center">
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" class="btn btn-success">{{ __('trans.Submit') }}</button>
                        </div>
                     </div>
                  </div>

@@ -385,6 +385,12 @@ return [
     'NO IMAGE FOUND' => 'NO IMAGE FOUND',
     'Add Image' => 'Add Image',
 
+
+
+
+    /*--------------------------------------------------
+        2.Payment Gateways
+    ---------------------------------------------------*/
     'Payment Gateways' => 'Payment Gateways',
     'Paypal' => 'Paypal',
     'Paypal Test Mode' => 'Paypal Test Mode',
@@ -1378,7 +1384,69 @@ return [
     'City' => 'City',
     'Enter title' => 'Enter title',
     'Enter Serial Number' => 'Enter Serial Number',
-    'Enter content' => 'Enter content',
+    'Enter content' => 'Enter contact',
     
+
+
+    'Contact With Egtaz' => 'Contact With Egtaz',
+    'smart online' => 'smart online',
+    'have a problem' => 'have a problem',
+    'id number' => 'id number',
+    'support' => 'support',
+    'contact' => 'contact',
+    'problem' => 'problem',
+    'have a problem' => 'have a problem',
+
+
+    'support vip' => 'support vip',
+    'For direct technical support and speed of response' => 'For direct technical support and speed of response',
+    'subscribe now' => 'subscribe now',
+    'massage' => 'massage',
+    'supject' => 'supject',
+    'support.vip' => 'support.vip',
+    'marketing' => 'marketing',
+    'explain the program' => 'explain the program',
+
+     /*--------------------------------------------------
+    1.smart online
+            |->marketing
+    ---------------------------------------------------*/
+
+    'Marketing' => 'Marketing',
+    'service 1' => 'service 1',
+    'service 2' => 'service 2',
+    'service 3' => 'service 3',
+    'service 4' => 'service 4',
+    'buy now' => 'buy now',
+    'Markting articels' => 'Markting articels',
+    'markting articel 1' => 'markting articel 1',
+    'markting articel 2' => 'markting articel 2',
+    'markting articel 3' => 'markting articel 3',
+    'Read more' => 'Read more',
+    'markting articel body 1' => 'markting articel body 1',
+    'markting articel body 2' => 'markting articel body 2',
+    'markting articel body 3' => 'markting articel body 3',
+
+    'explination articel body 1' => 'explination articel body 1',
+    'explination articel body 2' => 'explination articel body 2',
+    'explination articel body 3' => 'explination articel body 3',
+    'explination articel titel 1' => 'explination articel titel 1',
+    'explination articel titel 2' => 'explination articel titel 2',
+    'explination articel titel 3' => 'explination articel titel 3',
+    'Read more' => 'Read more',
+    'explination vedio title' => 'explination vedio title',
+    'about the system' => 'about the system',
+    'Go to the annotations library' => 'Go to the annotations library',
+
+    'Explain the program' => 'Explain the program',
+    'Articels about the system' => 'Articels about the system ',
+    'conact' => 'conact',
+    'Conact With Egtaz' => 'Conact With Egtaz',
+
+    'Smart Online' => 'سمارت اون لاين',
+    '' => '',
+    'Subscribe' => 'send mail',
+
+
 ];
 

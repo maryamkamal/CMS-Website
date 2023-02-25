@@ -83,7 +83,7 @@
 }
 .finlance_fun_v1 .counter_box .icon i {
     margin-left: 0;
-    margin-right: -1px;
+    margin-right: 35px;
 }
 .testimonial_v1 .testimonial_slide .testimonial_box .finlance_content {
     margin-left: 0;
@@ -96,12 +96,6 @@
 .team_v1 .section_title {
     text-align: right;
 }
-
-.project_slide .grid_item .finlance_content {
-    padding: 35px 0 40px;
-    text-align: right;
-}
-
 .team_v1 .button_box {
     float: left;
 }
@@ -199,7 +193,7 @@ li.submenus::after {
     left: 30px;
 }
 .brand {
-    text-align: left;
+    text-align: right;
 }
 li.submenus ul {
     left: auto;

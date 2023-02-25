@@ -3,7 +3,7 @@
             <div class="hero_slide_v1">
                 @if (!empty($sliders))
                     @foreach ($sliders as $key => $slider)
-                        <div class="single_slider bg_image lazy" data-bg="{{asset('assets/front/img/sliders/'.$slider->image)}}">
+                        <div class="single_slider bg_image" style="background-image: url('{{asset('assets/front/img/sliders/'.$slider->image)}}');">
                             <div class="bg_overlay" style="background-color: #{{$be->hero_overlay_color}};opacity: {{$be->hero_overlay_opacity}};"></div>
                             <div class="container">
                                 <div class="row">

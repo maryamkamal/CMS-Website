@@ -10,7 +10,7 @@
         font-size: 18px;
     }
     .main-menu ul li a {
-        
+        padding: 40px 10px;
     }
     .main-menu ul li {
         margin-left: 0px;
@@ -90,9 +90,6 @@
 }
 
 @media (max-width: 991px) {
-    img.img-fluid {
-        max-width: 30%;
-    }
     .top-header-address span {
         border-right: none;
         padding-right: 0;

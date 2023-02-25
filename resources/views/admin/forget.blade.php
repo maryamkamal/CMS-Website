@@ -34,7 +34,7 @@
       <div class="form">
         @if (session()->has('success'))
           <div class="alert alert-success fade show" role="alert" style="font-size: 14px;">
-            <strong>Success!</strong> {{session('success')}}
+            <strong>!{{ __('trans.Success') }}</strong> {{session('success')}}
           </div>
         @endif
         <form class="login-form" action="{{route('admin.forget.mail')}}" method="POST">
@@ -43,11 +43,11 @@
           @if ($errors->has('email'))
             <p class="text-danger text-left">{{$errors->first('email')}}</p>
           @endif
-          <button type="submit">Send Mail</button>
+          <button type="submit">{{ __('trans.Send Mail') }}</button>
         </form>
 
         <p class="back-link">
-          <a href="{{route('admin.login')}}">&lt;&lt; Back</a>
+          <a href="{{route('admin.login')}}">&lt;&lt;{{ __('trans.Back') }}</a>
         </p>
       </div>
     </div>

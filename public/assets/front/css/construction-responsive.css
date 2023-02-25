@@ -48,7 +48,6 @@
         padding: 0 20px;
     }
     .header_v1 .header_navigation .site_menu .brand img{
-        
         max-width: 100px
     }
     
@@ -197,9 +196,6 @@
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 767px) {
-    .brand img  {
-        max-width: 30%;
-    }
     .finlance_img img{
         width: 100%;
     }
@@ -216,11 +212,9 @@
         margin-top: 10px;
     }
     .mean-container a.meanmenu-reveal{
-        top: -37px;
+        top: -23px;
         padding: 0;
     }
-
-    
     .section_title h2{
         font-size: 32px;
         line-height: 40px;
@@ -243,7 +237,6 @@
         margin-left: 15px;
     }
     .header_v1 .top_header .top_right {
-        margin-left: -18px;
         float: none;
         justify-content: center;
     }

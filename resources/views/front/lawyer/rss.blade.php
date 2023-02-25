@@ -21,7 +21,7 @@
               </div>
 			   @if(($bs->inner_image!=null)&&($bs->video_link== null))
 			   <div class="col-xl-6 col-lg-6 col-sm-5">
-                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt="">
+                <img src="{{asset('assets/front/img/' . $bs->inner_image)}}" alt=""  class="img-fluid">
 				 </div>
 			@endif
 			
